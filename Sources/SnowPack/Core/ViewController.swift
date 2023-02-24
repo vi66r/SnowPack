@@ -7,7 +7,7 @@ open class ViewController: UIViewController, Loading {
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
