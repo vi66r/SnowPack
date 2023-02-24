@@ -5,21 +5,6 @@ public protocol SimpleTableViewLayoutDelegate {
     func height(for section: Int) -> CGFloat
 }
 
-public struct Section<T: UIView & Hydratable> {
-    let header: (any UIView & Hydratable)?
-    let footer: (any UIView & Hydratable)?
-    let elements: [T.ModelType]
-    
-    init(header: (any UIView & Hydratable)? = nil,
-         footer: (any UIView & Hydratable)? = nil,
-         elements: [T.ModelType]
-    ) {
-        self.header = header
-        self.footer = footer
-        self.elements = elements
-    }
-}
-
 open class SimpleTableView<T: UIView & Hydratable>:
     UITableView,
     UITableViewDelegate,
@@ -47,13 +32,13 @@ open class SimpleTableView<T: UIView & Hydratable>:
     public var staticCellHeight: CGFloat?
     public var staticHeaderHeight: CGFloat?
     
-    public var data: [Section<T>] {
+    public var data: [SimpleTableViewSection<T>] {
         didSet {
             reloadData()
         }
     }
     
-    public init(elements: [Section<T>],
+    public init(elements: [SimpleTableViewSection<T>],
                 showsScrollIndicator: Bool = false,
                 contentInsets: UIEdgeInsets = .zero,
                 backgroundColor: UIColor = .clear,
