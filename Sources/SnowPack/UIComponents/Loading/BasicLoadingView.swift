@@ -46,7 +46,7 @@ open final class BasicLoadingView: UIView {
         setupConstraints()
     }
     
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("not implemented")
     }
     

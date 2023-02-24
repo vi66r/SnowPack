@@ -42,7 +42,7 @@ open final class LikeButton: UIButton {
         setImage(likeState.image, for: .normal)
     }
     
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
