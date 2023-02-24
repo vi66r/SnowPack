@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 /// Base class that defines common functionality of all ViewControllers
-public class ViewController: UIViewController, Loading {
+open class ViewController: UIViewController, Loading {
     var cancellables = Set<AnyCancellable>()
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
