@@ -49,6 +49,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
         self.staticCellHeight = staticCellHeight
         self.staticHeaderHeight = staticHeaderHeight
         super.init(frame: .zero, style: .plain)
+        register(ContainerCell.self, forCellReuseIdentifier: ContainerCell.identifier)
         separatorStyle = .none
         showsVerticalScrollIndicator = showsScrollIndicator
         showsHorizontalScrollIndicator = showsScrollIndicator
