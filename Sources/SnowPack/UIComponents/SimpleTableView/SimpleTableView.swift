@@ -76,11 +76,13 @@ open class SimpleTableView<T: UIView & Hydratable>:
     }
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        data[section].header ?? nil
+        data[section].header ??
+        UIView(frame: .init(origin: .zero, size: .init(width: tableView.bounds.width, height: CGFLOAT_MIN)))
     }
     
     public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        data[section].footer ?? nil
+        data[section].footer ??
+        UIView(frame: .init(origin: .zero, size: .init(width: tableView.bounds.width, height: CGFLOAT_MIN)))
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
