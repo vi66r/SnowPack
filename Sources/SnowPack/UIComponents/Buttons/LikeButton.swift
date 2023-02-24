@@ -1,6 +1,6 @@
 import UIKit
 
-public final class LikeButton: UIButton {
+open final class LikeButton: UIButton {
     
     private static var likedImage: UIImage = UIImage(systemName: "heart.fill")!
     private static var notLikedImage: UIImage = UIImage(systemName: "heart")!

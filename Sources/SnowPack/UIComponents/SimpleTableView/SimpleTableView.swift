@@ -5,7 +5,7 @@ public protocol SimpleTableViewLayoutDelegate {
     func height(for section: Int) -> CGFloat
 }
 
-public class SimpleTableView<T: UIView & Hydratable>:
+open class SimpleTableView<T: UIView & Hydratable>:
     UITableView,
     UITableViewDelegate,
     UITableViewDataSource,

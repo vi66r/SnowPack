@@ -4,7 +4,7 @@ import UIKit
 /// Note that it will always render a dynamic shadow under the button in its unpressed state, which
 /// does have a (n extremely minute) performance impact. In the future this can be improved with
 /// prerendering. More info here https://www.hackingwithswift.com/read/30/4/fixing-the-bugs-slow-shadows
-public class HapticButton: UIButton, Haptic {
+open class HapticButton: UIButton, Haptic {
     
     public enum BadgePosition {
         case topRight

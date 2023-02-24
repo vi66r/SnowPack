@@ -31,7 +31,7 @@ public protocol SimpleCollectionViewLayoutDelegate {
 /// For dynamic cell sizing, implement the delegate `SimpleCollectionViewLayoutDelegate`
 ///
 /// Because this is buitl on top of `UICollectionView` itself, you can take over it's functions and use it like a normal `UICollectionView`.
-public class SimpleCollectionView<T: Hydratable & UIView>:
+open class SimpleCollectionView<T: Hydratable & UIView>:
     UICollectionView,
     UICollectionViewDataSource,
     UICollectionViewDelegate,

@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class BasicLoadingView: UIView {
+open final class BasicLoadingView: UIView {
     
     var cleanupLoading: RemoteAction?
     var source: Loading?
