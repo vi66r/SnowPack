@@ -113,4 +113,21 @@ open class SimpleTableView<T: UIView & Hydratable>:
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         prefetchAction?(indexPaths)
     }
+    
+    // MARK: - UITableViewDelegate
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? ContainerCell else { return }
+        cellSelected?(cell.mainView, indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? ContainerCell else { return }
+        cellWillAppear?(cell.mainView, indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? ContainerCell else { return }
+        cellDidDisappear?(cell.mainView, indexPath)
+    }
 }
