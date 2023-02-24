@@ -8,5 +8,5 @@ open class ViewModel {
     public let refreshEvent = PassthroughSubject<Void, Never>()
     public let navigationEvent = PassthroughSubject<UIViewController, Never>()
     public var cancellablse = Set<AnyCancellable>()
-    open init() {}
+    public init() {}
 }
