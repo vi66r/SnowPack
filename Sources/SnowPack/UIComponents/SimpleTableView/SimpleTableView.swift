@@ -5,27 +5,27 @@ public protocol SimpleTableViewLayoutDelegate {
     func height(for section: Int) -> CGFloat
 }
 
+public struct Section<T: UIView & Hydratable> {
+    let header: (any UIView & Hydratable)?
+    let footer: (any UIView & Hydratable)?
+    let elements: [T.ModelType]
+    
+    init(header: (any UIView & Hydratable)? = nil,
+         footer: (any UIView & Hydratable)? = nil,
+         elements: [T.ModelType]
+    ) {
+        self.header = header
+        self.footer = footer
+        self.elements = elements
+    }
+}
+
 open class SimpleTableView<T: UIView & Hydratable>:
     UITableView,
     UITableViewDelegate,
     UITableViewDataSource,
     UITableViewDataSourcePrefetching
 {
-    public struct Section {
-        let header: (any UIView & Hydratable)?
-        let footer: (any UIView & Hydratable)?
-        let elements: [T.ModelType]
-        
-        init(header: (any UIView & Hydratable)? = nil,
-             footer: (any UIView & Hydratable)? = nil,
-             elements: [T.ModelType]
-        ) {
-            self.header = header
-            self.footer = footer
-            self.elements = elements
-        }
-    }
-    
     typealias ContainerCell = ViewContainerTableViewCell<T>
     
     public var approachingEndOfSection: RemoteTypedAction<Int>?
@@ -47,13 +47,13 @@ open class SimpleTableView<T: UIView & Hydratable>:
     public var staticCellHeight: CGFloat?
     public var staticHeaderHeight: CGFloat?
     
-    public var data: [Section] {
+    public var data: [Section<T>] {
         didSet {
             reloadData()
         }
     }
     
-    public init(elements: [Section],
+    public init(elements: [Section<T>],
                 showsScrollIndicator: Bool = false,
                 contentInsets: UIEdgeInsets = .zero,
                 backgroundColor: UIColor = .clear,
