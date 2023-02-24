@@ -100,13 +100,13 @@ open class SimpleTableView<T: UIView & Hydratable>:
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return .zero }
-        return staticCellHeight ?? layoutDelegate?.height(for: cell, at: indexPath) ?? 44.0
-    }
+//    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        guard let cell = tableView.cellForRow(at: indexPath) else { return .zero }
+//        return staticCellHeight ?? layoutDelegate?.height(for: cell, at: indexPath) ?? 44.0
+//    }
     
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return staticHeaderHeight ?? layoutDelegate?.height(for: section) ?? 12.0
+        return staticHeaderHeight ?? layoutDelegate?.height(for: section) ?? CGFloat(CGFLOAT_MIN)
     }
     
     // MARK: - UITableViewDataSourcePrefetching
