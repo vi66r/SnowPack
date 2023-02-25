@@ -1,7 +1,7 @@
 import UIKit
 
 public protocol SimpleCollectionViewLayoutDelegate {
-    func size(for cell: UICollectionViewCell, at indexPath: IndexPath) -> CGSize
+    func size(for indexPath: IndexPath) -> CGSize
 }
 
 /// A simple wrapper around `UICollectionView` that supports a single section and rapid data changes without having to use DiffableDataSource.
@@ -148,8 +148,7 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ContainerCell else { return .zero }
-        return staticCellSize ?? layoutDelegate?.size(for: cell, at: indexPath) ?? .zero
+        return staticCellSize ?? layoutDelegate?.size(for: indexPath) ?? .zero
     }
     
     public func collectionView(
