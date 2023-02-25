@@ -9,4 +9,12 @@ open class ViewModel {
     public let navigationEvent = PassthroughSubject<UIViewController, Never>()
     public var cancellablse = Set<AnyCancellable>()
     public init() {}
+    
+    public func requestRefresh() {
+        refreshEvent.send()
+    }
+    
+    public func requestInitialLoad() {
+        initialLoadEvent.send()
+    }
 }
