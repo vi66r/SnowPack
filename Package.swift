@@ -12,10 +12,10 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/roberthein/TinyConstraints.git", .upToNextMajor(from: "4.0.0")),
-        .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "9.0.0")),
+        .package(url: "https://github.com/kean/Nuke", .upToNextMajor(from: "11.0.0")),
     ],
     targets: [
-        .target(name: "SnowPack", dependencies: ["TinyConstraints"]),
+        .target(name: "SnowPack", dependencies: ["TinyConstraints", "Nuke", .product(name: "NukeExtensions", package: "Nuke")]),
         .testTarget(name: "SnowPackTests", dependencies: ["SnowPack"])
     ]
 )
