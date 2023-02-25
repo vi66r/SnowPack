@@ -2,7 +2,7 @@ import Nuke
 import NukeExtensions
 import UIKit
 
-extension UIImageView {
+public extension UIImageView {
     
     static func loadingImage(from url: URL) -> UIImageView {
         let imageView = UIImageView()

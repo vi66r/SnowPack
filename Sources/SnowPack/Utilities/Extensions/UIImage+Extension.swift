@@ -1,7 +1,7 @@
 import Nuke
 import UIKit
 
-extension UIImage {
+public extension UIImage {
     
     static func load(from url: URL,
                      processors: [ImageProcessing] = [],
