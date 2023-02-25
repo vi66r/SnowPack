@@ -1,4 +1,4 @@
-import UIKit
+@_exported import UIKit
 
 public struct SnowPack {
     public private(set) var text = "Hello, World!"
