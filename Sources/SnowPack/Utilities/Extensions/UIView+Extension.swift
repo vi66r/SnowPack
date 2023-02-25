@@ -140,6 +140,46 @@ public extension UIView {
         return self as! T
     }
     
+    // MARK: - Blurring
+    
+    @discardableResult
+    func applyBlurOverlay<T: UIView>(animated: Bool,
+                              style: UIBlurEffect.Style = .systemUltraThinMaterial
+    ) -> T {
+        let blurEffect = UIBlurEffect(style: style)
+        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+        visualEffectView.alpha = 0.0
+        visualEffectView.accessibilityIdentifier = "VisualEffect.Blur" // not a great practice for accessibility
+        addSubview(visualEffectView)
+        
+        if animated {
+            UIView.animate(withDuration: 0.25, delay: 0.0, animations: {
+                visualEffectView.alpha = 1.0
+            })
+        } else {
+            visualEffectView.alpha = 1.0
+        }
+        
+        return self as! T
+    }
+    
+    @discardableResult
+    func removeBlurOverlay<T: UIView>(animated: Bool) -> T {
+        let visualEffectView = subviews.first(where: { $0.accessibilityIdentifier == "VisualEffect.Blur" })
+        
+        if animated {
+            UIView.animate(withDuration: 0.25, delay: 0.0, animations: {
+                visualEffectView?.alpha = 0.0
+            }, completion: { done in
+                visualEffectView?.removeFromSuperview()
+            })
+        } else {
+            visualEffectView?.removeFromSuperview()
+        }
+        
+        return self as! T
+    }
+    
     func scaleToWidthWhileMaintainingAspectRatio(_ width: CGFloat) {
         let aspectRatio = frame.width/frame.height
         let newHeight = width / aspectRatio
