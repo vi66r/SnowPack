@@ -148,6 +148,7 @@ public extension UIView {
     ) -> T {
         let blurEffect = UIBlurEffect(style: style)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
+        visualEffectView.frame = .init(origin: .zero, size: frame.size)
         visualEffectView.alpha = 0.0
         visualEffectView.accessibilityIdentifier = "VisualEffect.Blur" // not a great practice for accessibility
         addSubview(visualEffectView)
