@@ -55,6 +55,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
         showsHorizontalScrollIndicator = showsScrollIndicator
         insetsContentViewsToSafeArea = false
         contentInsetAdjustmentBehavior = .never
+        tableHeaderView = UIView(frame: .init(origin: .zero, size: .init(width: 0.0, height: CGFLOAT_MIN)))
         self.contentInset = contentInsets
         delegate = self
         dataSource = self
