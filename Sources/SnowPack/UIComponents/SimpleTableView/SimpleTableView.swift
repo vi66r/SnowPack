@@ -56,6 +56,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
         insetsContentViewsToSafeArea = false
         contentInsetAdjustmentBehavior = .never
         tableHeaderView = UIView(frame: .init(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
+        sectionHeaderTopPadding = 0.0
         self.contentInset = contentInsets
         delegate = self
         dataSource = self
