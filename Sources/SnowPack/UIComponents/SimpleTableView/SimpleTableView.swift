@@ -55,7 +55,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
         showsHorizontalScrollIndicator = showsScrollIndicator
         insetsContentViewsToSafeArea = false
         contentInsetAdjustmentBehavior = .never
-        tableHeaderView = UIView(frame: .init(origin: .zero, size: .init(width: 0.0, height: CGFLOAT_MIN)))
+        tableHeaderView = UIView(frame: .init(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
         self.contentInset = contentInsets
         delegate = self
         dataSource = self
@@ -78,12 +78,12 @@ open class SimpleTableView<T: UIView & Hydratable>:
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         data[section].header ??
-        UIView(frame: .init(origin: .zero, size: .init(width: tableView.bounds.width, height: CGFLOAT_MIN)))
+        UIView(frame: .init(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
     }
     
     public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         data[section].footer ??
-        UIView(frame: .init(origin: .zero, size: .init(width: tableView.bounds.width, height: CGFLOAT_MIN)))
+        UIView(frame: .init(x: 0, y: 0, width: 0, height: CGFloat.leastNonzeroMagnitude))
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
