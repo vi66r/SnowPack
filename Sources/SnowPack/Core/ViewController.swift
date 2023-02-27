@@ -63,8 +63,9 @@ open class ViewController: UIViewController, Loading {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(dismiss)
         
-        let background = alert.view.allSubviews.first(where: { $0 is UIVisualEffectView })
+        let background = alert.view.allSubviews.first(where: { $0 is UIVisualEffectView }) as? UIVisualEffectView
         background?.backgroundColor = .surface
+        background?.effect = nil
         
         let backdrop = alert.view.allSubviews.first(where: { $0 is UIVisualEffectView })?.subviews.first
         backdrop?.backgroundColor = .surface
