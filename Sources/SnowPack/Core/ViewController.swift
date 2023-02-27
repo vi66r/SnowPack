@@ -14,6 +14,7 @@ open class ViewController: UIViewController, Loading {
             standardAppearance.configureWithOpaqueBackground()
             standardAppearance.backgroundColor = .accent
             standardAppearance.shadowColor = .accent
+            standardAppearance.titleTextAttributes = [.foregroundColor : UIColor.tint]
             navigationController?.navigationBar.standardAppearance = standardAppearance
             
             let scrollEdgeAppearance = UINavigationBarAppearance()
