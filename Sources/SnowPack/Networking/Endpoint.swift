@@ -144,7 +144,7 @@ public struct Endpoint: RawRepresentable, Equatable {
     }
     
     public var url: URL {
-        guard let escapedString = rawValue.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        guard let escapedString = rawValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         else { return URL(string: api.rawValue)! }
         let urlString = api.rawValue + escapedString
         return URL(string: urlString)!
