@@ -256,8 +256,8 @@ public extension SimpleCollectionView {
         else { return }
         
         let targetRect = layoutAttributesForItem(at: indexPath)?.frame ?? .zero
-        let absoluteRect = convert(targetRect, to: window)
-        let containerRect = convert(window.bounds, to: self)
+        let absoluteRect = convert(targetRect, to: superview)
+        let containerRect = convert(window.bounds, to: superview)
         
         let containedView = PassthroughImageView(image: containedViewImage)
         containedView.frame = absoluteRect
@@ -266,8 +266,8 @@ public extension SimpleCollectionView {
         let overlay = PassthroughView(frame: containerRect)
         overlay.accessibilityIdentifier = "Overlay.Spotlight"
         
-        addSubview(overlay)
-        addSubview(containedView)
+        superview?.addSubview(overlay)
+        superview?.addSubview(containedView)
         
         switch style {
         case .dim:
