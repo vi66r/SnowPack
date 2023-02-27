@@ -12,7 +12,7 @@ open class ViewController: UIViewController, Loading {
         if SnowPack.shouldApplyColorSystemUniversally {
             let standardAppearance = UINavigationBarAppearance()
             standardAppearance.configureWithOpaqueBackground()
-            standardAppearance.backgroundColor = .brand
+            standardAppearance.backgroundColor = .accent
             standardAppearance.shadowColor = .accent
             navigationController?.navigationBar.standardAppearance = standardAppearance
             
