@@ -11,15 +11,8 @@ public struct SnowPack {
     }
     
     static func interfaceIsDarkMode() -> Bool {
-        guard let window = UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .compactMap({$0 as? UIWindowScene})
-            .first?.windows
-            .filter({$0.isKeyWindow})
-            .first
-        else { return false }
-        
-        return window.traitCollection.userInterfaceStyle == .dark
+        guard let screen = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen else { return false }
+        return screen.traitCollection.userInterfaceStyle == .dark
     }
     
     public static func applyColorSystemUniversally() {
