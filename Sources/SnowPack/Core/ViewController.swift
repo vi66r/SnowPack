@@ -9,6 +9,7 @@ open class ViewController: UIViewController, Loading {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .background
         // Do any additional setup after loading the view.
     }
     
