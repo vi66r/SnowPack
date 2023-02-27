@@ -9,11 +9,11 @@ open class ViewController: UIViewController, Loading {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if SnowPack.shouldApplyColorSystemUniversally {
+        if SnowPackUI.shouldApplyColorSystemUniversally {
             let standardAppearance = UINavigationBarAppearance()
             standardAppearance.configureWithOpaqueBackground()
-            standardAppearance.backgroundColor = .accent
-            standardAppearance.shadowColor = .accent
+            standardAppearance.backgroundColor = .surface
+            standardAppearance.shadowColor = .surface
             standardAppearance.titleTextAttributes = [.foregroundColor : UIColor.tint]
             navigationController?.navigationBar.standardAppearance = standardAppearance
             

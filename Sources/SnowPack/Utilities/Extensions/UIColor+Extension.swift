@@ -115,47 +115,37 @@ public extension UIColor {
     
     // Semantic Color Accessors
     static var brand: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._brandDark : UIColor._brand) : UIColor._brand }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._brandDark : UIColor._brand) : UIColor._brand }
     static var accent: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._accentDark : UIColor._accent) : UIColor._accent}
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._accentDark : UIColor._accent) : UIColor._accent}
     static var tint: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._tintDark : UIColor._tint) : UIColor._tint}
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._tintDark : UIColor._tint) : UIColor._tint}
     static var background: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._backgroundDark : UIColor._background) : UIColor._background }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._backgroundDark : UIColor._background) : UIColor._background }
     static var surface: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._surfaceDark : UIColor._surface) : UIColor._surface }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._surfaceDark : UIColor._surface) : UIColor._surface }
     static var error: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._errorDark : UIColor._error) : UIColor._error }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._errorDark : UIColor._error) : UIColor._error }
     static var warning: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._warningDark : UIColor._warning) : UIColor._warning }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._warningDark : UIColor._warning) : UIColor._warning }
     static var success: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._successDark : UIColor._success) : UIColor._success }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._successDark : UIColor._success) : UIColor._success }
     
     // Semantic Text Color Accessors
     static var textBrand: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._textBrandDark : UIColor._textBrand) : UIColor._textBrand }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._textBrandDark : UIColor._textBrand) : UIColor._textBrand }
     static var textAccent: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._textAccentDark : UIColor._textAccent) : UIColor._textAccent }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._textAccentDark : UIColor._textAccent) : UIColor._textAccent }
     static var textBackground: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._textBackgroundDark : UIColor._textBackground) : UIColor._textBackground }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._textBackgroundDark : UIColor._textBackground) : UIColor._textBackground }
     static var textSurface: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._textSurfaceDark : UIColor._textSurface) : UIColor._textSurface }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._textSurfaceDark : UIColor._textSurface) : UIColor._textSurface }
     static var textError: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._textErrorDark : UIColor._textError) : UIColor._textError }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._textErrorDark : UIColor._textError) : UIColor._textError }
     static var textWarning: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._textWarningDark : UIColor._textWarning) : UIColor._textWarning }
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._textWarningDark : UIColor._textWarning) : UIColor._textWarning }
     static var textSuccess: UIColor { UIColor.isDarkModeAllowed ?
-        (SnowPack.interfaceIsDarkMode() ? UIColor._textSuccessDark : UIColor._textSuccess) : UIColor._textSuccess }
-    
-    // Semantic Colors - Dark Mode
-    static var _brandDark = UIColor(rgb: 0x2C0735)
-    static var _accentDark = UIColor(rgb: 0x4E148C)
-    static var _tintDark = UIColor(rgb: 0x858AE3)
-    static var _backgroundDark = UIColor(rgb: 0x151515)
-    static var _surfaceDark = UIColor(rgb: 0x000500)
-    static var _errorDark = UIColor(rgb: 0xA63D40)
-    static var _warningDark = UIColor(rgb: 0xE9B872)
-    static var _successDark = UIColor(rgb: 0x90A959)
+        (SnowPackUI.interfaceIsDarkMode() ? UIColor._textSuccessDark : UIColor._textSuccess) : UIColor._textSuccess }
     
     // Semantic Colors - Light Mode
     static var _brand = UIColor(rgb: 0x1AC8ED)
@@ -166,6 +156,16 @@ public extension UIColor {
     static var _error = UIColor(rgb: 0xB00020)
     static var _warning = UIColor(rgb: 0xF48C06)
     static var _success = UIColor(rgb: 0x90A959)
+    
+    // Semantic Colors - Dark Mode
+    static var _brandDark = UIColor(rgb: 0x2C0735)
+    static var _accentDark = UIColor(rgb: 0x4E148C)
+    static var _tintDark = UIColor(rgb: 0x858AE3)
+    static var _backgroundDark = UIColor(rgb: 0x151515)
+    static var _surfaceDark = UIColor(rgb: 0x000500)
+    static var _errorDark = UIColor(rgb: 0xA63D40)
+    static var _warningDark = UIColor(rgb: 0xE9B872)
+    static var _successDark = UIColor(rgb: 0x90A959)
     
     // Brand Colors
     static var primary = UIColor(rgb: 0x1AC8ED)
@@ -200,6 +200,18 @@ public extension UIColor {
     static var textSecondaryVariation = UIColor(rgb: 0xFFFFFF)
     static var textTertiary = UIColor(rgb: 0x000000)
     static var textTertiaryVariation = UIColor(rgb: 0x000000)
+    
+    // Gray Colors - 10% Increments
+    static var gray10 = UIColor(rgb: 0xf8f9fa)
+    static var gray20 = UIColor(rgb: 0xe9ecef)
+    static var gray30 = UIColor(rgb: 0xdee2e6)
+    static var gray40 = UIColor(rgb: 0xced4da)
+    static var gray50 = UIColor(rgb: 0xadb5bd)
+    static var gray60 = UIColor(rgb: 0x6c757d)
+    static var gray70 = UIColor(rgb: 0x495057)
+    static var gray80 = UIColor(rgb: 0x343a40)
+    static var gray90 = UIColor(rgb: 0x212529)
+    
     
     // MARK: - Utilities
     

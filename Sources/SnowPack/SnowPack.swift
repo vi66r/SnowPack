@@ -9,7 +9,9 @@ public struct SnowPack {
     public init() {
         print("SnowPack Loaded. ❄️ \nLet's roll. ☃️")
     }
-    
+}
+
+public struct SnowPackUI {
     static func interfaceIsDarkMode() -> Bool {
         guard let screen = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen else { return false }
         return screen.traitCollection.userInterfaceStyle == .dark
@@ -18,7 +20,7 @@ public struct SnowPack {
     static var shouldApplyColorSystemUniversally = false
     
     public static func applyColorSystemUniversally() {
-        SnowPack.shouldApplyColorSystemUniversally = true
+        SnowPackUI.shouldApplyColorSystemUniversally = true
         UILabel.appearance(whenContainedInInstancesOf: [UIView.self]).textColor = .textBackground
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).setTitleColor(.textBackground, for: .normal)
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
