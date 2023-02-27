@@ -250,12 +250,46 @@ public extension SimpleCollectionView {
     }
     
     func spotlightCell(at indexPath: IndexPath, style: SpotlightStyle = .dim) {
-        guard let cell = cellForItem(at: indexPath) as? ContainerCell else { return }
-        let containedView = cell.mainView.duplicate()
+        guard let cell = cellForItem(at: indexPath) as? ContainerCell,
+              let containedView = cell.mainView.duplicate()
+        else { return }
         
-        let overlay = UIView()
-        overlay.accessibilityIdentifier = ""
+        let targetRect = layoutAttributesForItem(at: indexPath)?.frame ?? .zero
+        let absoluteRect = convert(targetRect, to: self)
+        
+        let overlay = UIView(frame: bounds)
+        overlay.accessibilityIdentifier = "Overlay.Spotlight"
+        
+        containedView.frame = absoluteRect
+        containedView.accessibilityIdentifier = "Overlay.Cell"
+        
         addSubview(overlay)
+        addSubview(containedView)
+        
+        switch style {
+        case .dim:
+            overlay.alpha = 0.0
+            overlay.backgroundColor = .gray50.withAlphaComponent(0.5)
+            UIView.animate(withDuration: 0.25, delay: 0.0) {
+                overlay.alpha = 1.0
+            }
+        case .blur:
+            overlay.applyBlurOverlay(animated: true)
+        }
+    }
+    
+    func removeSpotlight() {
+        guard let cell = allSubviews.first(where: { $0.accessibilityIdentifier == "Overlay.Cell"}),
+              let overlay = allSubviews.first(where: { $0.accessibilityIdentifier == "Overlay.Spotlight"})
+        else { return }
+        
+        UIView.animate(withDuration: 0.25, delay: 0.0, animations: {
+            overlay.alpha = 0.0
+            cell.alpha = 0.0
+        }, completion: { done in
+            cell.removeFromSuperview()
+            overlay.removeFromSuperview()
+        })
     }
     
 }
