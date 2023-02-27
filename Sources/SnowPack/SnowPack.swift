@@ -18,6 +18,8 @@ public struct SnowPack {
     public static func applyColorSystemUniversally() {
         UILabel.appearance(whenContainedInInstancesOf: [UIView.self]).textColor = .textBackground
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).setTitleColor(.textBackground, for: .normal)
+        UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
+        UIImageView.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
         UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).backgroundColor = .brand
         UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).titleTextAttributes = [.foregroundColor : UIColor.textBackground]
     }
