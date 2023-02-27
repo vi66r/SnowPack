@@ -22,7 +22,7 @@ public struct SnowPack {
         return window.traitCollection.userInterfaceStyle == .dark
     }
     
-    static func applyColorSystemUniversally() {
+    public static func applyColorSystemUniversally() {
         UILabel.appearance(whenContainedInInstancesOf: [UIView.self]).textColor = .textBrand
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).setTitleColor(.textBrand, for: .normal)
         UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).backgroundColor = .brand
