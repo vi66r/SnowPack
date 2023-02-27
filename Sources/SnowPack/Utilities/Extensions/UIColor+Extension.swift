@@ -9,6 +9,7 @@ public extension UIColor {
     func configureSemanticColorSystem(
         brand: UIColor = UIColor(rgb: 0x1AC8ED),
         accent: UIColor = UIColor(rgb: 0x97DFFC),
+        tint: UIColor = UIColor(rgb: 0x003459),
         background: UIColor = UIColor(rgb: 0xFFFFFF),
         surface: UIColor = UIColor(rgb: 0xFFFFFF),
         error: UIColor = UIColor(rgb: 0xB00020),
@@ -17,6 +18,7 @@ public extension UIColor {
     ) {
         UIColor._brand = brand
         UIColor._accent = accent
+        UIColor._tint = tint
         UIColor._background = background
         UIColor._surface = surface
         UIColor._error = error
@@ -27,6 +29,7 @@ public extension UIColor {
     func configureSemanticColorSystemDark(
         brandDark: UIColor = UIColor(rgb: 0x1AC8ED),
         accentDark: UIColor = UIColor(rgb: 0x97DFFC),
+        tintDark: UIColor = UIColor(rgb: 0x858AE3),
         backgroundDark: UIColor = UIColor(rgb: 0xFFFFFF),
         surfaceDark: UIColor = UIColor(rgb: 0xFFFFFF),
         errorDark: UIColor = UIColor(rgb: 0xB00020),
@@ -34,7 +37,7 @@ public extension UIColor {
         successDark: UIColor = UIColor(rgb: 0x90A959)
     ) {
         UIColor._brandDark = brandDark
-        UIColor._accentDark = accentDark
+        UIColor._tintDark = tintDark
         UIColor._backgroundDark = backgroundDark
         UIColor._surfaceDark = surfaceDark
         UIColor._errorDark = errorDark
@@ -115,6 +118,8 @@ public extension UIColor {
         (SnowPack.interfaceIsDarkMode() ? UIColor._brandDark : UIColor._brand) : UIColor._brand }
     static var accent: UIColor { UIColor.isDarkModeAllowed ?
         (SnowPack.interfaceIsDarkMode() ? UIColor._accentDark : UIColor._accent) : UIColor._accent}
+    static var tint: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._tintDark : UIColor._tint) : UIColor._tint}
     static var background: UIColor { UIColor.isDarkModeAllowed ?
         (SnowPack.interfaceIsDarkMode() ? UIColor._backgroundDark : UIColor._background) : UIColor._background }
     static var surface: UIColor { UIColor.isDarkModeAllowed ?
@@ -145,6 +150,7 @@ public extension UIColor {
     // Semantic Colors - Dark Mode
     static var _brandDark = UIColor(rgb: 0x2C0735)
     static var _accentDark = UIColor(rgb: 0x4E148C)
+    static var _tintDark = UIColor(rgb: 0x858AE3)
     static var _backgroundDark = UIColor(rgb: 0x151515)
     static var _surfaceDark = UIColor(rgb: 0x000500)
     static var _errorDark = UIColor(rgb: 0xA63D40)
@@ -154,6 +160,7 @@ public extension UIColor {
     // Semantic Colors - Light Mode
     static var _brand = UIColor(rgb: 0x1AC8ED)
     static var _accent = UIColor(rgb: 0x97DFFC)
+    static var _tint = UIColor(rgb: 0x003459)
     static var _background = UIColor(rgb: 0xFFFFFF)
     static var _surface = UIColor(rgb: 0xFFFFFF)
     static var _error = UIColor(rgb: 0xB00020)
