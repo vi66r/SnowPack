@@ -251,17 +251,18 @@ public extension SimpleCollectionView {
     
     func spotlightCell(at indexPath: IndexPath, style: SpotlightStyle = .dim) {
         guard let cell = cellForItem(at: indexPath) as? ContainerCell,
-              let containedView = cell.mainView.duplicate()
+              let containedViewImage = cell.mainView.image
         else { return }
         
         let targetRect = layoutAttributesForItem(at: indexPath)?.frame ?? .zero
         let absoluteRect = convert(targetRect, to: self)
         
-        let overlay = UIView(frame: bounds)
-        overlay.accessibilityIdentifier = "Overlay.Spotlight"
-        
+        let containedView = UIImageView(image: containedViewImage)
         containedView.frame = absoluteRect
         containedView.accessibilityIdentifier = "Overlay.Cell"
+        
+        let overlay = UIView(frame: bounds)
+        overlay.accessibilityIdentifier = "Overlay.Spotlight"
         
         addSubview(overlay)
         addSubview(containedView)
@@ -269,7 +270,7 @@ public extension SimpleCollectionView {
         switch style {
         case .dim:
             overlay.alpha = 0.0
-            overlay.backgroundColor = .gray50.withAlphaComponent(0.5)
+            overlay.backgroundColor = .black.withAlphaComponent(0.5)
             UIView.animate(withDuration: 0.25, delay: 0.0) {
                 overlay.alpha = 1.0
             }
