@@ -14,7 +14,7 @@ public class BlurEffectView: UIView {
     }
     
     @IBInspectable
-    public var effect = UIBlurEffect(style: .dark) {
+    public var effect = UIBlurEffect(style: UIColor.isDarkModeAllowed ? .regular : .light) {
         didSet { setupPropertyAnimator() }
     }
     
