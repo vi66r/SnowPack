@@ -241,3 +241,21 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
 //        <#code#>
 //    }
 }
+
+public extension SimpleCollectionView {
+    
+    enum SpotlightStyle {
+        case dim
+        case blur
+    }
+    
+    func spotlightCell(at indexPath: IndexPath, style: SpotlightStyle = .dim) {
+        guard let cell = cellForItem(at: indexPath) as? ContainerCell else { return }
+        let containedView = cell.mainView.duplicate()
+        
+        let overlay = UIView()
+        overlay.accessibilityIdentifier = ""
+        addSubview(overlay)
+    }
+    
+}
