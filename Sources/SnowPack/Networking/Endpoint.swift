@@ -151,7 +151,7 @@ public struct Endpoint: RawRepresentable, Equatable {
     }
     
     public func request(limit: Int? = nil, offset: Int? = nil) -> URLRequest {
-        let request: URLRequest
+        var request: URLRequest
         let targetURL: URL
         if let limit = limit, let offset = offset {
             var urlString = url.absoluteString
@@ -170,6 +170,7 @@ public struct Endpoint: RawRepresentable, Equatable {
                                             headers: headers,
                                             httpBody: attachment)
         }
+        request = api.authenticate(request)
         return request
     }
     

@@ -43,6 +43,8 @@ public class NetworkErrorVerbose: NSError {
 
 public struct Networker {
     
+    public static var debugPrintingEnabled = false
+    
     public static func execute(_ endpoint: Endpoint, customPredicate: (() -> Bool)? = nil) async throws {
         try await Networker.execute(request: endpoint.request(), customPredicate: customPredicate)
     }
