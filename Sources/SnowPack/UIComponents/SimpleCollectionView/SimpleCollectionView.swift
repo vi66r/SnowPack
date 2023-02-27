@@ -257,13 +257,12 @@ public extension SimpleCollectionView {
         
         let targetRect = layoutAttributesForItem(at: indexPath)?.frame ?? .zero
         let absoluteRect = convert(targetRect, to: superview)
-        let containerRect = convert(window.bounds, to: superview)
         
         let containedView = PassthroughImageView(image: containedViewImage)
         containedView.frame = absoluteRect
         containedView.accessibilityIdentifier = "Overlay.Cell"
         
-        let overlay = PassthroughView(frame: containerRect)
+        let overlay = PassthroughView(frame: window.bounds)
         overlay.accessibilityIdentifier = "Overlay.Spotlight"
         
         superview?.addSubview(overlay)
