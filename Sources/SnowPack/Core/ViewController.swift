@@ -10,11 +10,17 @@ open class ViewController: UIViewController, Loading {
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if SnowPack.shouldApplyColorSystemUniversally {
-            let navigationBarAppearance = UINavigationBarAppearance()
-            navigationBarAppearance.configureWithOpaqueBackground()
-            navigationBarAppearance.backgroundColor = .brand
-            navigationBarAppearance.shadowColor = .accent
-            navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+            let standardAppearance = UINavigationBarAppearance()
+            standardAppearance.configureWithOpaqueBackground()
+            standardAppearance.backgroundColor = .brand
+            standardAppearance.shadowColor = .accent
+            navigationController?.navigationBar.standardAppearance = standardAppearance
+            
+            let scrollEdgeAppearance = UINavigationBarAppearance()
+            scrollEdgeAppearance.configureWithTransparentBackground()
+            scrollEdgeAppearance.titleTextAttributes = [.foregroundColor : UIColor.tint]
+            navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+            
             navigationController?.navigationBar.tintColor = .tint
         }
     }
