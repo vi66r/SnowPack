@@ -256,7 +256,7 @@ public extension SimpleCollectionView {
         else { return }
         
         let targetRect = layoutAttributesForItem(at: indexPath)?.frame ?? .zero
-        let absoluteRect = convert(targetRect, to: self)
+        let absoluteRect = convert(targetRect, to: window)
         
         let containedView = PassthroughImageView(image: containedViewImage)
         containedView.frame = absoluteRect
