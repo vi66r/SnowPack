@@ -278,6 +278,8 @@ public extension SimpleCollectionView {
         case .blur:
             overlay.applyBlurOverlay(animated: true)
         }
+        
+        isScrollEnabled = false
     }
     
     func removeSpotlight() {
@@ -288,9 +290,10 @@ public extension SimpleCollectionView {
         
         UIView.animate(withDuration: 0.25, delay: 0.0, animations: {
             overlay.alpha = 0.0
-        }, completion: { done in
+        }, completion: { [weak self] done in
             cell.removeFromSuperview()
             overlay.removeFromSuperview()
+            self?.isScrollEnabled = true
         })
     }
     
