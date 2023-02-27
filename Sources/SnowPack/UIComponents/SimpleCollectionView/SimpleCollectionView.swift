@@ -251,7 +251,8 @@ public extension SimpleCollectionView {
     
     func spotlightCell(at indexPath: IndexPath, style: SpotlightStyle = .dim) {
         guard let cell = cellForItem(at: indexPath) as? ContainerCell,
-              let containedViewImage = cell.mainView.image
+              let containedViewImage = cell.mainView.image,
+              let window = SnowPackUI.currentWindow
         else { return }
         
         let targetRect = layoutAttributesForItem(at: indexPath)?.frame ?? .zero
@@ -261,11 +262,11 @@ public extension SimpleCollectionView {
         containedView.frame = absoluteRect
         containedView.accessibilityIdentifier = "Overlay.Cell"
         
-        let overlay = PassthroughView(frame: .init(origin: .zero, size: contentSize))
+        let overlay = PassthroughView(frame: window.bounds)
         overlay.accessibilityIdentifier = "Overlay.Spotlight"
         
-        addSubview(overlay)
-        addSubview(containedView)
+        window.addSubview(overlay)
+        window.addSubview(containedView)
         
         switch style {
         case .dim:
@@ -280,13 +281,13 @@ public extension SimpleCollectionView {
     }
     
     func removeSpotlight() {
-        guard let cell = allSubviews.first(where: { $0.accessibilityIdentifier == "Overlay.Cell"}),
-              let overlay = allSubviews.first(where: { $0.accessibilityIdentifier == "Overlay.Spotlight"})
+        guard let window = SnowPackUI.currentWindow,
+              let cell = window.allSubviews.first(where: { $0.accessibilityIdentifier == "Overlay.Cell"}),
+              let overlay = window.allSubviews.first(where: { $0.accessibilityIdentifier == "Overlay.Spotlight"})
         else { return }
         
         UIView.animate(withDuration: 0.25, delay: 0.0, animations: {
             overlay.alpha = 0.0
-            cell.alpha = 0.0
         }, completion: { done in
             cell.removeFromSuperview()
             overlay.removeFromSuperview()
