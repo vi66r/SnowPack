@@ -6,7 +6,7 @@ public extension UIColor {
     
     // MARK: - Color System
     
-    func configureSemanticColorSystem(
+    static func configureSemanticColorSystem(
         brand: UIColor = UIColor(rgb: 0x1AC8ED),
         accent: UIColor = UIColor(rgb: 0x97DFFC),
         tint: UIColor = UIColor(rgb: 0x003459),
@@ -26,7 +26,7 @@ public extension UIColor {
         UIColor._success = success
     }
     
-    func configureSemanticColorSystemDark(
+    static func configureSemanticColorSystemDark(
         brandDark: UIColor = UIColor(rgb: 0x1AC8ED),
         accentDark: UIColor = UIColor(rgb: 0x97DFFC),
         tintDark: UIColor = UIColor(rgb: 0x858AE3),
@@ -45,7 +45,7 @@ public extension UIColor {
         UIColor._successDark = successDark
     }
     
-    func configureSemanticTextColorSystem(
+    static func configureSemanticTextColorSystem(
         textBrand: UIColor = UIColor(rgb: 0xFFFFFF),
         textAccent: UIColor = UIColor(rgb: 0xFFFFFF),
         textBackground: UIColor = UIColor(rgb: 0x00171F),
@@ -63,7 +63,7 @@ public extension UIColor {
         UIColor._textSuccess = textSuccess
     }
     
-    func configureSemanticTextColorSystemDark(
+    static func configureSemanticTextColorSystemDark(
         textBrandDark: UIColor = UIColor(rgb: 0xFFFFFF),
         textAccentDark: UIColor = UIColor(rgb: 0x0171F),
         textBackgroundDark: UIColor = UIColor(rgb: 0xFFFBFF),
@@ -81,7 +81,7 @@ public extension UIColor {
         UIColor._textSuccessDark = textSuccessDark
     }
     
-    func configureBrandColorSystem(
+    static func configureBrandColorSystem(
         primary: UIColor = UIColor(rgb: 0x1AC8ED),
         primaryVariation: UIColor = UIColor(rgb: 0x97DFFC),
         secondary: UIColor = UIColor(rgb: 0xAF7575),
@@ -97,7 +97,7 @@ public extension UIColor {
         UIColor.tertiaryVariation = tertiaryVariation
     }
     
-    func configureBrandTextColorSystem(
+    static func configureBrandTextColorSystem(
         textPrimary: UIColor = UIColor(rgb: 0xFFFFFF),
         textPrimaryVariation: UIColor = UIColor(rgb: 0x000000),
         textSecondary: UIColor = UIColor(rgb: 0xFFFFFF),
