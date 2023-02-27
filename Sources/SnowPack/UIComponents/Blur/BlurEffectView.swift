@@ -18,7 +18,7 @@ public class BlurEffectView: UIView {
         didSet { setupPropertyAnimator() }
     }
     
-    private let visualEffectView = UIVisualEffectView(effect: nil)
+    private let visualEffectView = PassthroughVisualEffectView(effect: nil)
     private var propertyAnimator: UIViewPropertyAnimator!
     
     private var blurIntensityLayer: BlurIntensityLayer {
@@ -63,5 +63,10 @@ public class BlurEffectView: UIView {
         }
         let clampedIntensity = max(0.0, min(1.0, presentationLayer.intensity))
         propertyAnimator.fractionComplete = clampedIntensity
+    }
+    
+    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let view = super.hitTest(point, with: event)
+        return view == self ? nil : view
     }
 }

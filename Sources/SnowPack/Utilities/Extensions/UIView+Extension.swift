@@ -144,21 +144,21 @@ public extension UIView {
     
     @discardableResult
     func applyBlurOverlay<T: UIView>(animated: Bool,
-                              style: UIBlurEffect.Style = .systemUltraThinMaterial
+                                     intensity: CGFloat = 0.3
     ) -> T {
-        let blurEffect = UIBlurEffect(style: style)
-        let visualEffectView = PassthroughVisualEffectView(effect: blurEffect)
-        visualEffectView.frame = .init(origin: .zero, size: frame.size)
-        visualEffectView.alpha = 0.0
-        visualEffectView.accessibilityIdentifier = "VisualEffect.Blur" // not a great practice for accessibility
-        addSubview(visualEffectView)
+        let blurView = BlurEffectView()
+        blurView.intensity = 0.3
+        blurView.frame = .init(origin: .zero, size: frame.size)
+        blurView.alpha = 0.0
+        blurView.accessibilityIdentifier = "VisualEffect.Blur" // not a great practice for accessibility
+        addSubview(blurView)
         
         if animated {
             UIView.animate(withDuration: 0.25, delay: 0.0, animations: {
-                visualEffectView.alpha = 1.0
+                blurView.alpha = 1.0
             })
         } else {
-            visualEffectView.alpha = 1.0
+            blurView.alpha = 1.0
         }
         
         return self as! T
