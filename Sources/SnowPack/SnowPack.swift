@@ -15,21 +15,13 @@ public struct SnowPack {
         return screen.traitCollection.userInterfaceStyle == .dark
     }
     
+    static var shouldApplyColorSystemUniversally = false
+    
     public static func applyColorSystemUniversally() {
+        SnowPack.shouldApplyColorSystemUniversally = true
         UILabel.appearance(whenContainedInInstancesOf: [UIView.self]).textColor = .textBackground
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).setTitleColor(.textBackground, for: .normal)
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
         UIImageView.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
-        
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.backgroundColor = .brand
-        navigationBarAppearance.shadowColor = .accent
-        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-        
-//        UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).barTintColor = .brand
-//        UINavigationBar.appearance().tintColor = .tint
-//        UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).titleTextAttributes = [.foregroundColor : UIColor.textBackground]
     }
 }

@@ -7,6 +7,18 @@ open class ViewController: UIViewController, Loading {
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
     
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if SnowPack.shouldApplyColorSystemUniversally {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithOpaqueBackground()
+            navigationBarAppearance.backgroundColor = .brand
+            navigationBarAppearance.shadowColor = .accent
+            navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+            navigationController?.navigationBar.tintColor = .tint
+        }
+    }
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background
