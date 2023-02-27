@@ -111,36 +111,36 @@ public extension UIColor {
     }
     
     // Semantic Color Accessors
-    static var brand = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._brandDark : UIColor._brand) : UIColor._brand
-    static var accent = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._accentDark : UIColor._accent) : UIColor._accent
-    static var background = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._backgroundDark : UIColor._background) : UIColor._background
-    static var surface = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._surfaceDark : UIColor._surface) : UIColor._surface
-    static var error = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._errorDark : UIColor._error) : UIColor._error
-    static var warning = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._warningDark : UIColor._warning) : UIColor._warning
-    static var success = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._successDark : UIColor._success) : UIColor._success
+    static var brand: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._brandDark : UIColor._brand) : UIColor._brand }
+    static var accent: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._accentDark : UIColor._accent) : UIColor._accent}
+    static var background: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._backgroundDark : UIColor._background) : UIColor._background }
+    static var surface: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._surfaceDark : UIColor._surface) : UIColor._surface }
+    static var error: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._errorDark : UIColor._error) : UIColor._error }
+    static var warning: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._warningDark : UIColor._warning) : UIColor._warning }
+    static var success: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._successDark : UIColor._success) : UIColor._success }
     
     // Semantic Text Color Accessors
-    static var textBrand = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._textBrandDark : UIColor._textBrand) : UIColor._textBrand
-    static var textAccent = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._textAccentDark : UIColor._textAccent) : UIColor._textAccent
-    static var textBackground = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._textBackgroundDark : UIColor._textBackground) : UIColor._textBackground
-    static var textSurface = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._textSurfaceDark : UIColor._textSurface) : UIColor._textSurface
-    static var textError = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._textErrorDark : UIColor._textError) : UIColor._textError
-    static var textWarning = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._textWarningDark : UIColor._textWarning) : UIColor._textWarning
-    static var textSuccess = UIColor.isDarkModeAllowed ?
-    (SnowPack.interfaceIsDarkMode() ? UIColor._textSuccessDark : UIColor._textSuccess) : UIColor._textSuccess
+    static var textBrand: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._textBrandDark : UIColor._textBrand) : UIColor._textBrand }
+    static var textAccent: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._textAccentDark : UIColor._textAccent) : UIColor._textAccent }
+    static var textBackground: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._textBackgroundDark : UIColor._textBackground) : UIColor._textBackground }
+    static var textSurface: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._textSurfaceDark : UIColor._textSurface) : UIColor._textSurface }
+    static var textError: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._textErrorDark : UIColor._textError) : UIColor._textError }
+    static var textWarning: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._textWarningDark : UIColor._textWarning) : UIColor._textWarning }
+    static var textSuccess: UIColor { UIColor.isDarkModeAllowed ?
+        (SnowPack.interfaceIsDarkMode() ? UIColor._textSuccessDark : UIColor._textSuccess) : UIColor._textSuccess }
     
     // Semantic Colors - Dark Mode
     static var _brandDark = UIColor(rgb: 0x2C0735)
