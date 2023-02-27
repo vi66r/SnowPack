@@ -62,6 +62,10 @@ public struct Networker {
                 with: request
             ) { data, response, error in
                 
+                if debugPrintingEnabled {
+                    print(data?.debugPrintAsJSON ?? "There was no data returned.")
+                }
+                
                 if let error = error {
                     Networker.log(error: error, category: "")
                     print(error)
@@ -115,7 +119,9 @@ public struct Networker {
     public static func execute(request: URLRequest, customPredicate: (() -> Bool)? = nil) async throws {
         return try await withCheckedThrowingContinuation{ continuation in
             URLSession.shared.dataTask(with: request) { data, response, error in
-                
+                if debugPrintingEnabled {
+                    print(data?.debugPrintAsJSON ?? "There was no data returned.")
+                }
                 if let error = error {
                     print(error)
                     continuation.resume(throwing: error)
