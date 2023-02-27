@@ -26,6 +26,7 @@ public struct SnowPack {
         navigationBarAppearance.backgroundColor = .brand
         navigationBarAppearance.shadowColor = .accent
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         
 //        UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).barTintColor = .brand
 //        UINavigationBar.appearance().tintColor = .tint
