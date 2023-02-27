@@ -20,8 +20,15 @@ public struct SnowPack {
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).setTitleColor(.textBackground, for: .normal)
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
         UIImageView.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
-        UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).barTintColor = .brand
-        UINavigationBar.appearance().tintColor = .tint
-        UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).titleTextAttributes = [.foregroundColor : UIColor.textBackground]
+        
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.backgroundColor = .brand
+        navigationBarAppearance.shadowColor = .accent
+        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        
+//        UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).barTintColor = .brand
+//        UINavigationBar.appearance().tintColor = .tint
+//        UINavigationBar.appearance(whenContainedInInstancesOf: [UIView.self]).titleTextAttributes = [.foregroundColor : UIColor.textBackground]
     }
 }
