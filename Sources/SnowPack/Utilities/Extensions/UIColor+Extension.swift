@@ -142,7 +142,7 @@ public extension UIColor {
     static var textSuccess = UIColor.isDarkModeAllowed ?
     (SnowPack.interfaceIsDarkMode() ? UIColor._textSuccessDark : UIColor._textSuccess) : UIColor._textSuccess
     
-    // Semantic Colors - Light Mode
+    // Semantic Colors - Dark Mode
     static var _brandDark = UIColor(rgb: 0x2C0735)
     static var _accentDark = UIColor(rgb: 0x4E148C)
     static var _backgroundDark = UIColor(rgb: 0x151515)
@@ -151,7 +151,7 @@ public extension UIColor {
     static var _warningDark = UIColor(rgb: 0xE9B872)
     static var _successDark = UIColor(rgb: 0x90A959)
     
-    // Semantic Colors - Dark Mode
+    // Semantic Colors - Light Mode
     static var _brand = UIColor(rgb: 0x1AC8ED)
     static var _accent = UIColor(rgb: 0x97DFFC)
     static var _background = UIColor(rgb: 0xFFFFFF)
