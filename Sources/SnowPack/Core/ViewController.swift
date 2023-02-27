@@ -64,11 +64,12 @@ open class ViewController: UIViewController, Loading {
         alert.addAction(dismiss)
         
         let background = alert.view.allSubviews.first(where: { $0 is UIVisualEffectView }) as? UIVisualEffectView
-        background?.backgroundColor = .surface
+        background?.backgroundColor = .surface.darkened?.withAlphaComponent(0.9)
         background?.effect = nil
         
-        let backdrop = alert.view.allSubviews.first(where: { $0 is UIVisualEffectView })?.subviews.first
-        backdrop?.backgroundColor = .surface
+        (background?.allSubviews.filter({ $0 is UILabel }) as? [UILabel])?.forEach({ label in
+            label.textColor = .textSurface
+        })
         
         if let actionTitle = actionTitle, let action = action {
             let alertAction = UIAlertAction(title: actionTitle, style: .default) { _ in
