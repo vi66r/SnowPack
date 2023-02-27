@@ -143,22 +143,22 @@ public extension UIColor {
     (SnowPack.interfaceIsDarkMode() ? UIColor._textSuccessDark : UIColor._textSuccess) : UIColor._textSuccess
     
     // Semantic Colors - Light Mode
-    static var _brand = UIColor(rgb: 0x2C0735)
-    static var _accent = UIColor(rgb: 0x4E148C)
-    static var _background = UIColor(rgb: 0x151515)
-    static var _surface = UIColor(rgb: 0x000500)
-    static var _error = UIColor(rgb: 0xA63D40)
-    static var _warning = UIColor(rgb: 0xE9B872)
-    static var _success = UIColor(rgb: 0x90A959)
+    static var _brandDark = UIColor(rgb: 0x2C0735)
+    static var _accentDark = UIColor(rgb: 0x4E148C)
+    static var _backgroundDark = UIColor(rgb: 0x151515)
+    static var _surfaceDark = UIColor(rgb: 0x000500)
+    static var _errorDark = UIColor(rgb: 0xA63D40)
+    static var _warningDark = UIColor(rgb: 0xE9B872)
+    static var _successDark = UIColor(rgb: 0x90A959)
     
     // Semantic Colors - Dark Mode
-    static var _brandDark = UIColor(rgb: 0x1AC8ED)
-    static var _accentDark = UIColor(rgb: 0x97DFFC)
-    static var _backgroundDark = UIColor(rgb: 0xFFFFFF)
-    static var _surfaceDark = UIColor(rgb: 0xFFFFFF)
-    static var _errorDark = UIColor(rgb: 0xB00020)
-    static var _warningDark = UIColor(rgb: 0xF48C06)
-    static var _successDark = UIColor(rgb: 0x90A959)
+    static var _brand = UIColor(rgb: 0x1AC8ED)
+    static var _accent = UIColor(rgb: 0x97DFFC)
+    static var _background = UIColor(rgb: 0xFFFFFF)
+    static var _surface = UIColor(rgb: 0xFFFFFF)
+    static var _error = UIColor(rgb: 0xB00020)
+    static var _warning = UIColor(rgb: 0xF48C06)
+    static var _success = UIColor(rgb: 0x90A959)
     
     // Brand Colors
     static var primary = UIColor(rgb: 0x1AC8ED)
