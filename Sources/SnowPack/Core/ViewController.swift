@@ -43,5 +43,9 @@ open class ViewController: UIViewController, Loading {
             }
         }
     }
+    
+    open override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIColor.isDarkModeAllowed ? .default : .darkContent
+    }
 }
 
