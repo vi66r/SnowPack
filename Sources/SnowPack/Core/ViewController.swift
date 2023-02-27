@@ -48,5 +48,29 @@ open class ViewController: UIViewController, Loading {
     open override var preferredStatusBarStyle : UIStatusBarStyle {
         return UIColor.isDarkModeAllowed ? .default : .darkContent
     }
+    
+    open func triggerSystemAlert(title: String,
+                                 message: String,
+                                 dismissTitle: String = "Okay",
+                                 dismissAction: RemoteAction? = nil,
+                                 actionTitle: String? = nil,
+                                 action: RemoteAction? = nil
+    ) {
+        let dismiss = UIAlertAction(title: dismissTitle, style: .cancel) { action in
+            dismissAction?()
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(dismiss)
+        
+        if let actionTitle = actionTitle, let action = action {
+            let alertAction = UIAlertAction(title: actionTitle, style: .default) { _ in
+                action()
+            }
+            alert.addAction(alertAction)
+        }
+        
+        navigate(to: alert)
+    }
 }
 
