@@ -64,7 +64,7 @@ open class ViewController: UIViewController, Loading {
         alert.addAction(dismiss)
         
         let background = alert.view.allSubviews.first(where: { $0 is UIVisualEffectView }) as? UIVisualEffectView
-        background?.backgroundColor = .surface.darkened?.withAlphaComponent(0.9)
+        background?.backgroundColor = .surface.darkened
         background?.effect = nil
         
         (background?.allSubviews.filter({ $0 is UILabel }) as? [UILabel])?.forEach({ label in
