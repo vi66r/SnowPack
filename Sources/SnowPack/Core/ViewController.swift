@@ -89,7 +89,7 @@ open class ViewController: UIViewController, Loading {
         if navigationBarHidden {
             contentView.addSubview(view)
         } else {
-            view.addSubview(view)
+            self.view.addSubview(view)
         }
     }
     
