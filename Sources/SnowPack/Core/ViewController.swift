@@ -9,7 +9,7 @@ open class ViewController: UIViewController, Loading {
     
     private(set) var navigationBarHidden: Bool = false
     
-    public var headerHeight: CGFloat = 88.0 {
+    public var headerHeight: CGFloat = 44.0 {
         didSet {
             guard isViewLoaded else { return }
             let screenHeight = SnowPackUI.mainScreen?.bounds.height ?? view.bounds.height
@@ -24,7 +24,7 @@ open class ViewController: UIViewController, Loading {
     public lazy var headerView: UIView = {
         let view = UIView()
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
-        headerHeightConstraint = view.height(88.0)
+        headerHeightConstraint = view.height(headerHeight)
         view.width(screenWidth ?? self.view.bounds.width)
         return view
     }()
@@ -33,7 +33,7 @@ open class ViewController: UIViewController, Loading {
         let view = UIView()
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
         let screenHeight = SnowPackUI.mainScreen?.bounds.height
-        contentViewHeightConstraint = view.height((screenHeight ?? self.view.bounds.height) - 88.0)
+        contentViewHeightConstraint = view.height((screenHeight ?? self.view.bounds.height) - headerHeight)
         view.width(screenWidth ?? self.view.bounds.width)
         return view
     }()
