@@ -1,8 +1,10 @@
 import Combine
 import UIKit
 
-/// Base class that defines common functionality of all ViewControllers
-open class ViewController: UIViewController, Loading {
+open class LinearFlowViewController: UIPageViewController {
+    
+    // MARK: - Copied From ViewController
+    
     public var cancellables = Set<AnyCancellable>()
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
@@ -58,9 +60,13 @@ open class ViewController: UIViewController, Loading {
             navigationBarHidden = true
             [headerView, contentView].forEach(view.addSubview(_:))
             headerView.centerXToSuperview()
-            headerView.topToSuperview(usingSafeArea: true)
+            headerView.topToSuperview(usingSafeArea: false)
             contentView.centerXToSuperview()
             contentView.topToBottom(of: headerView)
+        }
+        
+        if !stages.isEmpty {
+            setViewControllers([stages.first!], direction: .forward, animated: true)
         }
         
         // Do any additional setup after loading the view.
@@ -80,7 +86,7 @@ open class ViewController: UIViewController, Loading {
         navigationBarHidden = true
         [headerView, contentView].forEach(view.addSubview(_:))
         headerView.centerXToSuperview()
-        headerView.topToSuperview(usingSafeArea: true)
+        headerView.topToSuperview(usingSafeArea: false)
         contentView.centerXToSuperview()
         contentView.topToBottom(of: headerView)
     }
@@ -141,5 +147,58 @@ open class ViewController: UIViewController, Loading {
         
         navigate(to: alert)
     }
+    
+    // - END ViewController Copying
+    
+    var currentPosition: Int = 0
+    
+    public enum FlowStage: Int {
+        case starting = -1
+        case inProgress = 0
+        case finished = 1
+    }
+    
+    public enum IndicatorPosition {
+        case bottom
+        case top
+        case left
+        case right
+    }
+    
+    public var showsIndicator: Bool = false
+    public var indicatorPosition: IndicatorPosition = .bottom
+    public var flowStage: FlowStage = .starting
+    
+    public var stages: [ViewController] = [] {
+        didSet {
+            guard !stages.isEmpty else { return }
+            setViewControllers([stages.first!], direction: .forward, animated: true)
+        }
+    }
+    
+    public init(stages: [ViewController],
+                axis: UIPageViewController.NavigationOrientation = .horizontal,
+                options: [UIPageViewController.OptionsKey : Any]? = nil
+    ) {
+        super.init(transitionStyle: .scroll, navigationOrientation: axis, options: options)
+        self.stages = stages
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    open func next() {
+        guard !stages.isEmpty, currentPosition + 1 < stages.count else { return }
+        currentPosition += 1
+        let target = stages[currentPosition]
+        setViewControllers([target], direction: .forward, animated: true)
+    }
+    
+    open func previous() {
+        guard !stages.isEmpty, currentPosition - 1 >= 0 else { return }
+        currentPosition -= 1
+        let target = stages[currentPosition]
+        setViewControllers([target], direction: .reverse, animated: true)
+    }
 }
-
