@@ -13,6 +13,10 @@ public struct SnowPack {
 
 public struct SnowPackUI {
     
+    static var mainScreen: UIScreen? {
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen
+    }
+    
     static var currentWindow: UIWindow? {
         UIApplication.shared.connectedScenes
             .filter({$0.activationState == .foregroundActive})

@@ -7,6 +7,35 @@ open class ViewController: UIViewController, Loading {
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
     
+    public var headerHeight: CGFloat = 88.0 {
+        didSet {
+            guard isViewLoaded else { return }
+            let screenHeight = SnowPackUI.mainScreen?.bounds.height ?? view.bounds.height
+            headerHeightConstraint?.constant = headerHeight
+            contentViewHeightConstraint?.constant = screenHeight - headerHeight
+        }
+    }
+    
+    var headerHeightConstraint: NSLayoutConstraint?
+    var contentViewHeightConstraint: NSLayoutConstraint?
+    
+    public lazy var headerView: UIView = {
+        let view = UIView()
+        let screenWidth = SnowPackUI.mainScreen?.bounds.width
+        headerHeightConstraint = view.height(88.0)
+        view.width(screenWidth ?? self.view.bounds.width)
+        return view
+    }()
+    
+    public lazy var contentView: UIView = {
+        let view = UIView()
+        let screenWidth = SnowPackUI.mainScreen?.bounds.width
+        let screenHeight = SnowPackUI.mainScreen?.bounds.height
+        contentViewHeightConstraint = view.height((screenHeight ?? self.view.bounds.height) - 88.0)
+        view.width(screenWidth ?? self.view.bounds.width)
+        return view
+    }()
+    
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -25,6 +54,11 @@ open class ViewController: UIViewController, Loading {
     open override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background
+        [headerView, contentView].forEach(view.addSubview(_:))
+        headerView.centerXToSuperview()
+        headerView.topToSuperview(usingSafeArea: false)
+        contentView.centerXToSuperview()
+        contentView.topToBottom(of: headerView)
         // Do any additional setup after loading the view.
     }
     
