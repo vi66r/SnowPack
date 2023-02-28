@@ -63,6 +63,23 @@ open class ViewController: UIViewController, Loading {
         // Do any additional setup after loading the view.
     }
     
+    open func showNavigationBar(animated: Bool = true) {
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+        headerView.removeAllConstraints()
+        headerView.removeFromSuperview()
+        contentView.removeAllConstraints()
+        contentView.removeFromSuperview()
+    }
+    
+    open func hideNavigationBar(animated: Bool = true) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        [headerView, contentView].forEach(view.addSubview(_:))
+        headerView.centerXToSuperview()
+        headerView.topToSuperview(usingSafeArea: false)
+        contentView.centerXToSuperview()
+        contentView.topToBottom(of: headerView)
+    }
+    
     public func navigate(to viewController: UIViewController) {
         switch viewController {
         case is UIActivityViewController, is UIAlertController:
