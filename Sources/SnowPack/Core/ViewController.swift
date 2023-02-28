@@ -12,6 +12,7 @@ open class ViewController: UIViewController, Loading {
         if SnowPackUI.shouldApplyColorSystemUniversally {
             navigationController?.navigationBar.standardAppearance = UINavigationBar.configuration.appearance.standardAppearance
             navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBar.configuration.appearance.scrollEdgeAppearance
+            navigationController?.navigationBar.prefersLargeTitles = UINavigationBar.configuration.titleStyle == .large
             navigationController?.navigationBar.tintColor = .tint
         }
     }

@@ -9,7 +9,6 @@ public extension UINavigationBar {
     
     static var configuration = NavigationBarConfiguration(titleStyle: .regular,
                                                           appearance: .opaqueWhenScrolling)
-    
     enum TitleStyle {
         case large
         case regular
@@ -58,8 +57,7 @@ public extension UINavigationBar {
         }
     }
     
-    
-    static func configureUniversally(_ configuration: NavigationBarConfiguration) {
-        UINavigationBar.configuration = configuration
+    static func configureUniversally(titleStyle: UINavigationBar.TitleStyle, appearance: UINavigationBar.DisplayStyle) {
+        UINavigationBar.configuration = NavigationBarConfiguration(titleStyle: titleStyle, appearance: appearance)
     }
 }
