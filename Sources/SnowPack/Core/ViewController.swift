@@ -9,11 +9,16 @@ open class ViewController: UIViewController, Loading {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         if SnowPackUI.shouldApplyColorSystemUniversally {
             navigationController?.navigationBar.standardAppearance = UINavigationBar.configuration.appearance.standardAppearance
             navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBar.configuration.appearance.scrollEdgeAppearance
             navigationController?.navigationBar.prefersLargeTitles = UINavigationBar.configuration.titleStyle == .large
             navigationController?.navigationBar.tintColor = .tint
+        }
+        
+        if UINavigationBar.configuration.appearance == .fullyHidden {
+            navigationController?.setNavigationBarHidden(true, animated: false)
         }
     }
     
