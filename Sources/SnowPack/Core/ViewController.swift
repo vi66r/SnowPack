@@ -55,7 +55,7 @@ open class ViewController: UIViewController, Loading {
         
         if UINavigationBar.configuration.appearance == .fullyHidden {
             navigationController?.setNavigationBarHidden(true, animated: false)
-            navigationBarHidden = false
+            navigationBarHidden = true
             [headerView, contentView].forEach(view.addSubview(_:))
             headerView.centerXToSuperview()
             headerView.topToSuperview(usingSafeArea: false)
