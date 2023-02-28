@@ -7,7 +7,7 @@ open class SimpleOnboardingViewController: ViewController {
     public var onboardingStages: [ViewController]
     
     lazy var container: LinearFlowViewController = {
-        let container = LinearFlowViewController(stages: onboardingStages, axis: .horizontal)
+        let container = LinearFlowViewController(stages: onboardingStages, axis: .horizontal, options: [.spineLocation : UIPageViewController.SpineLocation.min])
         addChild(container)
         return container
     }()
