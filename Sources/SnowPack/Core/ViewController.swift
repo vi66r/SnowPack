@@ -14,9 +14,7 @@ open class ViewController: UIViewController, Loading {
             navigationController?.navigationBar.scrollEdgeAppearance = UINavigationBar.configuration.appearance.scrollEdgeAppearance
             navigationController?.navigationBar.prefersLargeTitles = UINavigationBar.configuration.titleStyle == .large
             navigationController?.navigationBar.tintColor = .tint
-            navigationController?.navigationBar.allSubviews.forEach({
-                if $0 is UILabel { ($0 as? UILabel)?.textColor = .tint }
-            })
+            navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor : UIColor.tint]
         }
     }
     
