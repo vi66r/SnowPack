@@ -26,4 +26,12 @@ open class SimpleOnboardingViewController: ViewController {
         super.viewDidLoad()
         addSubview(container.view)
     }
+    
+    public func next() {
+        container.next()
+    }
+    
+    public func previous() {
+        container.previous()
+    }
 }
