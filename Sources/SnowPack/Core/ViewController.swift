@@ -38,6 +38,11 @@ open class ViewController: UIViewController, Loading {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+    
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .background
         
         if SnowPackUI.shouldApplyColorSystemUniversally {
             navigationController?.navigationBar.standardAppearance = UINavigationBar.configuration.appearance.standardAppearance
@@ -48,17 +53,13 @@ open class ViewController: UIViewController, Loading {
         
         if UINavigationBar.configuration.appearance == .fullyHidden {
             navigationController?.setNavigationBarHidden(true, animated: false)
+            [headerView, contentView].forEach(view.addSubview(_:))
+            headerView.centerXToSuperview()
+            headerView.topToSuperview(usingSafeArea: false)
+            contentView.centerXToSuperview()
+            contentView.topToBottom(of: headerView)
         }
-    }
-    
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .background
-        [headerView, contentView].forEach(view.addSubview(_:))
-        headerView.centerXToSuperview()
-        headerView.topToSuperview(usingSafeArea: false)
-        contentView.centerXToSuperview()
-        contentView.topToBottom(of: headerView)
+        
         // Do any additional setup after loading the view.
     }
     
