@@ -7,6 +7,8 @@ open class ViewController: UIViewController, Loading {
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
     
+    private(set) var navigationBarHidden: Bool = false
+    
     public var headerHeight: CGFloat = 88.0 {
         didSet {
             guard isViewLoaded else { return }
@@ -53,6 +55,7 @@ open class ViewController: UIViewController, Loading {
         
         if UINavigationBar.configuration.appearance == .fullyHidden {
             navigationController?.setNavigationBarHidden(true, animated: false)
+            navigationBarHidden = false
             [headerView, contentView].forEach(view.addSubview(_:))
             headerView.centerXToSuperview()
             headerView.topToSuperview(usingSafeArea: false)
@@ -65,6 +68,7 @@ open class ViewController: UIViewController, Loading {
     
     open func showNavigationBar(animated: Bool = true) {
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        navigationBarHidden = false
         headerView.removeAllConstraints()
         headerView.removeFromSuperview()
         contentView.removeAllConstraints()
@@ -73,6 +77,7 @@ open class ViewController: UIViewController, Loading {
     
     open func hideNavigationBar(animated: Bool = true) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationBarHidden = true
         [headerView, contentView].forEach(view.addSubview(_:))
         headerView.centerXToSuperview()
         headerView.topToSuperview(usingSafeArea: false)
@@ -80,7 +85,15 @@ open class ViewController: UIViewController, Loading {
         contentView.topToBottom(of: headerView)
     }
     
-    public func navigate(to viewController: UIViewController) {
+    open func addSubview(_ view: UIView) {
+        if navigationBarHidden {
+            contentView.addSubview(view)
+        } else {
+            view.addSubview(view)
+        }
+    }
+    
+    open func navigate(to viewController: UIViewController) {
         switch viewController {
         case is UIActivityViewController, is UIAlertController:
             present(viewController, animated: true)
