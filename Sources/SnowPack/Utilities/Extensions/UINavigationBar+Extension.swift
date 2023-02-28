@@ -35,6 +35,7 @@ public extension UINavigationBar {
             }
             
             appearance.titleTextAttributes = [.foregroundColor : UIColor.tint]
+            appearance.largeTitleTextAttributes = [.foregroundColor : UIColor.tint]
             return appearance
         }
         
@@ -53,6 +54,7 @@ public extension UINavigationBar {
             }
             
             appearance.titleTextAttributes = [.foregroundColor : UIColor.tint]
+            appearance.largeTitleTextAttributes = [.foregroundColor : UIColor.tint]
             return appearance
         }
     }
