@@ -167,9 +167,9 @@ open class ViewController: UIViewController, Loading {
         scrollViewObserver = scrollView
             .observe(\UITableView.contentOffset, options: .new) { [weak self] scrollView, observation in
                 if observation.newValue?.y ?? 0.0 > 0.0 {
-                    self?.headerView.applyDropShadow()
+                    self?.headerBackground.applyDropShadow()
                 } else {
-                    self?.headerView.removeShadow()
+                    self?.headerBackground.removeShadow()
                 }
             }
     }
