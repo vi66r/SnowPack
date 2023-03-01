@@ -3,42 +3,13 @@ import UIKit
 
 open class LinearFlowViewController: UIPageViewController {
     
-    // MARK: - Copied From ViewController
+    // MARK: - Adapted From ViewController
     
     public var cancellables = Set<AnyCancellable>()
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
     
     private(set) var navigationBarHidden: Bool = false
-    
-    public var headerHeight: CGFloat = 88.0 {
-        didSet {
-            guard isViewLoaded else { return }
-            let screenHeight = SnowPackUI.mainScreen?.bounds.height ?? view.bounds.height
-            headerHeightConstraint?.constant = headerHeight
-            contentViewHeightConstraint?.constant = screenHeight - headerHeight
-        }
-    }
-    
-    var headerHeightConstraint: NSLayoutConstraint?
-    var contentViewHeightConstraint: NSLayoutConstraint?
-    
-    public lazy var headerView: UIView = {
-        let view = UIView()
-        let screenWidth = SnowPackUI.mainScreen?.bounds.width
-        headerHeightConstraint = view.height(headerHeight)
-        view.width(screenWidth ?? self.view.bounds.width)
-        return view
-    }()
-    
-    public lazy var contentView: UIView = {
-        let view = UIView()
-        let screenWidth = SnowPackUI.mainScreen?.bounds.width
-        let screenHeight = SnowPackUI.mainScreen?.bounds.height
-        contentViewHeightConstraint = view.height((screenHeight ?? self.view.bounds.height) - headerHeight)
-        view.width(screenWidth ?? self.view.bounds.width)
-        return view
-    }()
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -55,15 +26,8 @@ open class LinearFlowViewController: UIPageViewController {
             navigationController?.navigationBar.tintColor = .tint
         }
         
-        if UINavigationBar.configuration.appearance == .fullyHidden {
-            navigationController?.setNavigationBarHidden(true, animated: false)
-            navigationBarHidden = true
-            [headerView, contentView].forEach(view.addSubview(_:))
-            headerView.centerXToSuperview()
-            headerView.topToSuperview(usingSafeArea: false)
-            contentView.centerXToSuperview()
-            contentView.topToBottom(of: headerView)
-        }
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationBarHidden = true
         
         if !stages.isEmpty {
             setViewControllers([stages.first!], direction: .forward, animated: true)
@@ -75,28 +39,15 @@ open class LinearFlowViewController: UIPageViewController {
     open func showNavigationBar(animated: Bool = true) {
         navigationController?.setNavigationBarHidden(false, animated: animated)
         navigationBarHidden = false
-        headerView.removeAllConstraints()
-        headerView.removeFromSuperview()
-        contentView.removeAllConstraints()
-        contentView.removeFromSuperview()
     }
     
     open func hideNavigationBar(animated: Bool = true) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
         navigationBarHidden = true
-        [headerView, contentView].forEach(view.addSubview(_:))
-        headerView.centerXToSuperview()
-        headerView.topToSuperview(usingSafeArea: false)
-        contentView.centerXToSuperview()
-        contentView.topToBottom(of: headerView)
     }
     
     open func addSubview(_ view: UIView) {
-        if navigationBarHidden {
-            contentView.addSubview(view)
-        } else {
-            self.view.addSubview(view)
-        }
+        self.view.addSubview(view)
     }
     
     open func navigate(to viewController: UIViewController) {
@@ -148,7 +99,7 @@ open class LinearFlowViewController: UIPageViewController {
         navigate(to: alert)
     }
     
-    // - END ViewController Copying
+    // - END ViewController Adaptated Portion
     
     var currentPosition: Int = 0
     
