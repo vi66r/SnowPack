@@ -56,4 +56,10 @@ public struct SnowPackUI {
         UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
         UIImageView.appearance(whenContainedInInstancesOf: [UIView.self]).tintColor = .tint
     }
+    
+    public static func applyFontSystemUniversally() {
+        UILabel.appearance().font = .body
+        UIButton.appearance().titleLabel?.font = .body
+        UITextField.appearance().font = .body
+    }
 }
