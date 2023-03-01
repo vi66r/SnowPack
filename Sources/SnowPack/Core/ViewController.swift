@@ -26,7 +26,6 @@ open class ViewController: UIViewController, Loading {
     lazy var headerBackground: UIView = {
         let view = UIView()
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
-        headerBackgroundHeightConstraint = view.height(headerHeight + (SnowPackUI.topSafeAreaMetric ?? 0.0))
         view.width(screenWidth ?? self.view.bounds.width)
         view.backgroundColor = .background
         return view
@@ -71,6 +70,7 @@ open class ViewController: UIViewController, Loading {
             [contentView, headerBackground, headerView].forEach(view.addSubview(_:))
             headerBackground.centerXToSuperview()
             headerBackground.topToSuperview(usingSafeArea: false)
+            headerBackground.bottom(to: headerView)
             headerView.centerXToSuperview()
             headerView.topToSuperview(usingSafeArea: true)
             contentView.centerXToSuperview()
@@ -85,6 +85,8 @@ open class ViewController: UIViewController, Loading {
         navigationBarHidden = false
         headerView.removeAllConstraints()
         headerView.removeFromSuperview()
+        headerBackground.removeAllConstraints()
+        headerBackground.removeFromSuperview()
         contentView.removeAllConstraints()
         contentView.removeFromSuperview()
     }
@@ -92,7 +94,10 @@ open class ViewController: UIViewController, Loading {
     open func hideNavigationBar(animated: Bool = true) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
         navigationBarHidden = true
-        [headerView, contentView].forEach(view.addSubview(_:))
+        [contentView, headerBackground, headerView].forEach(view.addSubview(_:))
+        headerBackground.centerXToSuperview()
+        headerBackground.topToSuperview(usingSafeArea: false)
+        headerBackground.bottom(to: headerView)
         headerView.centerXToSuperview()
         headerView.topToSuperview(usingSafeArea: true)
         contentView.centerXToSuperview()
