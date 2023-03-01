@@ -74,6 +74,9 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     public var layoutDelegate: SimpleCollectionViewLayoutDelegate?
     public var staticCellSize: CGSize?
     
+    public var interitemSpacing: CGFloat
+    public var lineSpacing: CGFloat
+    
     // to be clear, this is not the BEST way of doing this, but it
     public var headerView: UICollectionReusableView? {
         didSet {
@@ -94,13 +97,17 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     }
     
     public init(elements: [T.ModelType] = [],
-         layout: UICollectionViewLayout = UICollectionViewFlowLayout(),
-         backgroundColor: UIColor = .clear,
-         decelerationRate: UIScrollView.DecelerationRate = .normal,
-         contentInset: UIEdgeInsets = .zero,
-         staticCellSize: CGSize? = nil
+                layout: UICollectionViewLayout = UICollectionViewFlowLayout(),
+                backgroundColor: UIColor = .clear,
+                decelerationRate: UIScrollView.DecelerationRate = .normal,
+                contentInset: UIEdgeInsets = .zero,
+                staticCellSize: CGSize? = nil,
+                interItemSpacing: CGFloat = 0.0,
+                lineSpacing: CGFloat = 0.0
     ) {
         self.elements = elements
+        self.interitemSpacing = interItemSpacing
+        self.lineSpacing = lineSpacing
         super.init(frame: .zero, collectionViewLayout: layout)
         register(ContainerCell.self, forCellWithReuseIdentifier: ContainerCell.identifier)
         dataSource = self
@@ -227,6 +234,16 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
         cell.hydrate(with: target)
         cellAtIndexPath?(cell.mainView, indexPath)
         return cell
+    }
+    
+    // MARK: - UICollectionViewDelegateFlowLayout
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        lineSpacing
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        interitemSpacing
     }
     
 //    // MARK: - UICollectionViewDragDelegate - TBD
