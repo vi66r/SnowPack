@@ -9,7 +9,7 @@ open class LinearFlowViewController: UIPageViewController {
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
     
-    private(set) var navigationBarHidden: Bool = true
+    private(set) var navigationBarHidden: Bool = false
     
     public var headerHeight: CGFloat = 88.0 {
         didSet {
