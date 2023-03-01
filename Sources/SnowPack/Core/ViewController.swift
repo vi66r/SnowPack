@@ -45,8 +45,6 @@ open class ViewController: UIViewController, Loading {
     public lazy var contentView: UIView = {
         let view = UIView()
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
-        let screenHeight = SnowPackUI.mainScreen?.bounds.height
-        contentViewHeightConstraint = view.height((screenHeight ?? self.view.bounds.height) - headerHeight)
         view.width(screenWidth ?? self.view.bounds.width)
         return view
     }()
@@ -77,6 +75,7 @@ open class ViewController: UIViewController, Loading {
             headerView.topToSuperview(usingSafeArea: true)
             contentView.centerXToSuperview()
             contentView.topToBottom(of: headerView)
+            contentView.bottomToSuperview()
         }
         
         // Do any additional setup after loading the view.
@@ -104,6 +103,7 @@ open class ViewController: UIViewController, Loading {
         headerView.topToSuperview(usingSafeArea: true)
         contentView.centerXToSuperview()
         contentView.topToBottom(of: headerView)
+        contentView.bottomToSuperview()
     }
     
     open func addSubview(_ view: UIView) {
