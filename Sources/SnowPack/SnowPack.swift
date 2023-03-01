@@ -58,8 +58,8 @@ public struct SnowPackUI {
     }
     
     public static func applyFontSystemUniversally() {
-        UILabel.appearance().font = .body
-        UIButton.appearance().titleLabel?.font = .body
-        UITextField.appearance().font = .body
+        UILabel.appearance(whenContainedInInstancesOf: [UIView.self]).font = .body
+        UIButton.appearance(whenContainedInInstancesOf: [UIView.self]).titleLabel?.font = .body
+        UITextField.appearance(whenContainedInInstancesOf: [UIView.self]).font = .body
     }
 }
