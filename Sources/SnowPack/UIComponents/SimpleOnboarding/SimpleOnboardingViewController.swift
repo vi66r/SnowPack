@@ -25,6 +25,7 @@ open class SimpleOnboardingViewController: ViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         addSubview(container.view)
+        container.view.edgesToSuperview()
     }
     
     public func next() {

@@ -26,7 +26,7 @@ open class LinearFlowViewController: UIPageViewController {
     public lazy var headerView: UIView = {
         let view = UIView()
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
-        headerHeightConstraint = view.height(88.0)
+        headerHeightConstraint = view.height(headerHeight)
         view.width(screenWidth ?? self.view.bounds.width)
         return view
     }()
@@ -35,7 +35,7 @@ open class LinearFlowViewController: UIPageViewController {
         let view = UIView()
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
         let screenHeight = SnowPackUI.mainScreen?.bounds.height
-        contentViewHeightConstraint = view.height((screenHeight ?? self.view.bounds.height) - 88.0)
+        contentViewHeightConstraint = view.height((screenHeight ?? self.view.bounds.height) - headerHeight)
         view.width(screenWidth ?? self.view.bounds.width)
         return view
     }()
