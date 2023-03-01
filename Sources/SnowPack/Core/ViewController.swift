@@ -23,6 +23,8 @@ open class ViewController: UIViewController, Loading {
     var headerBackgroundHeightConstraint: NSLayoutConstraint?
     var contentViewHeightConstraint: NSLayoutConstraint?
     
+    var scrollViewObserver: NSKeyValueObservation?
+    
     lazy var headerBackground: UIView = {
         let view = UIView()
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
@@ -162,7 +164,7 @@ open class ViewController: UIViewController, Loading {
     }
     
     public func enableCustomHeaderReaction(to scrollView: UIScrollView) {
-        scrollView
+        scrollViewObserver = scrollView
             .observe(\UITableView.contentOffset, options: .new) { [weak self] scrollView, observation in
                 if observation.newValue?.y ?? 0.0 > 0.0 {
                     self?.headerView.applyDropShadow()
@@ -170,6 +172,10 @@ open class ViewController: UIViewController, Loading {
                     self?.headerView.removeShadow()
                 }
             }
+    }
+    
+    deinit {
+        scrollViewObserver?.invalidate()
     }
 }
 
