@@ -14,8 +14,23 @@ public struct SnowPack {
 
 public struct SnowPackUI {
     
+    static var topSafeAreaMetric: CGFloat? {
+        SnowPackUI.currentWindow?.safeAreaInsets.top
+    }
+    
+    static var bottomSafeAreaMetric: CGFloat? {
+        SnowPackUI.currentWindow?.safeAreaInsets.bottom
+    }
+    
     static var mainScreen: UIScreen? {
         (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen
+    }
+    
+    static var currentScene: UIWindowScene? {
+        UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .compactMap({$0 as? UIWindowScene})
+            .first
     }
     
     static var currentWindow: UIWindow? {

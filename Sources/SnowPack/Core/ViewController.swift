@@ -15,11 +15,21 @@ open class ViewController: UIViewController, Loading {
             let screenHeight = SnowPackUI.mainScreen?.bounds.height ?? view.bounds.height
             headerHeightConstraint?.constant = headerHeight
             contentViewHeightConstraint?.constant = screenHeight - headerHeight
+            headerBackgroundHeightConstraint?.constant = headerHeight + (SnowPackUI.topSafeAreaMetric ?? 0.0)
         }
     }
     
     var headerHeightConstraint: NSLayoutConstraint?
+    var headerBackgroundHeightConstraint: NSLayoutConstraint?
     var contentViewHeightConstraint: NSLayoutConstraint?
+    
+    lazy var headerBackground: UIView = {
+        let view = UIView()
+        let screenWidth = SnowPackUI.mainScreen?.bounds.width
+        headerBackgroundHeightConstraint = view.height(headerHeight + (SnowPackUI.topSafeAreaMetric ?? 0.0))
+        view.width(screenWidth ?? self.view.bounds.width)
+        return view
+    }()
     
     public lazy var headerView: UIView = {
         let view = UIView()
@@ -56,7 +66,9 @@ open class ViewController: UIViewController, Loading {
         if UINavigationBar.configuration.appearance == .fullyHidden {
             navigationController?.setNavigationBarHidden(true, animated: false)
             navigationBarHidden = true
-            [headerView, contentView].forEach(view.addSubview(_:))
+            [contentView, headerBackground, headerView].forEach(view.addSubview(_:))
+            headerBackground.centerXToSuperview()
+            headerBackground.topToSuperview(usingSafeArea: false)
             headerView.centerXToSuperview()
             headerView.topToSuperview(usingSafeArea: true)
             contentView.centerXToSuperview()
