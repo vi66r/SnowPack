@@ -48,6 +48,7 @@ public extension UIFont {
                                         display: String? = nil
     ) {
         if let heading = heading {
+            _heading = heading
             UIFont.heading = customDynamicFont(named: heading, withStyle: .headline, size: _h1)
             UIFont.heading2 = customDynamicFont(named: heading, withStyle: .headline, size: _h2)
             UIFont.heading3 = customDynamicFont(named: heading, withStyle: .headline, size: _h3)
@@ -55,6 +56,7 @@ public extension UIFont {
         }
         
         if let body = body {
+            _body = body
             UIFont.body = customDynamicFont(named: body, withStyle: .headline, size: _b1)
             UIFont.body2 = customDynamicFont(named: body, withStyle: .headline, size: _b2)
             UIFont.body3 = customDynamicFont(named: body, withStyle: .headline, size: _b3)
@@ -62,6 +64,7 @@ public extension UIFont {
         }
         
         if let caption = caption {
+            _caption = caption
             UIFont.caption = customDynamicFont(named: caption, withStyle: .headline , size: _c1)
             UIFont.caption2 = customDynamicFont(named: caption, withStyle: .headline, size: _c2)
             UIFont.caption3 = customDynamicFont(named: caption, withStyle: .headline, size: _c3)
@@ -91,10 +94,24 @@ public extension UIFont {
             _c3 = s3 ?? _c3
             _c4 = s4 ?? _c4
         }
+        reloadFonts()
     }
     
     private static func reloadFonts() {
+        UIFont.heading = customDynamicFont(named: _heading, withStyle: .headline, size: _h1)
+        UIFont.heading2 = customDynamicFont(named: _heading, withStyle: .headline, size: _h2)
+        UIFont.heading3 = customDynamicFont(named: _heading, withStyle: .headline, size: _h3)
+        UIFont.heading4 = customDynamicFont(named: _heading, withStyle: .headline, size: _h4)
         
+        UIFont.body = customDynamicFont(named: _body, withStyle: .headline, size: _b1)
+        UIFont.body2 = customDynamicFont(named: _body, withStyle: .headline, size: _b2)
+        UIFont.body3 = customDynamicFont(named: _body, withStyle: .headline, size: _b3)
+        UIFont.body4 = customDynamicFont(named: _body, withStyle: .headline, size: _b4)
+        
+        UIFont.caption = customDynamicFont(named: _caption, withStyle: .headline , size: _c1)
+        UIFont.caption2 = customDynamicFont(named: _caption, withStyle: .headline, size: _c2)
+        UIFont.caption3 = customDynamicFont(named: _caption, withStyle: .headline, size: _c3)
+        UIFont.caption4 = customDynamicFont(named: _caption, withStyle: .headline, size: _c4)
     }
     
     static func sfProRounded(
@@ -136,6 +153,17 @@ public extension UIFont {
     func estimatedSize(for text: String) -> CGSize {
         let attributes = [NSAttributedString.Key.font : self]
         return (text as NSString).size(withAttributes: attributes)
+    }
+    
+    func _debugPrintAllFonts() {
+        for family: String in UIFont.familyNames
+        {
+            print(family)
+            for names: String in UIFont.fontNames(forFamilyName: family)
+            {
+                print("== \(names)")
+            }
+        }
     }
     
 }
