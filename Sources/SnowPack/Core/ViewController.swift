@@ -28,6 +28,7 @@ open class ViewController: UIViewController, Loading {
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
         headerBackgroundHeightConstraint = view.height(headerHeight + (SnowPackUI.topSafeAreaMetric ?? 0.0))
         view.width(screenWidth ?? self.view.bounds.width)
+        view.backgroundColor = .background
         return view
     }()
     
@@ -36,6 +37,7 @@ open class ViewController: UIViewController, Loading {
         let screenWidth = SnowPackUI.mainScreen?.bounds.width
         headerHeightConstraint = view.height(headerHeight)
         view.width(screenWidth ?? self.view.bounds.width)
+        view.backgroundColor = .background
         return view
     }()
     
