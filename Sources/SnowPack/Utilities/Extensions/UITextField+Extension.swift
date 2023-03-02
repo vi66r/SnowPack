@@ -18,7 +18,7 @@ public extension UITextField {
         case .left(let spacing):
             if let leftView = leftView {
                 leftView.frame = CGRect(origin: leftView.frame.origin,
-                                        size: .init(width: leftView.frame.width + spacing,
+                                        size: .init(width: leftView.frame.width + (spacing * 2.0),
                                                     height: leftView.frame.height))
                 return
             }
