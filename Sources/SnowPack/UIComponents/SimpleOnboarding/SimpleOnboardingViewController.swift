@@ -4,7 +4,11 @@ import UIKit
 
 open class SimpleOnboardingViewController: ViewController {
     
-    public var onboardingStages: [ViewController]
+    public var onboardingStages: [ViewController] {
+        didSet {
+            container.stages = onboardingStages
+        }
+    }
     
     lazy var container: LinearFlowViewController = {
         let container = LinearFlowViewController(stages: onboardingStages, axis: .horizontal, options: [.spineLocation : UIPageViewController.SpineLocation.min])
