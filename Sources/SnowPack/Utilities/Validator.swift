@@ -22,8 +22,8 @@ public enum ValidatorType {
     case age
 }
 
-public enum ValidatorFactory {
-    static func validatorFor(type: ValidatorType) -> ValidatorConvertible {
+public enum Validators {
+    public static func validatorFor(type: ValidatorType) -> ValidatorConvertible {
         switch type {
         case .email: return EmailValidator()
         case .password: return PasswordValidator()
