@@ -32,13 +32,8 @@ public extension UITextField {
             self.rightViewMode = .always
 
         case .equalSpacing(let spacing):
-            let equalPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: spacing, height: self.frame.height))
-            // left
-            self.leftView = equalPaddingView
-            self.leftViewMode = .always
-            // right
-            self.rightView = equalPaddingView
-            self.rightViewMode = .always
+            addPadding(padding: .left(spacing))
+            addPadding(padding: .right(spacing))
         }
     }
     
