@@ -30,6 +30,11 @@ open class SimpleOnboardingViewController: ViewController {
         super.viewDidLoad()
         addSubview(container.view)
         container.view.edgesToSuperview()
+        
+        container.flowStateUpdateAction = { [weak self] flowStage in
+            guard let flowStage = flowStage else { return }
+            self?.handleFlowStage(flowStage)
+        }
     }
     
     public func next() {
@@ -38,5 +43,9 @@ open class SimpleOnboardingViewController: ViewController {
     
     public func previous() {
         container.previous()
+    }
+    
+    open func handleFlowStage(_ flowStage: LinearFlowViewController.FlowStage) {
+        
     }
 }

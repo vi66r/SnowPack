@@ -118,6 +118,8 @@ open class LinearFlowViewController: UIPageViewController {
     
     public var showsIndicator: Bool = false
     public var indicatorPosition: IndicatorPosition = .bottom
+    
+    public var flowStateUpdateAction: RemoteTypedAction<FlowStage>?
     public var flowStage: FlowStage = .starting
     
     public var stages: [ViewController] = [] {
@@ -142,6 +144,7 @@ open class LinearFlowViewController: UIPageViewController {
     open func next() {
         guard !stages.isEmpty, currentPosition + 1 < stages.count else { return }
         currentPosition += 1
+        updateFlowStage()
         let target = stages[currentPosition]
         setViewControllers([target], direction: .forward, animated: true)
     }
@@ -149,7 +152,19 @@ open class LinearFlowViewController: UIPageViewController {
     open func previous() {
         guard !stages.isEmpty, currentPosition - 1 >= 0 else { return }
         currentPosition -= 1
+        updateFlowStage()
         let target = stages[currentPosition]
         setViewControllers([target], direction: .reverse, animated: true)
+    }
+    
+    private func updateFlowStage() {
+        switch currentPosition {
+        case 0:
+            flowStage = .starting
+        case stages.count - 1:
+            flowStage = .finished
+        default:
+            flowStage = .inProgress
+        }
     }
 }
