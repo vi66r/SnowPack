@@ -1,26 +1,26 @@
 import Darwin
 import UIKit
 
-final class DetentedModalContainerController: UIViewController, Haptic {
+public final class DetentedModalContainerController: UIViewController, Haptic {
     
-    enum Style {
+    public enum Style {
         case light
         case dark
         case black
     }
     
-    var preferredDefaultHeight: CGFloat?
+    public var preferredDefaultHeight: CGFloat?
     
-    var defaultHeight: CGFloat {
+    public var defaultHeight: CGFloat {
         (preferredDefaultHeight ?? UIScreen.main.bounds.height * 0.475) + 44.0
     }
     
-    var dismissibleHeight: CGFloat {
+    public var dismissibleHeight: CGFloat {
         defaultHeight * 0.75
     }
     
-    var preferredMaximumHeight: CGFloat?
-    var maximumContainerHeight: CGFloat {
+    public var preferredMaximumHeight: CGFloat?
+    public var maximumContainerHeight: CGFloat {
         (preferredMaximumHeight ?? UIScreen.main.bounds.height - 64) + 44.0
     }
     var stretchLimit: CGFloat {
@@ -76,7 +76,7 @@ final class DetentedModalContainerController: UIViewController, Haptic {
     var mainChildController: UIViewController
     var style: Style
     
-    init(
+    public init(
         _ viewController: UIViewController,
         _ style: Style = .light,
         _ preferredDefaultHeight: CGFloat? = nil,
@@ -100,7 +100,7 @@ final class DetentedModalContainerController: UIViewController, Haptic {
         fatalError("not implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
         setupConstraints()
@@ -114,7 +114,7 @@ final class DetentedModalContainerController: UIViewController, Haptic {
         animateDismissView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
         animateShowDimmedView()

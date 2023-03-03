@@ -1,6 +1,6 @@
 import UIKit
 
-extension UIViewController {
+public extension UIViewController {
     
     func presentOnTop(_ destinationViewController: UIViewController, animated: Bool) {
         if let presentedViewController = presentedViewController {
