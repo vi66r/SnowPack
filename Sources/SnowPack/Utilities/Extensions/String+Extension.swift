@@ -1,6 +1,6 @@
 import Foundation
 
-extension String {
+public extension String {
     func trimmingLeadingAndTrailingSpaces(using characterSet: CharacterSet = .whitespacesAndNewlines) -> String {
         return trimmingCharacters(in: characterSet)
     }
