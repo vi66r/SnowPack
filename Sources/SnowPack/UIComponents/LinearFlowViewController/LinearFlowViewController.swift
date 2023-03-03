@@ -136,6 +136,7 @@ open class LinearFlowViewController: UIPageViewController {
     public var stages: [ViewController] = [] {
         didSet {
             guard !stages.isEmpty else { return }
+            currentStage = stages.first!
             setViewControllers([stages.first!], direction: .forward, animated: true)
         }
     }
