@@ -106,7 +106,7 @@ open class LinearFlowViewController: UIPageViewController {
     public enum FlowStage: Int {
         case starting = -1
         case inProgress = 0
-        case finished = 1
+        case ending = 1
     }
     
     public enum IndicatorPosition {
@@ -120,7 +120,18 @@ open class LinearFlowViewController: UIPageViewController {
     public var indicatorPosition: IndicatorPosition = .bottom
     
     public var flowStateUpdateAction: RemoteTypedAction<FlowStage>?
-    public var flowStage: FlowStage = .starting
+    public var currentStageUpdateAction: RemoteTypedAction<ViewController>?
+    public var flowStage: FlowStage = .starting {
+        didSet {
+            flowStateUpdateAction?(flowStage)
+        }
+    }
+    
+    var currentStage: ViewController? {
+        didSet {
+            currentStageUpdateAction?(currentStage)
+        }
+    }
     
     public var stages: [ViewController] = [] {
         didSet {
@@ -147,6 +158,7 @@ open class LinearFlowViewController: UIPageViewController {
         updateFlowStage()
         let target = stages[currentPosition]
         setViewControllers([target], direction: .forward, animated: true)
+        currentStage = target
     }
     
     open func previous() {
@@ -155,6 +167,7 @@ open class LinearFlowViewController: UIPageViewController {
         updateFlowStage()
         let target = stages[currentPosition]
         setViewControllers([target], direction: .reverse, animated: true)
+        currentStage = target
     }
     
     private func updateFlowStage() {
@@ -162,7 +175,7 @@ open class LinearFlowViewController: UIPageViewController {
         case 0:
             flowStage = .starting
         case stages.count - 1:
-            flowStage = .finished
+            flowStage = .ending
         default:
             flowStage = .inProgress
         }

@@ -39,13 +39,19 @@ open class SimpleOnboardingViewController: ViewController {
     
     public func next() {
         container.next()
+        handleStageViewController(container.currentStage)
     }
     
     public func previous() {
         container.previous()
+        handleStageViewController(container.currentStage)
     }
     
     open func handleFlowStage(_ flowStage: LinearFlowViewController.FlowStage) {
+        
+    }
+    
+    open func handleStageViewController(_ viewController: ViewController?) {
         
     }
 }
