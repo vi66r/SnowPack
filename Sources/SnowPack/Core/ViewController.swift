@@ -174,6 +174,11 @@ open class ViewController: UIViewController, Loading {
             }
     }
     
+    public func setHeaderColor(_ color: UIColor) {
+        headerView.applyBackgroundColor(color)
+        headerBackground.applyBackgroundColor(color)
+    }
+    
     deinit {
         scrollViewObserver?.invalidate()
     }
