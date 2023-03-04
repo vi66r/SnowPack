@@ -58,4 +58,14 @@ public extension UIViewController {
         }
         presentationContainer.animateDismissView(done)
     }
+    
+    var dismiss: UIAction {
+        UIAction { [weak self] action in
+            if let parent = self?.parent {
+                parent.dismiss(animated: true)
+            } else {
+                self?.dismiss(animated: true)
+            }
+        }
+    }
 }
