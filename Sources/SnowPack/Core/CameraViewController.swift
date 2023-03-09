@@ -131,7 +131,7 @@ open class CameraViewController: ViewController {
     func setupPreviewLayer(){
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.videoGravity = previewMode == .fill ? .resizeAspectFill : .resizeAspect
-        view.layer.insertSublayer(previewLayer, below: switchCameraButton.layer)
+        view.layer.insertSublayer(previewLayer, below: contentView.layer)
         previewLayer.frame = self.view.layer.frame
     }
     
