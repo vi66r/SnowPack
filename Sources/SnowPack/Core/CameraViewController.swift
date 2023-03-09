@@ -190,7 +190,7 @@ extension CameraViewController {
         
         captureImageButton.heightWidth(50.0)
         captureImageButton.centerXToSuperview()
-        captureImageButton.bottomToSuperview(offset: 50.0)
+        captureImageButton.bottomToSuperview(offset: -50.0)
         
         switchCameraButton.heightWidth(44.0)
         switchCameraButton.trailingToSuperview(offset: 26.0)
