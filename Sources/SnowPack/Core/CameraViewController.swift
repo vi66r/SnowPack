@@ -37,6 +37,7 @@ open class CameraViewController: ViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        headerHeight = 0.0
         setupView()
     }
     
@@ -163,8 +164,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 extension CameraViewController {
     func setupView(){
        view.backgroundColor = .black
-       view.addSubview(switchCameraButton)
-       view.addSubview(captureImageButton)
+       addSubview(switchCameraButton)
+       addSubview(captureImageButton)
 //       view.addSubview(capturedImageView)
        
        NSLayoutConstraint.activate([
