@@ -38,6 +38,7 @@ open class CameraViewController: ViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         headerHeight = 0.0
+        setHeaderColor(.clear)
         setupView()
     }
     
