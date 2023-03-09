@@ -11,15 +11,14 @@ open class CameraViewController: ViewController {
     
     public var previewMode: PreviewMode
     
-    public var captureSession : AVCaptureSession!
+    public var cameraCaptured: RemoteTypedAction<UIImage>?
     
+    public var captureSession : AVCaptureSession!
     public var backCamera : AVCaptureDevice!
     public var frontCamera : AVCaptureDevice!
     public var backInput : AVCaptureInput!
     public var frontInput : AVCaptureInput!
-    
     public var previewLayer : AVCaptureVideoPreviewLayer!
-    
     public var videoOutput : AVCaptureVideoDataOutput!
     
     public var takePicture = false
@@ -85,7 +84,7 @@ open class CameraViewController: ViewController {
             self.captureSession.startRunning()
         }
     }
- 
+    
     func setupInputs(){
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
             backCamera = device
@@ -148,7 +147,7 @@ open class CameraViewController: ViewController {
             captureSession.addInput(backInput)
             backCameraOn = true
         }
-
+        
         videoOutput.connections.first?.videoOrientation = .portrait
         videoOutput.connections.first?.isVideoMirrored = !backCameraOn
         captureSession.commitConfiguration()
@@ -169,61 +168,56 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                               didOutput sampleBuffer: CMSampleBuffer,
                               from connection: AVCaptureConnection) {
         guard takePicture,
-        let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+              let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         else { return }
         
         let ciImage = CIImage(cvImageBuffer: cvBuffer)
         let uiImage = UIImage(ciImage: ciImage)
         
-        DispatchQueue.main.async {
-//            self.capturedImageView.image = uiImage
-            self.takePicture = false
+        DispatchQueue.main.async { [weak self] in
+            self?.cameraCaptured?(uiImage)
+            self?.takePicture = false
         }
     }
-        
+    
 }
 
 extension CameraViewController {
     func setupView(){
-       view.backgroundColor = .black
-       addSubview(switchCameraButton)
-       addSubview(captureImageButton)
-//       view.addSubview(capturedImageView)
-       
-       NSLayoutConstraint.activate([
-           switchCameraButton.widthAnchor.constraint(equalToConstant: 30),
-           switchCameraButton.heightAnchor.constraint(equalToConstant: 30),
-           switchCameraButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-           switchCameraButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-           
-           captureImageButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-           captureImageButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-           captureImageButton.widthAnchor.constraint(equalToConstant: 50),
-           captureImageButton.heightAnchor.constraint(equalToConstant: 50),
-        ])
-       
-       switchCameraButton.addTarget(self, action: #selector(switchCamera(_:)), for: .touchUpInside)
-       captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
+        view.backgroundColor = .black
+        addSubview(switchCameraButton)
+        addSubview(captureImageButton)
+        
+        captureImageButton.heightWidth(50.0)
+        captureImageButton.centerXToSuperview()
+        captureImageButton.bottomToSuperview(offset: 50.0)
+        
+        switchCameraButton.heightWidth(44.0)
+        switchCameraButton.trailingToSuperview(offset: 26.0)
+        switchCameraButton.centerX(to: captureImageButton)
+        
+        switchCameraButton.addTarget(self, action: #selector(switchCamera(_:)), for: .touchUpInside)
+        captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
     }
     
     //MARK:- Permissions
     func checkPermissions() {
         let cameraAuthStatus =  AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch cameraAuthStatus {
-          case .authorized:
+        case .authorized:
             return
-          case .denied:
+        case .denied:
             abort()
-          case .notDetermined:
+        case .notDetermined:
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:
-            { (authorized) in
-              if(!authorized){
-                abort()
-              }
+                                            { (authorized) in
+                if(!authorized){
+                    abort()
+                }
             })
-          case .restricted:
+        case .restricted:
             abort()
-          @unknown default:
+        @unknown default:
             fatalError()
         }
     }
