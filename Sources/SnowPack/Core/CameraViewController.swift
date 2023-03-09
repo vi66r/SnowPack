@@ -3,6 +3,14 @@ import TinyConstraints
 import UIKit
 
 open class CameraViewController: ViewController {
+    
+    public enum PreviewMode {
+        case fill
+        case fit
+    }
+    
+    public var previewMode: PreviewMode
+    
     public var captureSession : AVCaptureSession!
     
     public var backCamera : AVCaptureDevice!
@@ -34,6 +42,15 @@ open class CameraViewController: ViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    public init(previewMode: PreviewMode) {
+        self.previewMode = previewMode
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,6 +130,7 @@ open class CameraViewController: ViewController {
     
     func setupPreviewLayer(){
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer.videoGravity = previewMode == .fill ? .resizeAspectFill : .resizeAspect
         view.layer.insertSublayer(previewLayer, below: switchCameraButton.layer)
         previewLayer.frame = self.view.layer.frame
     }
