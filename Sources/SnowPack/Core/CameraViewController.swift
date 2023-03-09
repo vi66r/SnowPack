@@ -44,26 +44,29 @@ open class CameraViewController: ViewController {
     
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        checkPermissions()
-        Task { await setupAndStartCaptureSession() }
+        checkPermissions()
+        setupAndStartCaptureSession()
     }
     
-    func setupAndStartCaptureSession() async {
-        captureSession = AVCaptureSession()
-        captureSession.beginConfiguration()
-        if captureSession.canSetSessionPreset(.photo) {
-            captureSession.sessionPreset = .photo
+    func setupAndStartCaptureSession() {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            self.captureSession = AVCaptureSession()
+            self.captureSession.beginConfiguration()
+            
+            if self.captureSession.canSetSessionPreset(.photo) {
+                self.captureSession.sessionPreset = .photo
+            }
+            self.captureSession.automaticallyConfiguresCaptureDeviceForWideColor = true
+            
+            self.setupInputs()
+            
+            DispatchQueue.main.async { self.setupPreviewLayer() }
+            
+            self.setupOutput()
+            self.captureSession.commitConfiguration()
+            self.captureSession.startRunning()
         }
-        captureSession.automaticallyConfiguresCaptureDeviceForWideColor = true
-        setupInputs()
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.setupPreviewLayer()
-        }
-        
-        setupOutput()
-        captureSession.commitConfiguration()
-        captureSession.startRunning()
     }
  
     func setupInputs(){
