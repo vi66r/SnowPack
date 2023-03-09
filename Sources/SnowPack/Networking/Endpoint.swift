@@ -150,6 +150,20 @@ public struct Endpoint: RawRepresentable, Equatable {
         return URL(string: urlString)!
     }
     
+    public func multipartRequest(body: [String : String?] = [:], uploadName: String = "file") -> URLRequest {
+        var request: URLRequest
+        request = .multipartFormUploadRequest(url: url,
+                                              method: .post,
+                                              cachePolicy: cachePolicy,
+                                              timeoutInterval: timeout,
+                                              headers: headers,
+                                              httpBodyDictionary: body,
+                                              uploadItem: attachment,
+                                              uploadItemName: uploadName
+        )
+        return request
+    }
+    
     public func request(limit: Int? = nil, offset: Int? = nil) -> URLRequest {
         var request: URLRequest
         let targetURL: URL
