@@ -161,6 +161,7 @@ public struct Endpoint: RawRepresentable, Equatable {
                                               uploadItem: attachment,
                                               uploadItemName: uploadName
         )
+        request = api.authenticate(request)
         return request
     }
     
