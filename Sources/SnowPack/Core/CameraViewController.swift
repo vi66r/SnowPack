@@ -194,7 +194,7 @@ extension CameraViewController {
         
         switchCameraButton.heightWidth(44.0)
         switchCameraButton.trailingToSuperview(offset: 26.0)
-        switchCameraButton.centerX(to: captureImageButton)
+        switchCameraButton.centerY(to: captureImageButton)
         
         switchCameraButton.addTarget(self, action: #selector(switchCamera(_:)), for: .touchUpInside)
         captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
