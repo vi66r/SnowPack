@@ -150,16 +150,17 @@ public struct Endpoint: RawRepresentable, Equatable {
         return URL(string: urlString)!
     }
     
-    public func multipartRequest(body: [String : String?] = [:], uploadName: String = "file") -> URLRequest {
+    public func multipartRequest(body: [String : String?] = [:], uploadName: String = "file", mimeType: String = "img/png") -> URLRequest {
         var request: URLRequest
-        request = .multipartFormUploadRequest(url: url,
-                                              method: .post,
-                                              cachePolicy: cachePolicy,
-                                              timeoutInterval: timeout,
-                                              headers: headers,
-                                              httpBodyDictionary: body,
-                                              uploadItem: attachment,
-                                              uploadItemName: uploadName
+        request = .multipartRequest(url: url,
+                                    method: .post,
+                                    cachePolicy: cachePolicy,
+                                    timeoutInterval: timeout,
+                                    headers: headers,
+                                    httpBodyDictionary: body,
+                                    uploadItem: attachment,
+                                    uploadItemName: uploadName,
+                                    dataMimeType: mimeType
         )
         request = api.authenticate(request)
         return request

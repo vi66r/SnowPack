@@ -1,15 +1,17 @@
 import Foundation
 
-public struct MultipartRequest {
+struct MultipartRequest {
     private let boundary: String = UUID().uuidString
     private var httpBody = NSMutableData()
     let url: URL
+    let dataMimeType: String
 
-    public init(url: URL) {
+    init(url: URL, mimeType: String) {
         self.url = url
+        self.dataMimeType = mimeType
     }
 
-    public func addTextField(named name: String, value: String) {
+    func addTextField(named name: String, value: String) {
         httpBody.append(textFormField(named: name, value: value))
     }
 
@@ -24,7 +26,7 @@ public struct MultipartRequest {
         return fieldString
     }
 
-    public func addDataField(named name: String, data: Data, mimeType: String) {
+    func addDataField(named name: String, data: Data, mimeType: String) {
         httpBody.append(dataFormField(named: name, data: data, mimeType: mimeType))
     }
 
@@ -35,7 +37,7 @@ public struct MultipartRequest {
 
         fieldData.append("--\(boundary)\r\n")
         fieldData.append("Content-Disposition:form-data; name=\"\(name)\"; filename=\"upload.png\"\r\n")
-        fieldData.append("Content-Type: \"content-type header\"\r\n")
+        fieldData.append("Content-Type: \(dataMimeType)\r\n")
         fieldData.append("\r\n")
         fieldData.append(data)
         fieldData.append("\r\n")
@@ -43,7 +45,7 @@ public struct MultipartRequest {
         return fieldData as Data
     }
     
-    public func asURLRequest() -> URLRequest {
+    func asURLRequest() -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         httpBody.append("--\(boundary)--")
@@ -52,7 +54,7 @@ public struct MultipartRequest {
     }
 }
 
-public extension NSMutableData {
+extension NSMutableData {
   func append(_ string: String) {
     if let data = string.data(using: .utf8) {
       self.append(data)
@@ -60,7 +62,7 @@ public extension NSMutableData {
   }
 }
 
-public extension URLSession {
+extension URLSession {
     func dataTask(with request: MultipartRequest,
                   completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void)
     -> URLSessionDataTask {

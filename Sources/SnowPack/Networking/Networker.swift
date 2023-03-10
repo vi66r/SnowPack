@@ -201,7 +201,7 @@ public extension URLRequest {
         return request
     }
     
-    static func authenticatedMultipartFormUploadRequest(
+    static func authenticatedMultipartRequest(
         url: URL,
         method: Method = .patch,
         cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -209,9 +209,10 @@ public extension URLRequest {
         headers: [String : String] = [:],
         httpBodyDictionary: [String : String?] = [:],
         uploadItem: Data?,
-        uploadItemName: String?
+        uploadItemName: String?,
+        dataMimeType: String
     ) -> URLRequest {
-        var request = URLRequest.multipartFormUploadRequest(
+        var request = URLRequest.multipartRequest(
             url: url,
             method: method,
             cachePolicy: cachePolicy,
@@ -219,13 +220,14 @@ public extension URLRequest {
             headers: headers,
             httpBodyDictionary: httpBodyDictionary,
             uploadItem: uploadItem,
-            uploadItemName: uploadItemName
+            uploadItemName: uploadItemName,
+            dataMimeType: dataMimeType
         )
         request.authenticate()
         return request
     }
     
-    static func multipartFormUploadRequest(
+    static func multipartRequest(
         url: URL,
         method: Method = .patch,
         cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -233,16 +235,17 @@ public extension URLRequest {
         headers: [String : String] = [:],
         httpBodyDictionary: [String : String?] = [:],
         uploadItem: Data?,
-        uploadItemName: String?
+        uploadItemName: String?,
+        dataMimeType: String
     ) -> URLRequest {
-        let multipartRequest = MultipartRequest(url: url)
+        let multipartRequest = MultipartRequest(url: url, mimeType: dataMimeType)
         httpBodyDictionary.enumerated().forEach {
             if let value = $0.element.value {
                 multipartRequest.addTextField(named: $0.element.key, value: value)
             }
         }
         if let uploadItem = uploadItem, let uploadItemName = uploadItemName {
-            multipartRequest.addDataField(named: uploadItemName, data: uploadItem, mimeType: "img/png")
+            multipartRequest.addDataField(named: uploadItemName, data: uploadItem, mimeType: dataMimeType)
         }
         
         var request = multipartRequest.asURLRequest()
