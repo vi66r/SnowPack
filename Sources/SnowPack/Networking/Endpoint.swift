@@ -150,7 +150,7 @@ public struct Endpoint: RawRepresentable, Equatable {
         return URL(string: urlString)!
     }
     
-    public func multipartRequest(body: [String : String?] = [:], uploadName: String = "file", mimeType: String = "img/png") -> URLRequest {
+    public func multipartRequest(body: [String : String?] = [:], uploadItemName: String = "file", mimeType: String = "img/png", filename: String = "file") -> URLRequest {
         var request: URLRequest
         request = .multipartRequest(url: url,
                                     method: .post,
@@ -159,8 +159,9 @@ public struct Endpoint: RawRepresentable, Equatable {
                                     headers: headers,
                                     httpBodyDictionary: body,
                                     uploadItem: attachment,
-                                    uploadItemName: uploadName,
-                                    dataMimeType: mimeType
+                                    uploadItemName: uploadItemName,
+                                    dataMimeType: mimeType,
+                                    filename: filename
         )
         request = api.authenticate(request)
         return request

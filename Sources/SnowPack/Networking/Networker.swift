@@ -210,7 +210,8 @@ public extension URLRequest {
         httpBodyDictionary: [String : String?] = [:],
         uploadItem: Data?,
         uploadItemName: String?,
-        dataMimeType: String
+        dataMimeType: String,
+        filename: String
     ) -> URLRequest {
         var request = URLRequest.multipartRequest(
             url: url,
@@ -221,7 +222,8 @@ public extension URLRequest {
             httpBodyDictionary: httpBodyDictionary,
             uploadItem: uploadItem,
             uploadItemName: uploadItemName,
-            dataMimeType: dataMimeType
+            dataMimeType: dataMimeType,
+            filename: filename
         )
         request.authenticate()
         return request
@@ -236,7 +238,8 @@ public extension URLRequest {
         httpBodyDictionary: [String : String?] = [:],
         uploadItem: Data?,
         uploadItemName: String?,
-        dataMimeType: String
+        dataMimeType: String,
+        filename: String
     ) -> URLRequest {
         let multipartRequest = MultipartRequest(url: url, mimeType: dataMimeType)
         httpBodyDictionary.enumerated().forEach {
@@ -245,7 +248,10 @@ public extension URLRequest {
             }
         }
         if let uploadItem = uploadItem, let uploadItemName = uploadItemName {
-            multipartRequest.addDataField(named: uploadItemName, data: uploadItem, mimeType: dataMimeType)
+            multipartRequest.addDataField(named: uploadItemName,
+                                          data: uploadItem,
+                                          mimeType: dataMimeType,
+                                          filename: filename)
         }
         
         var request = multipartRequest.asURLRequest()
