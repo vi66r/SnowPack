@@ -56,6 +56,8 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     public var cellDefocused: Remote2DTypedAction<T, IndexPath>?
     public var cellRepositioned: Remote2DTypedAction<T, IndexPath>?
     
+    public var scrolled: RemoteAction?
+    
     public var prefetchAction: RemoteTypedAction<[IndexPath]>? {
         didSet { prefetchDataSource = self }
     }
@@ -244,6 +246,12 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         interitemSpacing
+    }
+    
+    // MARK: - ScrollViewDelegate
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrolled?()
     }
     
 //    // MARK: - UICollectionViewDragDelegate - TBD

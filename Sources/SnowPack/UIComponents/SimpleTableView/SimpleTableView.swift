@@ -24,6 +24,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
     public var cellDefocused: Remote2DTypedAction<T, IndexPath>?
     public var cellRepositioned: Remote2DTypedAction<T, IndexPath>?
     
+    public var scrolled: RemoteAction?
+    
     public var prefetchAction: RemoteTypedAction<[IndexPath]>? {
         didSet { prefetchDataSource = self }
     }
@@ -131,5 +133,10 @@ open class SimpleTableView<T: UIView & Hydratable>:
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? ContainerCell else { return }
         cellDidDisappear?(cell.mainView, indexPath)
+    }
+    
+    // MARK: - ScrollViewDelegate
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrolled?()
     }
 }
