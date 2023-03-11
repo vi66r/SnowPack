@@ -88,10 +88,12 @@ open class CameraViewController: ViewController {
     func setupInputs(){
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
             backCamera = device
+            backCamera.set(frameRate: 60.0)
         } else { fatalError("no back camera") }
         
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
             frontCamera = device
+            frontCamera.set(frameRate: 60.0)
         } else { fatalError("no front camera") }
         
         guard let bInput = try? AVCaptureDeviceInput(device: backCamera) else {
@@ -221,4 +223,23 @@ extension CameraViewController {
             fatalError()
         }
     }
+}
+
+extension AVCaptureDevice {
+    func set(frameRate: Double) {
+    guard let range = activeFormat.videoSupportedFrameRateRanges.first,
+        range.minFrameRate...range.maxFrameRate ~= frameRate
+        else {
+            print("Requested FPS is not supported by the device's activeFormat !")
+            return
+    }
+
+    do { try lockForConfiguration()
+        activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+        activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(frameRate))
+        unlockForConfiguration()
+    } catch {
+        print("LockForConfiguration failed with error: \(error.localizedDescription)")
+    }
+  }
 }
