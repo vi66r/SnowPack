@@ -1,6 +1,6 @@
 import UIKit
 
-public class Notifications {
+public class LocalNotification {
     
     public static func schedule(notification: UNMutableNotificationContent,
                                 for date: Date,
