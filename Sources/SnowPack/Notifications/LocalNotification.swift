@@ -48,7 +48,7 @@ public class LocalNotification {
 }
 
 public extension UNMutableNotificationContent {
-    func create(title: String, body: String) -> UNMutableNotificationContent {
+    static func create(title: String, body: String) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
