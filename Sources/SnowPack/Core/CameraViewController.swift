@@ -88,12 +88,12 @@ open class CameraViewController: ViewController {
     func setupInputs(){
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
             backCamera = device
-            backCamera.set(frameRate: 60.0)
+            backCamera.set(frameRate: 60)
         } else { fatalError("no back camera") }
         
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
             frontCamera = device
-            frontCamera.set(frameRate: 60.0)
+            frontCamera.set(frameRate: 60)
         } else { fatalError("no front camera") }
         
         guard let bInput = try? AVCaptureDeviceInput(device: backCamera) else {

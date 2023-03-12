@@ -41,7 +41,7 @@ public class BlurEffectView: UIView {
     
     private func setupPropertyAnimator() {
         propertyAnimator?.stopAnimation(true)
-        propertyAnimator = UIViewPropertyAnimator(duration: 1, curve: .linear)
+        propertyAnimator = UIViewPropertyAnimator(duration: 0.001, curve: .linear)
         propertyAnimator.addAnimations { [weak self] in
             self?.visualEffectView.effect = self?.effect
         }
