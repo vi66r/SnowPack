@@ -24,4 +24,11 @@ public extension UIImageView {
         NukeExtensions.loadImage(with: url, options: options, into: self)
     }
     
+    func fade(to image: UIImage?) {
+        UIView.transition(with: self,
+                          duration: 0.45,
+                          options: .transitionCrossDissolve,
+                          animations: { [weak self] in self?.image = image },
+                          completion: nil)
+    }
 }

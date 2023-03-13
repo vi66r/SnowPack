@@ -14,4 +14,14 @@ public extension UIImage {
         return response.image
     }
     
+    var base64Representation: String? {
+        self.jpegData(compressionQuality: 1.0)?.base64EncodedString()
+    }
+    
+    func fromBase64(_ string: String) -> UIImage? {
+        guard let imageData = Data(base64Encoded: string),
+              let image = UIImage(data: imageData)
+        else { return nil }
+        return image
+    }
 }
