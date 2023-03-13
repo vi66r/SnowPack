@@ -2,12 +2,12 @@ import Darwin
 import UIKit
 
 public protocol CustomAlerting {
-    var completionAction: RemoteTypedAction<Any> { get set }
-    var dismissalAction: RemoteTypedAction<Any> { get set }
-    var additionalActions: [String : RemoteTypedAction<Any>] { get set }
+    var completionAction: RemoteTypedAction<Any>? { get set }
+    var dismissalAction: RemoteTypedAction<Any>? { get set }
+    var additionalActions: [String : RemoteTypedAction<Any>]? { get set }
     
-    var _dismissalControllerAction: RemoteAction { get set }
-    var _completionControllerAction: RemoteAction { get set }
+    var _dismissalControllerAction: RemoteAction? { get set }
+    var _completionControllerAction: RemoteAction? { get set }
 }
 
 public class CustomAlertController: UIViewController {
