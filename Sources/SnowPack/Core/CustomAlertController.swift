@@ -1,7 +1,7 @@
 import Darwin
 import UIKit
 
-protocol CustomAlerting {
+public protocol CustomAlerting {
     var completionAction: RemoteTypedAction<Any> { get set }
     var dismissalAction: RemoteTypedAction<Any> { get set }
     var additionalActions: [String : RemoteTypedAction<Any>] { get set }
@@ -10,9 +10,9 @@ protocol CustomAlerting {
     var _completionControllerAction: RemoteAction { get set }
 }
 
-class CustomAlertController: UIViewController {
+public class CustomAlertController: UIViewController {
     
-    enum PresentationStyle {
+    public enum PresentationStyle {
         case slideInFromBottom
         case slideInFromTop
         case slideInFromLeft
@@ -21,7 +21,7 @@ class CustomAlertController: UIViewController {
 //        case popIn
     }
     
-    var customView: (UIView & CustomAlerting) {
+    public var customView: (UIView & CustomAlerting) {
         didSet {
             customView._dismissalControllerAction = { [weak self] in
                 self?.tappedOutside()
@@ -32,9 +32,9 @@ class CustomAlertController: UIViewController {
             }
         }
     }
-    let presentationStyle: PresentationStyle
-    var verticalOffset: NSLayoutConstraint?
-    var horizontalOffset: NSLayoutConstraint?
+    public let presentationStyle: PresentationStyle
+    public var verticalOffset: NSLayoutConstraint?
+    public var horizontalOffset: NSLayoutConstraint?
     
     lazy var background: UIView = {
         let view = UIView()
@@ -44,7 +44,7 @@ class CustomAlertController: UIViewController {
         return view
     }()
     
-    init(customView: UIView & CustomAlerting, presentationStyle: PresentationStyle) {
+    public init(customView: UIView & CustomAlerting, presentationStyle: PresentationStyle) {
         self.customView = customView
         self.presentationStyle = presentationStyle
         super.init(nibName: nil, bundle: nil)
@@ -62,11 +62,11 @@ class CustomAlertController: UIViewController {
         })
     }
     
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         view.addSubview(customView)
         verticalOffset = customView.centerYToSuperview()
         horizontalOffset = customView.centerXToSuperview()
@@ -85,7 +85,7 @@ class CustomAlertController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         animateTransition()
     }
