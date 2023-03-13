@@ -91,14 +91,15 @@ public class CustomAlertController: UIViewController {
     }
     
     func animateTransition() {
+        horizontalOffset?.constant = 0
+        verticalOffset?.constant = 0
         UIView.animate(withDuration: 0.25,
                        delay: 0.0,
                        usingSpringWithDamping: Darwin.M_E / .pi,
                        initialSpringVelocity: .pi / ((Darwin.M_E)**2.0),
                        options: .curveEaseInOut) { [weak self] in
-            self?.horizontalOffset?.constant = 0
-            self?.verticalOffset?.constant = 0
             self?.view.backgroundColor = .black.withAlphaComponent(.pi / ((Darwin.M_E)**2.0))
+            self?.view.setNeedsLayout()
         } completion: { done in
             // idk
         }

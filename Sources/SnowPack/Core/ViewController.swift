@@ -185,6 +185,7 @@ open class ViewController: UIViewController, Loading {
     
     public func presentCustomAlert(_ alertView: UIView & CustomAlerting) {
         let alert = CustomAlertController(customView: alertView, presentationStyle: .slideInFromBottom)
+        alert.modalPresentationStyle = .overFullScreen
         present(alert, animated: false)
     }
 }
