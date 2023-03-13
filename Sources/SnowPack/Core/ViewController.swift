@@ -183,8 +183,9 @@ open class ViewController: UIViewController, Loading {
         scrollViewObserver?.invalidate()
     }
     
-    public func presentCustomAlert(_ alertView: UIView) {
-        
+    public func presentCustomAlert(_ alertView: UIView & CustomAlerting) {
+        let alert = CustomAlertController(customView: alertView, presentationStyle: .slideInFromBottom)
+        present(alert, animated: false)
     }
 }
 
