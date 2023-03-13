@@ -276,7 +276,7 @@ public extension SimpleCollectionView {
     
     func spotlightCell(at indexPath: IndexPath, style: SpotlightStyle = .dim) {
         guard let cell = cellForItem(at: indexPath) as? ContainerCell,
-              let containedViewImage = cell.mainView.image,
+              let containedViewImage = cell.mainView.snapshot,
               let window = SnowPackUI.currentWindow
         else { return }
         

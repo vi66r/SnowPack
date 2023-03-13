@@ -3,7 +3,7 @@ import UIKit
 
 public extension UIView {
     
-    var image: UIImage? {
+    var snapshot: UIImage? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
         drawHierarchy(in: bounds, afterScreenUpdates: true)
         let image = UIGraphicsGetImageFromCurrentImageContext()

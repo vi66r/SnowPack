@@ -43,4 +43,22 @@ public extension UIImageView {
                           animations: { [weak self] in self?.image = image },
                           completion: nil)
     }
+    
+    func blur(with radius: CGFloat) {
+        guard var image = self.image,
+        let ciImage = CIImage(image: image)
+        else { return }
+        let blurredImage = UIImage(ciImage: ciImage.applyingGaussianBlur(sigma: radius).cropped(to: ciImage.extent))
+        let subImageView = UIImageView(image: blurredImage)
+        subImageView.accessibilityIdentifier = "Snowpack.Overlay.ImageBlur"
+        addSubview(subImageView)
+        subImageView.edgesToSuperview()
+    }
+    
+    func unblur() {
+        guard let blurredImage = subviews.first(where: {
+            $0.accessibilityIdentifier == "Snowpack.Overlay.ImageBlur"
+        }) else { return }
+        blurredImage.removeFromSuperview()
+    }
 }
