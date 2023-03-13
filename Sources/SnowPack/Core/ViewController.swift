@@ -182,5 +182,9 @@ open class ViewController: UIViewController, Loading {
     deinit {
         scrollViewObserver?.invalidate()
     }
+    
+    public func presentCustomAlert(_ alertView: UIView) {
+        
+    }
 }
 

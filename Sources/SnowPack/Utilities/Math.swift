@@ -1,14 +1,16 @@
-//
-//  File.swift
-//  
-//
-//  Created by Rafi Rizwan on 2/28/23.
-//
-
-import Foundation
-
-import Foundation
 import Accelerate
+import Darwin
+import Foundation
+
+infix operator ** : DefaultPrecedence
+
+func **(num: Double, power: Double) -> Double {
+    return (pow(Decimal(num), Int(power)) as NSDecimalNumber).doubleValue
+}
+
+func **(num: Int, power: Int) -> Double {
+    return (pow(Decimal(num), Int(power)) as NSDecimalNumber).doubleValue
+}
 
 /**
   Returns the index and value of the largest element in the array.

@@ -1,4 +1,5 @@
 @_exported import Combine
+@_exported import Darwin
 @_exported import Nuke
 @_exported import NukeExtensions
 @_exported import PhoneNumberKit
@@ -21,6 +22,14 @@ public struct SnowPackUI {
     
     static var bottomSafeAreaMetric: CGFloat? {
         SnowPackUI.currentWindow?.safeAreaInsets.bottom
+    }
+    
+    static var screenHeight: CGFloat? {
+        SnowPackUI.currentWindow?.screen.bounds.height
+    }
+    
+    static var screenWidth: CGFloat? {
+        SnowPackUI.currentWindow?.screen.bounds.width
     }
     
     static var mainScreen: UIScreen? {
