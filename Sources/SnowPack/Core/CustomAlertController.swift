@@ -49,11 +49,11 @@ public class CustomAlertController: UIViewController {
         self.presentationStyle = presentationStyle
         super.init(nibName: nil, bundle: nil)
         
-        customView._dismissalControllerAction = { [weak self] in
+        self.customView._dismissalControllerAction = { [weak self] in
             self?.tappedOutside()
         }
         
-        customView._completionControllerAction = { [weak self] in
+        self.customView._completionControllerAction = { [weak self] in
             self?.tappedOutside()
         }
         
