@@ -44,12 +44,20 @@ public extension UIImageView {
                           completion: nil)
     }
     
-    func blur(with radius: CGFloat,
+    func blur(with percentage: CGFloat,
               usingSnapshot: Bool = true,
               and: @escaping RemoteTypedAction<UIImageView> = { _ in }) {
         guard var image = usingSnapshot ? self.snapshot : self.image,
         let ciImage = CIImage(image: image)
         else { return }
+        
+        // a radius of 10 produces a good value for this size 525 × 810 pixels
+        // so let's do some math
+        
+        // let's start by taking the square root of the edges squared added
+        let normalizedArea = sqrt((ciImage.extent.width**2) + (ciImage.extent.height**2))
+        let radius = percentage/100 * normalizedArea
+        
         
         // Added "CIAffineClamp" filter
         let affineClampFilter = CIFilter(name: "CIAffineClamp")!
