@@ -99,7 +99,7 @@ public class CustomAlertController: UIViewController {
                        initialSpringVelocity: .pi / ((Darwin.M_E)**2.0),
                        options: .curveEaseInOut) { [weak self] in
             self?.view.backgroundColor = .black.withAlphaComponent(.pi / ((Darwin.M_E)**2.0))
-            self?.view.setNeedsLayout()
+            self?.customView.setNeedsLayout()
         } completion: { done in
             // idk
         }
