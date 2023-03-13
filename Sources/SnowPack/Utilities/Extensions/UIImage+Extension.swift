@@ -24,4 +24,16 @@ public extension UIImage {
         else { return nil }
         return image
     }
-}
+    
+    func save(with id: String) {
+        guard let base64 = base64Representation else { return }
+        UserDefaults.standard.set(base64, forKey: "snowpack.savedimage."+id)
+    }
+    
+    static func from(savedId: String) -> UIImage? {
+        guard let base64 = UserDefaults.standard.string(forKey: "snowpack.savedimage"+savedId),
+              let image = fromBase64(base64)
+        else { return nil }
+        return image
+    }
+ }
