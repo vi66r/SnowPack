@@ -12,6 +12,15 @@ public struct SnowPack {
     public init() {
         print("SnowPack Loaded. ❄️ \nLet's roll. ☃️")
     }
+    
+    static func registerSavedImage(_ id: String) {
+        if var existing = UserDefaults.standard.array(forKey: "snowpack.registeredimages") as? [String] {
+            existing.append(id)
+            UserDefaults.setValue(existing, forKey: "snowpack.registeredimages")
+        } else {
+            UserDefaults.setValue([id], forKey: "snowpack.registeredimages")
+        }
+    }
 }
 
 public struct SnowPackUI {

@@ -233,8 +233,8 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
             for: indexPath
         ) as? ContainerCell else { return UICollectionViewCell() }
         cell.tag = indexPath.row
-        cell.hydrate(with: target)
         cellAtIndexPath?(cell.mainView, indexPath)
+        cell.hydrate(with: target)
         return cell
     }
     
