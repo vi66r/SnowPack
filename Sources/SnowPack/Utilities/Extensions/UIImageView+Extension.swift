@@ -56,7 +56,7 @@ public extension UIImageView {
         
         // let's start by taking the square root of the edges squared added
         let normalizedArea = sqrt((ciImage.extent.width**2) + (ciImage.extent.height**2))
-        let radius = percentage/100 * normalizedArea
+        let radius = percentage/1000 * normalizedArea
         
         
         // Added "CIAffineClamp" filter
