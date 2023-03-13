@@ -17,7 +17,7 @@ final class Gradient: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradient.frame = frame
+        layer.insertSublayer(gradient, at: 0)
     }
-    
     
 }
