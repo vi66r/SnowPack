@@ -106,26 +106,25 @@ public class CustomAlertController: UIViewController {
     }
     
     func animateDismissalTransition(then: @escaping RemoteAction) {
+        
+        switch presentationStyle {
+        case .slideInFromBottom:
+            verticalOffset?.constant = SnowPackUI.screenHeight ?? 1000.0
+        case .slideInFromTop:
+            verticalOffset?.constant = -(SnowPackUI.screenHeight ?? 1000.0)
+        case .slideInFromLeft:
+            horizontalOffset?.constant = -(SnowPackUI.screenWidth ?? 1000.0)
+        case .slideInFromRight:
+            horizontalOffset?.constant = SnowPackUI.screenWidth ?? 1000.0
+        }
+        
         UIView.animate(withDuration: 0.25,
                        delay: 0.0,
                        usingSpringWithDamping: Darwin.M_E / .pi,
                        initialSpringVelocity: .pi / ((Darwin.M_E)**2.0),
                        options: .curveEaseInOut) { [weak self] in
-            switch self?.presentationStyle {
-            case .slideInFromBottom:
-                self?.verticalOffset?.constant = SnowPackUI.screenHeight ?? 1000.0
-            case .slideInFromTop:
-                self?.verticalOffset?.constant = -(SnowPackUI.screenHeight ?? 1000.0)
-            case .slideInFromLeft:
-                self?.horizontalOffset?.constant = -(SnowPackUI.screenWidth ?? 1000.0)
-            case .slideInFromRight:
-                self?.horizontalOffset?.constant = SnowPackUI.screenWidth ?? 1000.0
-    //        case .fadeIn, .popIn:
-    //            break
-            default:
-                break
-            }
             self?.view.backgroundColor = .black.withAlphaComponent(.pi / ((Darwin.M_E)**2.0))
+            self?.view.layoutSubviews()
         } completion: { done in
             then()
         }
