@@ -44,8 +44,8 @@ public extension UIImageView {
                           completion: nil)
     }
     
-    func blur(with radius: CGFloat) {
-        guard var image = self.image,
+    func blur(with radius: CGFloat, usingSnapshot: Bool = true) {
+        guard var image = usingSnapshot ? self.snapshot : self.image,
         let ciImage = CIImage(image: image)
         else { return }
         let blurredImage = UIImage(ciImage: ciImage.applyingGaussianBlur(sigma: radius).cropped(to: ciImage.extent))
