@@ -93,7 +93,7 @@ public class CustomAlertController: UIViewController {
     func animateTransition() {
         horizontalOffset?.constant = 0
         verticalOffset?.constant = 0
-        UIView.animate(withDuration: 0.25,
+        UIView.animate(withDuration: 0.35,
                        delay: 0.0,
                        usingSpringWithDamping: Darwin.M_E / .pi,
                        initialSpringVelocity: .pi / ((Darwin.M_E)**2.0),
@@ -118,7 +118,7 @@ public class CustomAlertController: UIViewController {
             horizontalOffset?.constant = SnowPackUI.screenWidth ?? 1000.0
         }
         
-        UIView.animate(withDuration: 0.25,
+        UIView.animate(withDuration: 0.35,
                        delay: 0.0,
                        usingSpringWithDamping: Darwin.M_E / .pi,
                        initialSpringVelocity: .pi / ((Darwin.M_E)**2.0),
