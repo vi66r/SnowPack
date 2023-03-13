@@ -1,7 +1,7 @@
 import Darwin
 import UIKit
 
-extension CGFloat {
+public extension CGFloat {
     
     static var magicSpringDampening: CGFloat {
         Darwin.M_E / .pi
