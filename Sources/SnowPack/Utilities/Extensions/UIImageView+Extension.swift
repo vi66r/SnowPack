@@ -44,7 +44,9 @@ public extension UIImageView {
                           completion: nil)
     }
     
-    func blur(with radius: CGFloat, usingSnapshot: Bool = true) {
+    func blur(with radius: CGFloat,
+              usingSnapshot: Bool = true,
+              and: @escaping RemoteTypedAction<UIImageView> = { _ in }) {
         guard var image = usingSnapshot ? self.snapshot : self.image,
         let ciImage = CIImage(image: image)
         else { return }
@@ -70,6 +72,7 @@ public extension UIImageView {
         
         let subImageView = UIImageView(image: blurredImage)
         subImageView.accessibilityIdentifier = "Snowpack.Overlay.ImageBlur"
+        and(subImageView)
         addSubview(subImageView)
         subImageView.edgesToSuperview()
     }
