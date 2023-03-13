@@ -11,7 +11,7 @@ public final class Gradient: UIView {
         if let locations = locations {
             gradient.locations = locations.map({ NSNumber(floatLiteral: $0) })
         }
-        layer.insertSublayer(gradient, at: 0)
+        layer.addSublayer(layer)
     }
     
     public required init?(coder: NSCoder) {
