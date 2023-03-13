@@ -14,7 +14,7 @@ public final class Gradient: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         gradient.frame = frame
         layer.insertSublayer(gradient, at: 0)
