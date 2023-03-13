@@ -48,7 +48,26 @@ public extension UIImageView {
         guard var image = usingSnapshot ? self.snapshot : self.image,
         let ciImage = CIImage(image: image)
         else { return }
-        let blurredImage = UIImage(ciImage: ciImage.applyingGaussianBlur(sigma: radius).cropped(to: ciImage.extent))
+        
+        // Added "CIAffineClamp" filter
+        let affineClampFilter = CIFilter(name: "CIAffineClamp")!
+        affineClampFilter.setDefaults()
+        affineClampFilter.setValue(ciImage, forKey: kCIInputImageKey)
+        let resultClamp = affineClampFilter.value(forKey: kCIOutputImageKey)
+
+        // resultClamp is used as input for "CIGaussianBlur" filter
+        let filter: CIFilter = CIFilter(name:"CIGaussianBlur")!
+        filter.setDefaults()
+        filter.setValue(resultClamp, forKey: kCIInputImageKey)
+        filter.setValue(radius, forKey: kCIInputRadiusKey)
+
+        let ciContext = CIContext(options: nil)
+        guard let result = filter.value(forKey: kCIOutputImageKey) as? CIImage,
+              let cgImage = ciContext.createCGImage(result, from: ciImage.extent)
+        else { return }
+
+        let blurredImage = UIImage(cgImage: cgImage)
+        
         let subImageView = UIImageView(image: blurredImage)
         subImageView.accessibilityIdentifier = "Snowpack.Overlay.ImageBlur"
         addSubview(subImageView)
