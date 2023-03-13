@@ -2,6 +2,24 @@ import UIKit
 
 public class LocalNotification {
     
+    static let allLocalNotificationsKey = "Snowpack.LocalNotification.All"
+    
+    static func setNotificationIDs(_ ids: [String]) {
+        let defaults = UserDefaults.standard
+        defaults.set(ids, forKey: allLocalNotificationsKey)
+    }
+    
+    public static func clearAll() {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
+    
+    public static func clearAllRegisteredNotifications() {
+        let defaults = UserDefaults.standard
+        guard let ids = defaults.object(forKey: allLocalNotificationsKey) as? [String] else { return }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
+    }
+    
     public static func schedule(notification: UNMutableNotificationContent,
                                 for date: Date,
                                 repeating: Bool = false) async throws {
@@ -43,6 +61,8 @@ public class LocalNotification {
         for request in requests {
             try await notificationCenter.add(request)
         }
+        
+        setNotificationIDs(uuids)
     }
     
 }
