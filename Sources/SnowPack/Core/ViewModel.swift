@@ -6,7 +6,7 @@ open class ViewModel {
     public let initialLoadEvent = PassthroughSubject<Void, Never>()
     public let refreshEvent = PassthroughSubject<Void, Never>()
     public let navigationEvent = PassthroughSubject<UIViewController, Never>()
-    public var cancellablse = Set<AnyCancellable>()
+    public var cancellables = Set<AnyCancellable>()
     public init() {}
     
     public func requestRefresh() {
