@@ -20,7 +20,7 @@ public final class Gradient: UIView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        gradient.frame = frame
+        gradient.frame = bounds
     }
     
 }
