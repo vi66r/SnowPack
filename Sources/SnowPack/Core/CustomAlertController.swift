@@ -49,6 +49,14 @@ public class CustomAlertController: UIViewController {
         self.presentationStyle = presentationStyle
         super.init(nibName: nil, bundle: nil)
         
+        customView._dismissalControllerAction = { [weak self] in
+            self?.tappedOutside()
+        }
+        
+        customView._completionControllerAction = { [weak self] in
+            self?.tappedOutside()
+        }
+        
         view.backgroundColor = .black.withAlphaComponent(0.0)
         
         let gestureRecognizer = UITapGestureRecognizer()
