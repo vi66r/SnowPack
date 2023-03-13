@@ -131,7 +131,7 @@ public class CustomAlertController: UIViewController {
                        usingSpringWithDamping: Darwin.M_E / .pi,
                        initialSpringVelocity: .pi / ((Darwin.M_E)**2.0),
                        options: .curveEaseInOut) { [weak self] in
-            self?.view.backgroundColor = .black.withAlphaComponent(.pi / ((Darwin.M_E)**2.0))
+            self?.view.backgroundColor = .black.withAlphaComponent(0.0)
             self?.view.layoutSubviews()
         } completion: { done in
             then()
