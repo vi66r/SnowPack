@@ -71,6 +71,7 @@ public extension UIImageView {
         let blurredImage = UIImage(cgImage: cgImage)
         
         let subImageView = UIImageView(image: blurredImage)
+        subImageView.contentMode = contentMode
         subImageView.accessibilityIdentifier = "Snowpack.Overlay.ImageBlur"
         and(subImageView)
         addSubview(subImageView)
