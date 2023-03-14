@@ -122,6 +122,7 @@ open class ViewController: UIViewController, Loading {
         case is SimpleWebViewController:
             let navigationController = NavigationController(rootViewController: viewController)
             navigationController.modalPresentationStyle = .overFullScreen
+            navigationController.addDismissButton()
             present(navigationController, animated: true)
         default:
             if let navigationController = navigationController {
