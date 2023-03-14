@@ -15,6 +15,7 @@ public extension UIView {
         addSubview(overlay)
         overlay.edgesToSuperview()
         activityIndicator.startAnimating()
+        activityIndicator.color = .textBrand
         UIView.animate(withDuration: 0.2) {
             overlay.alpha = 1.0
         }
