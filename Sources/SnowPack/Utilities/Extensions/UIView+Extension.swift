@@ -3,6 +3,34 @@ import UIKit
 
 public extension UIView {
     
+    @discardableResult
+    func addActivityIndicatorToCenter<T: UIView>() -> T {
+        let activityIndicator = UIActivityIndicatorView()
+        let overlay = UIView()
+        overlay.accessibilityIdentifier = "Snowpack.UIViewActivityIndicator"
+        overlay.applyBackgroundColor(.black.withAlphaComponent(0.35))
+        overlay.alpha = 0.0
+        overlay.addSubview(activityIndicator)
+        activityIndicator.centerInSuperview()
+        addSubview(overlay)
+        overlay.edgesToSuperview()
+        UIView.animate(withDuration: 0.2) {
+            overlay.alpha = 1.0
+        }
+        return self as! T
+    }
+    
+    @discardableResult
+    func removeActivityIndicatorAtCenter<T: UIView>() -> T {
+        let activityOverlay = subviews.first(where: { $0.accessibilityIdentifier == "Snowpack.UIViewActivityIndicator" })
+        UIView.animate(withDuration: 0.2) {
+            activityOverlay?.alpha = 0.0
+        } completion: { done in
+            activityOverlay?.removeFromSuperview()
+        }
+        return self as! T
+    }
+    
     var snapshot: UIImage? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
         drawHierarchy(in: bounds, afterScreenUpdates: true)
