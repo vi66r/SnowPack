@@ -14,6 +14,7 @@ public extension UIView {
         activityIndicator.centerInSuperview()
         addSubview(overlay)
         overlay.edgesToSuperview()
+        activityIndicator.startAnimating()
         UIView.animate(withDuration: 0.2) {
             overlay.alpha = 1.0
         }
