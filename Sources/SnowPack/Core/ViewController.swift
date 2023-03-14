@@ -220,6 +220,7 @@ extension ViewController: MFMessageComposeViewControllerDelegate {
         @unknown default:
             break
         }
+        controller.dismiss(animated: true)
     }
 }
 
