@@ -1,3 +1,4 @@
+import MessageUI
 import Combine
 import UIKit
 
@@ -187,6 +188,38 @@ open class ViewController: UIViewController, Loading {
         let alert = CustomAlertController(customView: alertView, presentationStyle: .slideInFromBottom)
         alert.modalPresentationStyle = .overFullScreen
         present(alert, animated: false)
+    }
+    
+    public func shareViaMessages(_ message: String, with numbers: [String]) {
+        let messageViewController = MFMessageComposeViewController()
+        messageViewController.messageComposeDelegate = self
+        
+        messageViewController.recipients = numbers
+        messageViewController.body = "I love Swift!"
+        
+        if MFMessageComposeViewController.canSendText() {
+            self.present(messageViewController, animated: true, completion: nil)
+        } else {
+            print("Can't send messages.")
+        }
+    }
+    
+    open func sentMessageWithSuccess(_ success: Bool) {
+        print("you're supposed to override this, but if you don't need to, that's okay too")
+    }
+}
+
+extension ViewController: MFMessageComposeViewControllerDelegate {
+    public func messageComposeViewController(_ controller: MFMessageComposeViewController,
+                                             didFinishWith result: MessageComposeResult) {
+        switch result {
+        case .cancelled, .failed:
+            sentMessageWithSuccess(false)
+        case .sent:
+            sentMessageWithSuccess(true)
+        @unknown default:
+            break
+        }
     }
 }
 
