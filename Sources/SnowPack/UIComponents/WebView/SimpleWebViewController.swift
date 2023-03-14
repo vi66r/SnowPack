@@ -25,6 +25,14 @@ final class SimpleWebViewController: UIViewController {
         fatalError("not implemented")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     override func viewDidLoad() {
         view.addSubview(webView)
         renderLayout()
