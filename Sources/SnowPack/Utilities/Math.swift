@@ -4,11 +4,11 @@ import Foundation
 
 infix operator ** : DefaultPrecedence
 
-func **(num: Double, power: Double) -> Double {
+public func **(num: Double, power: Double) -> Double {
     return (pow(Decimal(num), Int(power)) as NSDecimalNumber).doubleValue
 }
 
-func **(num: Int, power: Int) -> Double {
+public func **(num: Int, power: Int) -> Double {
     return (pow(Decimal(num), Int(power)) as NSDecimalNumber).doubleValue
 }
 
