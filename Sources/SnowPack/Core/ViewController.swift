@@ -190,12 +190,12 @@ open class ViewController: UIViewController, Loading {
         present(alert, animated: false)
     }
     
-    public func shareViaMessages(_ message: String, with numbers: [String]) {
+    public func shareViaMessages(_ message: TextableMessage) {
         let messageViewController = MFMessageComposeViewController()
         messageViewController.messageComposeDelegate = self
         
-        messageViewController.recipients = numbers
-        messageViewController.body = "I love Swift!"
+        messageViewController.recipients = message.recepients
+        messageViewController.body = message.message
         
         if MFMessageComposeViewController.canSendText() {
             self.present(messageViewController, animated: true, completion: nil)
