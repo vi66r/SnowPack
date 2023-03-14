@@ -18,4 +18,10 @@ open class ViewModel {
     public func requestInitialLoad() {
         initialLoadEvent.send()
     }
+    
+    public func openWebpage(_ urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        let webViewController = SimpleWebViewController(url)
+        navigationEvent.send(webViewController)
+    }
 }
