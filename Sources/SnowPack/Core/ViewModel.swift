@@ -3,10 +3,12 @@ import UIKit
 
 /// Base class that implements common functionality of all ViewModels
 open class ViewModel {
+    public let sharingViaMessageEvent = PassthroughSubject<TextableMessage, Never>()
     public let initialLoadEvent = PassthroughSubject<Void, Never>()
     public let refreshEvent = PassthroughSubject<Void, Never>()
     public let navigationEvent = PassthroughSubject<UIViewController, Never>()
     public var cancellables = Set<AnyCancellable>()
+    
     public init() {}
     
     public func requestRefresh() {
