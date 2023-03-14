@@ -9,7 +9,8 @@ open class ViewController: UIViewController, Loading {
     public var isLoading = CurrentValueSubject<Bool, Never>(false)
     
     private(set) var navigationBarHidden: Bool = false
-    
+    var popRecognizer: InteractivePopRecognizer?
+
     public var headerHeight: CGFloat = 44.0 {
         didSet {
             guard isViewLoaded else { return }
@@ -77,6 +78,7 @@ open class ViewController: UIViewController, Loading {
             contentView.centerXToSuperview()
             contentView.topToBottom(of: headerView)
             contentView.bottomToSuperview()
+            setInteractiveRecognizer()
         }
         
         // Do any additional setup after loading the view.
@@ -211,6 +213,12 @@ open class ViewController: UIViewController, Loading {
     
     open func sentMessageWithSuccess(_ success: Bool) {
         print("you're supposed to override this, but if you don't need to, that's okay too")
+    }
+    
+    private func setInteractiveRecognizer() {
+        guard let controller = navigationController else { return }
+        popRecognizer = InteractivePopRecognizer(controller: controller)
+        controller.interactivePopGestureRecognizer?.delegate = popRecognizer
     }
 }
 
