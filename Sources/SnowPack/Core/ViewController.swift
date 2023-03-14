@@ -119,11 +119,11 @@ open class ViewController: UIViewController, Loading {
         switch viewController {
         case is UIActivityViewController, is UIAlertController:
             present(viewController, animated: true)
-        case is SimpleWebViewController:
-            let navigationController = NavigationController(rootViewController: viewController)
-            navigationController.modalPresentationStyle = .overFullScreen
-            navigationController.addDismissButton()
-            present(navigationController, animated: true)
+//        case is SimpleWebViewController:
+//            let navigationController = NavigationController(rootViewController: viewController)
+//            navigationController.modalPresentationStyle = .overFullScreen
+//            navigationController.addDismissButton()
+//            present(navigationController, animated: true)
         default:
             if let navigationController = navigationController {
                 navigationController.pushViewController(viewController, animated: true)
