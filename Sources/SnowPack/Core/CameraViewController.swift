@@ -10,6 +10,7 @@ open class CameraViewController: ViewController {
     }
     
     public var previewMode: PreviewMode
+    public var startWithFrontFacingCamera: Bool
     
     public var cameraCaptured: RemoteTypedAction<UIImage>?
     
@@ -42,7 +43,8 @@ open class CameraViewController: ViewController {
         return button
     }()
     
-    public init(previewMode: PreviewMode) {
+    public init(previewMode: PreviewMode, startWithFrontFacingCamera: Bool = false) {
+        self.startWithFrontFacingCamera = startWithFrontFacingCamera
         self.previewMode = previewMode
         super.init(nibName: nil, bundle: nil)
     }
@@ -112,7 +114,7 @@ open class CameraViewController: ViewController {
             fatalError("could not add front camera input to capture session")
         }
         
-        captureSession.addInput(backInput)
+        captureSession.addInput(startWithFrontFacingCamera ? frontInput : backInput)
     }
     
     func setupOutput(){
