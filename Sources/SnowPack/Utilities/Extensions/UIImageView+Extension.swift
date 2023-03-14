@@ -47,7 +47,7 @@ public extension UIImageView {
     func blur(with percentage: CGFloat,
               usingSnapshot: Bool = true,
               and: @escaping RemoteTypedAction<UIImageView> = { _ in }) {
-        guard var image = usingSnapshot ? self.snapshot : self.image,
+        guard let image = usingSnapshot ? self.snapshot : self.image,
         let ciImage = CIImage(image: image)
         else { return }
         

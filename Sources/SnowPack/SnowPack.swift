@@ -34,11 +34,11 @@ public struct SnowPackUI {
     }
     
     public static var screenHeight: CGFloat? {
-        SnowPackUI.currentWindow?.screen.bounds.height
+        SnowPackUI.mainScreen?.bounds.height
     }
     
     public static var screenWidth: CGFloat? {
-        SnowPackUI.currentWindow?.screen.bounds.width
+        SnowPackUI.mainScreen?.bounds.width
     }
     
     public static var mainScreen: UIScreen? {
