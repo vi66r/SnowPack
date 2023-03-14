@@ -122,7 +122,7 @@ open class ViewController: UIViewController, Loading {
         case is SimpleWebViewController:
             let navigationController = NavigationController(rootViewController: viewController)
             navigationController.modalPresentationStyle = .overFullScreen
-            present(viewController, animated: true)
+            present(navigationController, animated: true)
         default:
             if let navigationController = navigationController {
                 navigationController.pushViewController(viewController, animated: true)
