@@ -131,7 +131,6 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     
     public func addRefreshControl() {
         alwaysBounceVertical = true
-        alwaysBounceHorizontal = true
         refreshControl = UIRefreshControl()
         refreshControl?.tintColor = .textBrand
         refreshControl?.addTarget(self, action: #selector(requestedRefresh), for: .valueChanged)
