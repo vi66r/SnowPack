@@ -47,6 +47,8 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     
     public var approachingEnd: RemoteAction?
     
+    public var refreshRequested: RemoteAction?
+    
     public var cellAtIndexPath: Remote2DTypedAction<T, IndexPath>?
     public var cellWillAppear: Remote2DTypedAction<T, IndexPath>?
     public var cellDidDisappear: Remote2DTypedAction<T, IndexPath>?
@@ -125,6 +127,24 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func addRefreshControl() {
+        alwaysBounceVertical = true
+        alwaysBounceHorizontal = true
+        refreshControl = UIRefreshControl()
+        refreshControl?.tintColor = .textBrand
+        refreshControl?.addTarget(self, action: #selector(requestedRefresh), for: .valueChanged)
+        addSubview(refreshControl!)
+    }
+    
+    public func endRefreshing() {
+        refreshControl?.endRefreshing()
+    }
+    
+    @objc func requestedRefresh() {
+        refreshControl?.beginRefreshing()
+        refreshRequested?()
     }
     
     /// A declarative method for updating elements of the collection view at the specified indices. Using this method will animate the changes at specific rows
