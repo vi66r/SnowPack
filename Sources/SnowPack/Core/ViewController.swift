@@ -119,6 +119,9 @@ open class ViewController: UIViewController, Loading {
         switch viewController {
         case is UIActivityViewController, is UIAlertController:
             present(viewController, animated: true)
+        case is SimpleWebViewController:
+            viewController.modalPresentationStyle = .overFullScreen
+            present(viewController, animated: true)
         default:
             if let navigationController = navigationController {
                 navigationController.pushViewController(viewController, animated: true)
