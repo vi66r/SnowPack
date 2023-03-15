@@ -3,11 +3,14 @@ import UIKit
 
 /// Base class that implements common functionality of all ViewModels
 open class ViewModel {
-    public let sharingViaMessageEvent = PassthroughSubject<TextableMessage, Never>()
-    public let initialLoadEvent = PassthroughSubject<Void, Never>()
-    public let refreshEvent = PassthroughSubject<Void, Never>()
-    public let navigationEvent = PassthroughSubject<UIViewController, Never>()
     public var cancellables = Set<AnyCancellable>()
+    
+    @Event<TextableMessage> public var sharingViaMessageEvent
+    @Event public var initialLoadEvent
+    @Event public var refreshEvent
+    @Event<UIViewController> var navigationEvent
+    
+    @StreamingEvent(value: false) public var loading
     
     public init() {}
     
@@ -23,5 +26,21 @@ open class ViewModel {
         guard let url = URL(string: urlString) else { return }
         let webViewController = SimpleWebViewController(url)
         navigationEvent.send(webViewController)
+    }
+    
+    public func subscribe<T>(to subject: PassthroughSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        subject.sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribeOnMain<T>(to subject: PassthroughSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        subject.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribe<T>(to stream: CurrentValueSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        stream.sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribeOnMain<T>(to stream: CurrentValueSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        stream.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
     }
 }

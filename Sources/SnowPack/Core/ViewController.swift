@@ -6,7 +6,7 @@ import UIKit
 open class ViewController: UIViewController, Loading {
     public var cancellables = Set<AnyCancellable>()
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
-    public var isLoading = CurrentValueSubject<Bool, Never>(false)
+    @StreamingEvent(value: false) public var isLoading
     
     private(set) var navigationBarHidden: Bool = false
     var popRecognizer: InteractivePopRecognizer?
@@ -219,6 +219,22 @@ open class ViewController: UIViewController, Loading {
         guard let controller = navigationController else { return }
         popRecognizer = InteractivePopRecognizer(controller: controller)
         controller.interactivePopGestureRecognizer?.delegate = popRecognizer
+    }
+    
+    public func subscribe<T>(to subject: PassthroughSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        subject.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribeInBackground<T>(to subject: PassthroughSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        subject.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribe<T>(to stream: CurrentValueSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        stream.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribeInBackground<T>(to stream: CurrentValueSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        stream.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
     }
 }
 
