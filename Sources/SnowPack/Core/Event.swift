@@ -8,7 +8,7 @@ public struct Event<T> {
     public init() { wrappedValue = PassthroughSubject<T, Never>() }
 }
 
-extension Event where T == Void {
+public extension Event where T == Void {
     init() { wrappedValue = PassthroughSubject<Void, Never>() }
 }
 
