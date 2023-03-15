@@ -38,15 +38,19 @@ public struct UIThreaded {
 public struct Delayed {
     
     var action: RemoteAction?
+    var milliseconds: Int
     
     public var wrappedValue: RemoteAction {
         get {{
-            DispatchQueue.main.async { action?() }
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(milliseconds), execute: {
+                action?()
+            })
         }}
         set { action = newValue }
     }
     
-    public init(wrappedValue: @escaping RemoteAction) {
+    public init(wrappedValue: @escaping RemoteAction, _ delay: Int) {
+        milliseconds = delay
         self.wrappedValue = wrappedValue
     }
     
