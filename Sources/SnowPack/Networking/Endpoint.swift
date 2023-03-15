@@ -215,4 +215,8 @@ public struct Endpoint: RawRepresentable, Equatable {
         self.cachePolicy = cachePolicy
         return self
     }
+    
+    func run<T: Decodable>() async throws -> T {
+        return try await Networker.execute(self)
+    }
 }
