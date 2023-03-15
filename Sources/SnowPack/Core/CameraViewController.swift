@@ -47,6 +47,7 @@ open class CameraViewController: ViewController {
         self.startWithFrontFacingCamera = startWithFrontFacingCamera
         self.previewMode = previewMode
         super.init(nibName: nil, bundle: nil)
+        backCameraOn = !startWithFrontFacingCamera
     }
     
     required public init?(coder: NSCoder) {
