@@ -8,7 +8,7 @@ open class ViewModel {
     @Event<TextableMessage> public var sharingViaMessageEvent
     @Event public var initialLoadEvent
     @Event public var refreshEvent
-    @Event<UIViewController> var navigationEvent
+    @Event<UIViewController> public var navigationEvent
     
     @StreamingEvent(value: false) public var loading
     
