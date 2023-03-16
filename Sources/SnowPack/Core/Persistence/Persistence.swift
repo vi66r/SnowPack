@@ -1,4 +1,14 @@
 import CoreData
+import UIKit
+
+@propertyWrapper
+public struct ImageConvertible {
+    public var wrappedValue: UIImage?
+    
+    public init(_ data: Data) {
+        self.wrappedValue = UIImage(data: data)
+    }
+}
 
 protocol Persisting {
     
