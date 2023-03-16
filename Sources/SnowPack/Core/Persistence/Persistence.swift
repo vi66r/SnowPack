@@ -5,7 +5,7 @@ import UIKit
 public struct ImageConvertible {
     public var wrappedValue: UIImage?
     
-    public init(_ data: Data) {
+    public init(_ data: Data? = nil) {
         self.wrappedValue = UIImage(data: data)
     }
 }
