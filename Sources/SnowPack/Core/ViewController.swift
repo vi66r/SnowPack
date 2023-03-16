@@ -236,6 +236,14 @@ open class ViewController: UIViewController, Loading {
     public func subscribeInBackground<T>(to stream: CurrentValueSubject<T, Never>, performing: @escaping ((T) -> Void)) {
         stream.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
     }
+    
+    public func goBack() {
+        if let navigationController = navigationController {
+            navigationController.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
+    }
 }
 
 extension ViewController: MFMessageComposeViewControllerDelegate {
