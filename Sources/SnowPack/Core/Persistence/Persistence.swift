@@ -3,10 +3,14 @@ import UIKit
 
 @propertyWrapper
 public struct ImageConvertible {
-    public var wrappedValue: UIImage?
+    var _data: Data?
+    public var wrappedValue: UIImage? {
+        guard let data = _data else { return nil }
+        return UIImage(data: data)
+    }
     
     public init(_ data: Data? = nil) {
-        self.wrappedValue = UIImage(data: data)
+        _data = data
     }
 }
 
