@@ -1,6 +1,32 @@
 import CoreData
 import UIKit
 
+protocol PersistenceRegisgtrar {
+    var persistentContainer: NSPersistentContainer { get }
+    var primaryContext: NSManagedObjectContext? { get }
+}
+
+extension PersistenceRegisgtrar {
+    
+    var primaryContext: NSManagedObjectContext? {
+        persistentContainer.viewContext
+    }
+    
+}
+
+@propertyWrapper
+public struct Managed<T: NSManagedObject> {
+    public var wrappedValue: T?
+    
+    public init() {
+        wrappedValue = nil
+    }
+    
+    public var request: NSFetchRequest<NSFetchRequestResult> {
+        T.fetchRequest()
+    }
+}
+
 @propertyWrapper
 public struct ImageConvertible {
     var _data: Data?
