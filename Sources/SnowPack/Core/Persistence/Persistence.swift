@@ -1,21 +1,19 @@
 import CoreData
 import UIKit
 
-protocol PersistenceRegisgtrar {
+protocol Container {
     var persistentContainer: NSPersistentContainer { get }
     var primaryContext: NSManagedObjectContext? { get }
 }
 
-extension PersistenceRegisgtrar {
-    
+extension Container {
     var primaryContext: NSManagedObjectContext? {
         persistentContainer.viewContext
     }
-    
 }
 
 @propertyWrapper
-public struct LocalDataRequest<T: NSManagedObject> {
+public struct ManagedRequest<T: NSManagedObject> {
     public let sortDescriptors: [NSSortDescriptor]
     
     public var wrappedValue: NSFetchRequest<T> {
@@ -26,6 +24,21 @@ public struct LocalDataRequest<T: NSManagedObject> {
     
     public init(sortDescriptors: [NSSortDescriptor] = []) {
         self.sortDescriptors = sortDescriptors
+    }
+}
+
+@propertyWrapper
+public struct Managed<T: NSManagedObject> {
+    var context: NSManagedObjectContext
+    
+    public var wrappedValue: [T]? {
+        @ManagedRequest<T> var request
+        let results = try? context.fetch(request)
+        return results
+    }
+    
+    public init(context: NSManagedObjectContext) {
+        self.context = context
     }
 }
 
