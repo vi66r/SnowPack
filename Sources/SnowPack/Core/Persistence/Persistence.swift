@@ -15,15 +15,17 @@ extension PersistenceRegisgtrar {
 }
 
 @propertyWrapper
-public struct Managed<T: NSManagedObject> {
-    public var wrappedValue: T?
+public struct LocalDataRequest<T: NSManagedObject> {
+    public let sortDescriptors: [NSSortDescriptor]
     
-    public init() {
-        wrappedValue = nil
+    public var wrappedValue: NSFetchRequest<T> {
+        let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+        fetchRequest.sortDescriptors = sortDescriptors
+        return fetchRequest
     }
     
-    public var request: NSFetchRequest<NSFetchRequestResult> {
-        T.fetchRequest()
+    public init(sortDescriptors: [NSSortDescriptor] = []) {
+        self.sortDescriptors = sortDescriptors
     }
 }
 
