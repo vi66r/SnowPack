@@ -30,14 +30,16 @@ public struct ManagedRequest<T: NSManagedObject> {
 @propertyWrapper
 public struct Managed<T: NSManagedObject> {
     var context: NSManagedObjectContext
+    var sortDescriptors: [NSSortDescriptor]
     
     public var wrappedValue: [T]? {
-        @ManagedRequest<T> var request
+        @ManagedRequest<T>(sortDescriptors: sortDescriptors) var request
         let results = try? context.fetch(request)
         return results
     }
     
-    public init(context: NSManagedObjectContext) {
+    public init(context: NSManagedObjectContext, sortDescriptors: [NSSortDescriptor] = []) {
+        self.sortDescriptors = sortDescriptors
         self.context = context
     }
 }
