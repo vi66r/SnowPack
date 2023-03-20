@@ -133,7 +133,7 @@ public class LocalNotification {
             
             while calendar.component(.hour, from: nextTriggerDate) >= startHour,
                   calendar.component(.hour, from: nextTriggerDate) < endHour {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(intervalMinutes * 60), repeats: false)
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(intervalMinutes * 60), repeats: repeating)
                 
                 let content = notification
                 
