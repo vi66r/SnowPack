@@ -127,18 +127,17 @@ public class LocalNotification {
             dateComponents.minute = nowMinute
             
             var nextTriggerDate = calendar.nextDate(after: now,
-                                                    matching: dateComponents,
-                                                    matchingPolicy: .nextTime,
-                                                    direction: .forward)!
+                                                   matching: dateComponents,
+                                                   matchingPolicy: .nextTime,
+                                                   direction: .forward)!
             
             while calendar.component(.hour, from: nextTriggerDate) >= startHour,
                   calendar.component(.hour, from: nextTriggerDate) < endHour {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(intervalMinutes * 60), repeats: repeating)
-                
-                let content = notification
+                let triggerDateComponents = calendar.dateComponents([.hour, .minute], from: nextTriggerDate)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: true)
                 
                 let identifier = UUID().uuidString
-                let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: identifier, content: notification, trigger: trigger)
                 
                 let notificationCenter = UNUserNotificationCenter.current()
                 try await notificationCenter.add(request)
