@@ -65,6 +65,91 @@ public class LocalNotification {
         setNotificationIDs(uuids)
     }
     
+    public static func schedule(notification: UNMutableNotificationContent,
+                                every timeInterval: TimeInterval,
+                                repeating: Bool = false) async throws {
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeating)
+        
+        let uuidString = UUID().uuidString
+        let request = UNNotificationRequest(identifier: uuidString,
+                                            content: notification,
+                                            trigger: trigger)
+        
+        let notificationCenter = UNUserNotificationCenter.current()
+        try await notificationCenter.add(request)
+    }
+    
+    public static func schedule(notification: UNMutableNotificationContent,
+                                every timeInterval: Int,
+                                between startingHour: Int,
+                                and endingHour: Int,
+                                repeating: Bool = false) async throws {
+        let calendar = Calendar.current
+        let startHour = startingHour
+        let endHour = endingHour
+        let intervalMinutes = timeInterval
+        
+        for hour in stride(from: startHour, to: endHour, by: intervalMinutes / 60) {
+            for minute in stride(from: 0, to: 60, by: intervalMinutes % 60) {
+                var dateComponents = DateComponents()
+                dateComponents.hour = hour
+                dateComponents.minute = minute
+                
+                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+                
+                let identifier = UUID().uuidString
+                let request = UNNotificationRequest(identifier: identifier, content: notification, trigger: trigger)
+                
+                let notificationCenter = UNUserNotificationCenter.current()
+                try await notificationCenter.add(request)
+            }
+        }
+    }
+    
+    public static func scheduleFromNow(notification: UNMutableNotificationContent,
+                                       every timeInterval: Int,
+                                       between startingHour: Int,
+                                       and endingHour: Int,
+                                       repeating: Bool = false) async throws {
+        let calendar = Calendar.current
+        let startHour = startingHour
+        let endHour = endingHour
+        let intervalMinutes = timeInterval
+        
+        let now = Date()
+        let nowHour = calendar.component(.hour, from: now)
+        let nowMinute = calendar.component(.minute, from: now)
+        
+        if nowHour >= startHour, nowHour < endHour {
+            var dateComponents = DateComponents()
+            dateComponents.hour = nowHour
+            dateComponents.minute = nowMinute
+            
+            var nextTriggerDate = calendar.nextDate(after: now,
+                                                    matching: dateComponents,
+                                                    matchingPolicy: .nextTime,
+                                                    direction: .forward)!
+            
+            while calendar.component(.hour, from: nextTriggerDate) >= startHour,
+                  calendar.component(.hour, from: nextTriggerDate) < endHour {
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(intervalMinutes * 60), repeats: false)
+                
+                let content = notification
+                
+                let identifier = UUID().uuidString
+                let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+                
+                let notificationCenter = UNUserNotificationCenter.current()
+                try await notificationCenter.add(request)
+                
+                dateComponents.minute = intervalMinutes
+                nextTriggerDate = calendar.date(byAdding: dateComponents, to: nextTriggerDate)!
+            }
+        } else {
+            print("Not scheduling custom notifications, as it is outside the given start and end window.")
+        }
+    }
 }
 
 public extension UNMutableNotificationContent {
