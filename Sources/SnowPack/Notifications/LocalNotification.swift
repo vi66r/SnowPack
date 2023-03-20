@@ -85,7 +85,7 @@ public class LocalNotification {
                                 between startingHour: Int,
                                 and endingHour: Int,
                                 repeating: Bool = false) async throws {
-        let calendar = Calendar.current
+//        let calendar = Calendar.current
         let startHour = startingHour
         let endHour = endingHour
         let intervalMinutes = timeInterval
