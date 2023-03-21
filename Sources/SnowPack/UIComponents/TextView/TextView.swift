@@ -2,12 +2,12 @@ import Combine
 import UIKit
 
 open class TextView: UITextView {
-    var pausedTypingAction: RemoteAction?
+    public var pausedTypingAction: RemoteAction?
     
     var cancellables = Set<AnyCancellable>()
-    var pauseTime: Int = 1000
+    public var pauseTime: Int = 1000
     
-    func observePauseInTyping() {
+    public func observePauseInTyping() {
         let publisher = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification, object: self)
         publisher
             .map({ ($0.object as! UITextField).text })
