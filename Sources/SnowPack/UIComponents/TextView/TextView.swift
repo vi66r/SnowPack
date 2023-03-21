@@ -1,12 +1,11 @@
 import Combine
 import UIKit
 
-class TextView: UITextView {
+open class TextView: UITextView {
     var pausedTypingAction: RemoteAction?
     
     var cancellables = Set<AnyCancellable>()
     var pauseTime: Int = 1000
-    
     
     func observePauseInTyping() {
         let publisher = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification, object: self)
@@ -19,5 +18,4 @@ class TextView: UITextView {
                 }
             }).store(in: &cancellables)
     }
-    
 }
