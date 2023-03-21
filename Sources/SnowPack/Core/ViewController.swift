@@ -24,6 +24,7 @@ open class ViewController: UIViewController, Loading {
     var headerHeightConstraint: NSLayoutConstraint?
     var headerBackgroundHeightConstraint: NSLayoutConstraint?
     var contentViewHeightConstraint: NSLayoutConstraint?
+    public var contentViewBottomConstraint: NSLayoutConstraint?
     
     var scrollViewObserver: NSKeyValueObservation?
     
@@ -77,7 +78,7 @@ open class ViewController: UIViewController, Loading {
             headerView.topToSuperview(usingSafeArea: true)
             contentView.centerXToSuperview()
             contentView.topToBottom(of: headerView)
-            contentView.bottomToSuperview()
+            contentViewBottomConstraint = contentView.bottomToSuperview()
             setInteractiveRecognizer()
         }
         
