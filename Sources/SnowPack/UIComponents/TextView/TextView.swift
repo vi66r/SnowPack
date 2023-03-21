@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 open class TextView: UITextView {
-    public var pausedTypingAction: RemoteAction?
+    @MainThreaded public var pausedTypingAction = {}
     
     var cancellables = Set<AnyCancellable>()
     public var pauseTime: Int = 1000
@@ -13,7 +13,7 @@ open class TextView: UITextView {
             .debounce(for: .milliseconds(pauseTime), scheduler: RunLoop.main)
             .sink(receiveValue: { (value) in
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-                    self?.pausedTypingAction?()
+                    self?.pausedTypingAction()
                 }
             }).store(in: &cancellables)
     }
