@@ -244,6 +244,38 @@ open class ViewController: UIViewController, Loading {
             dismiss(animated: true)
         }
     }
+    
+    open func keyboardDidShow(_ height: CGFloat) {
+        assertionFailure("If you're observing you're keyboard, you should override this method to use the observation")
+    }
+    
+    open func keyboardDidHide() {
+        assertionFailure("If you're observing you're keyboard, you should override this method to use the observation")
+    }
+    
+    public func observeKeyboard() {
+        
+        let showPublisher: NotificationCenter.Publisher = NotificationCenter.default
+            .publisher(for: UIResponder.keyboardDidShowNotification)
+        
+        showPublisher.receive(on: DispatchQueue.main)
+            .sink { [weak self] output in
+                guard let keyboardFrame: NSValue = output.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+                else { return }
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                self?.keyboardDidShow(keyboardHeight)
+            }.store(in: &cancellables)
+        
+        
+        let hidePublisher: NotificationCenter.Publisher = NotificationCenter.default
+            .publisher(for: UIResponder.keyboardDidHideNotification)
+        
+        hidePublisher.receive(on: DispatchQueue.main)
+            .sink { [weak self] output in
+                self?.keyboardDidHide()
+            }.store(in: &cancellables)
+    }
 }
 
 extension ViewController: MFMessageComposeViewControllerDelegate {

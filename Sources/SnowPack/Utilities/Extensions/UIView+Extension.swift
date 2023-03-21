@@ -269,10 +269,10 @@ public extension UIView {
         }
     }
 
-    func hide(then: RemoteAction? = nil) {
+    func hide(with duration: TimeInterval = 0.1, then: RemoteAction? = nil) {
         guard !isHidden else { return }
         UIView.animate(
-            withDuration: 0.1,
+            withDuration: duration,
             animations: ({ [weak self] in
                 self?.alpha = 0.0
             }),
@@ -283,10 +283,10 @@ public extension UIView {
         )
     }
 
-    func unhide(then: RemoteAction? = nil) {
+    func unhide(with duration: TimeInterval = 0.1, then: RemoteAction? = nil) {
         guard isHidden else { return }
         UIView.animate(
-            withDuration: 0.1,
+            withDuration: duration,
             animations: ({ [weak self] in
                 self?.alpha = 1.0
             }),
