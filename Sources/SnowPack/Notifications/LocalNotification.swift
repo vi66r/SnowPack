@@ -66,6 +66,20 @@ public class LocalNotification {
     }
     
     public static func schedule(notification: UNMutableNotificationContent,
+                                for timeFromNow: TimeInterval) async throws {
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeFromNow, repeats: false)
+        
+        let uuidString = UUID().uuidString
+        let request = UNNotificationRequest(identifier: uuidString,
+                                            content: notification,
+                                            trigger: trigger)
+        
+        let notificationCenter = UNUserNotificationCenter.current()
+        try await notificationCenter.add(request)
+    }
+    
+    public static func schedule(notification: UNMutableNotificationContent,
                                 every timeInterval: TimeInterval,
                                 repeating: Bool = false) async throws {
         
