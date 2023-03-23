@@ -28,15 +28,18 @@ public extension Container {
 @propertyWrapper
 public struct ManagedRequest<T: NSManagedObject> {
     public let sortDescriptors: [NSSortDescriptor]
+    public let searchPredicate: NSPredicate?
     
     public var wrappedValue: NSFetchRequest<T> {
         let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
         fetchRequest.sortDescriptors = sortDescriptors
+        fetchRequest.predicate = searchPredicate
         return fetchRequest
     }
     
-    public init(sortDescriptors: [NSSortDescriptor] = []) {
+    public init(sortDescriptors: [NSSortDescriptor] = [], predicate: NSPredicate? = nil) {
         self.sortDescriptors = sortDescriptors
+        self.searchPredicate = nil
     }
 }
 
@@ -44,15 +47,17 @@ public struct ManagedRequest<T: NSManagedObject> {
 public struct Managed<T: NSManagedObject> {
     var context: NSManagedObjectContext
     var sortDescriptors: [NSSortDescriptor]
+    var searchPredicate: NSPredicate?
     
     public var wrappedValue: [T]? {
-        @ManagedRequest<T>(sortDescriptors: sortDescriptors) var request
+        @ManagedRequest<T>(sortDescriptors: sortDescriptors, predicate: searchPredicate) var request
         let results = try? context.fetch(request)
         return results
     }
     
-    public init(context: NSManagedObjectContext, sortDescriptors: [NSSortDescriptor] = []) {
+    public init(context: NSManagedObjectContext, sortDescriptors: [NSSortDescriptor] = [], searchPredicate: NSPredicate? = nil) {
         self.sortDescriptors = sortDescriptors
+        self.searchPredicate = searchPredicate
         self.context = context
     }
 }
