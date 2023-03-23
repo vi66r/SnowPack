@@ -1,12 +1,12 @@
 import CoreData
 import UIKit
 
-protocol Container {
+public protocol Container {
     var persistentContainer: NSPersistentContainer { get }
     var primaryContext: NSManagedObjectContext? { get }
 }
 
-extension Container {
+public extension Container {
     var primaryContext: NSManagedObjectContext? {
         persistentContainer.viewContext
     }
