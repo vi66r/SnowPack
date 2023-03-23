@@ -1,14 +1,27 @@
 import CoreData
 import UIKit
 
+public enum CoreDataError: Error {
+    case noContext
+}
+
 public protocol Container {
     var persistentContainer: NSPersistentContainer { get }
     var primaryContext: NSManagedObjectContext? { get }
+    func save(context: NSManagedObjectContext?) throws
 }
 
 public extension Container {
     var primaryContext: NSManagedObjectContext? {
         persistentContainer.viewContext
+    }
+    
+    func save(context: NSManagedObjectContext? = nil) throws {
+        let context = context ?? primaryContext
+        guard let context = context else { throw CoreDataError.noContext }
+        if context.hasChanges {
+            try context.save()
+        }
     }
 }
 
