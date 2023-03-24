@@ -3,6 +3,7 @@ import UIKit
 
 public enum CoreDataError: Error {
     case noContext
+    case saveError(Error)
 }
 
 public protocol Container {
@@ -27,19 +28,34 @@ public extension Container {
 
 @propertyWrapper
 public struct ManagedRequest<T: NSManagedObject> {
-    public let sortDescriptors: [NSSortDescriptor]
+    public let sortDescriptors: [NSSortDescriptor]?
     public let searchPredicate: NSPredicate?
+    public let limit: Int?
+    public let offset: Int?
+    public let returnAsFaults: Bool
     
     public var wrappedValue: NSFetchRequest<T> {
         let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
         fetchRequest.sortDescriptors = sortDescriptors
         fetchRequest.predicate = searchPredicate
+        if let limit = limit, let offset = offset {
+            fetchRequest.fetchBatchSize = limit
+            fetchRequest.fetchOffset = offset
+        }
+        fetchRequest.returnsObjectsAsFaults = returnAsFaults
         return fetchRequest
     }
     
-    public init(sortDescriptors: [NSSortDescriptor] = [], predicate: NSPredicate? = nil) {
+    public init(sortDescriptors: [NSSortDescriptor]? = nil,
+                predicate: NSPredicate? = nil,
+                limit: Int? = nil,
+                offset: Int? = nil,
+                returnAsFaults: Bool = false) {
         self.sortDescriptors = sortDescriptors
-        self.searchPredicate = nil
+        self.searchPredicate = predicate
+        self.limit = limit
+        self.offset = offset
+        self.returnAsFaults = returnAsFaults
     }
 }
 
@@ -79,14 +95,14 @@ protocol Persisting {
     
 }
 
-class Persistence: NSPersistentContainer {
-    func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
-        let context = backgroundContext ?? viewContext
-        guard context.hasChanges else { return }
-        do {
-            try context.save()
-        } catch let error as NSError {
-            print("Error: \(error), \(error.userInfo)")
-        }
-    }
-}
+//class Persistence: NSPersistentContainer {
+//    func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
+//        let context = backgroundContext ?? viewContext
+//        guard context.hasChanges else { return }
+//        do {
+//            try context.save()
+//        } catch let error as NSError {
+//            print("Error: \(error), \(error.userInfo)")
+//        }
+//    }
+//}
