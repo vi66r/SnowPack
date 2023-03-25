@@ -11,12 +11,16 @@ open class TextView: UITextView {
         let publisher = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification, object: self)
         publisher
             .sink(receiveValue: { (value) in
-                DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    let caret = self.caretRect(for: self.selectedTextRange!.start)
-                    self.scrollRectToVisible(caret, animated: true)
+                    self.scrollToCursor()
                 }
             }).store(in: &cancellables)
+    }
+    
+    public func scrollToCursor() {
+        let caret = caretRect(for: selectedTextRange!.start)
+        scrollRectToVisible(caret, animated: true)
     }
     
     public func observePauseInTyping() {
