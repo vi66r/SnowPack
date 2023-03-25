@@ -2,9 +2,8 @@ import CoreData
 import UIKit
 
 public protocol PersistenceManaging {
-    associatedtype T: NSManagedObject
     
-    func fetch(predicate: NSPredicate?,
+    func fetch<T: NSManagedObject>(predicate: NSPredicate?,
                sortDescriptors: [NSSortDescriptor]?,
                limit: Int,
                offset: Int) async throws -> [T]
@@ -12,7 +11,7 @@ public protocol PersistenceManaging {
     func save() async throws
 }
 
-public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
+public class PersistenceManager: PersistenceManaging {
     
     enum PersistenceManagerError: Error {
         case deinitialized
@@ -35,7 +34,7 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
         self.paginated = paginated
     }
     
-    public func fetch(predicate: NSPredicate? = nil,
+    public func fetch<T: NSManagedObject>(predicate: NSPredicate? = nil,
                       sortDescriptors: [NSSortDescriptor]? = nil,
                       limit: Int = 0,
                       offset: Int = 0) async throws -> [T] {
@@ -71,6 +70,13 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
         }
     }
     
+    public func new<T: NSManagedObject>(configured: @escaping ((T) -> T) = { _ in }) throws -> T {
+        guard let context = primaryContext else { throw CoreDataError.noContext }
+        var object = T(context: context)
+        object = configured(object)
+        Task { try? await save() }
+        return object
+    }
     
     public func save() async throws {
         guard let primaryContext = primaryContext else { throw CoreDataError.noContext }
