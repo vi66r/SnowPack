@@ -3,15 +3,19 @@ import UIKit
 
 public protocol PersistenceManaging {
     
-    func fetch<T: NSManagedObject>(predicate: NSPredicate?,
+    associatedtype T: NSManagedObject
+    
+    func fetch(predicate: NSPredicate?,
                sortDescriptors: [NSSortDescriptor]?,
                limit: Int,
                offset: Int) async throws -> [T]
     
+    func new(configured: @escaping ((T) -> T)) throws -> T
+    
     func save() async throws
 }
 
-public class PersistenceManager: PersistenceManaging {
+public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
     
     enum PersistenceManagerError: Error {
         case deinitialized
@@ -34,7 +38,7 @@ public class PersistenceManager: PersistenceManaging {
         self.paginated = paginated
     }
     
-    public func fetch<T: NSManagedObject>(predicate: NSPredicate? = nil,
+    public func fetch(predicate: NSPredicate? = nil,
                       sortDescriptors: [NSSortDescriptor]? = nil,
                       limit: Int = 0,
                       offset: Int = 0) async throws -> [T] {
@@ -70,7 +74,7 @@ public class PersistenceManager: PersistenceManaging {
         }
     }
     
-    public func new<T: NSManagedObject>(configured: @escaping ((T) -> T) = { _ in }) throws -> T {
+    public func new(configured: @escaping ((T) -> T) = { _ in }) throws -> T {
         guard let context = primaryContext else { throw CoreDataError.noContext }
         var object = T(context: context)
         object = configured(object)
