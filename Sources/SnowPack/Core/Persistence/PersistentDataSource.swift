@@ -20,13 +20,23 @@ public final class PersistentDataSource<T: NSManagedObject> {
     }
     
     public func fetch(predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil) async throws -> [T] {
+        guard !fetchedAllAvailableRecords else { throw PersistentDataSourceError.allResultsLoaded }
+        
         return try await withCheckedThrowingContinuation({ continuation in
-            guard !fetchedAllAvailableRecords else { throw PersistentDataSourceError.allResultsLoaded }
-            let results: [T] = try await manager.fetch(predicate: predicate, sortDescriptors: sortDescriptors, limit: pageSize, offset: offset)
-            if results.count < pageSize { fetchedAllAvailableRecords = true }
-            offset += results.count
-            data.append(contentsOf: results)
-            continuation.resume(returning: results)
+            manager.fetch(predicate: predicate, sortDescriptors: sortDescriptors, limit: pageSize, offset: offset) { [weak self] result in
+                guard let self = self else {
+                    continuation.resume(throwing: CoreDataError.noContext)
+                    return
+                }
+                switch result {
+                case .success(let success):
+                    self.offset += success.count
+                    self.data.append(contentsOf: success)
+                    continuation.resume(returning: success)
+                case .failure(let failure):
+                    continuation.resume(throwing: failure)
+                }
+            }
         })
     }
 }
