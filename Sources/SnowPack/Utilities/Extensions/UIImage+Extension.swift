@@ -52,4 +52,54 @@ public extension UIImage {
         else { return nil }
         return image
     }
+    
+    func imageByScalingAndCroppingForSizeAtCenter(targetSize: CGSize) -> UIImage? {
+        let widthFactor = targetSize.width / size.width
+        let heightFactor = targetSize.height / size.height
+
+        let scaleFactor = max(widthFactor, heightFactor)
+
+        let scaledWidth = size.width * scaleFactor
+        let scaledHeight = size.height * scaleFactor
+        let scaledSize = CGSize(width: scaledWidth, height: scaledHeight)
+
+        let originX = (targetSize.width - scaledWidth) / 2
+        let originY = (targetSize.height - scaledHeight) / 2
+        let thumbnailPoint = CGPoint(x: originX, y: originY)
+
+        let thumbnailRect = CGRect(origin: thumbnailPoint, size: scaledSize)
+
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 0.0)
+
+        draw(in: thumbnailRect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return newImage
+    }
+    
+    func imageByScalingAndCroppingForSize(targetSize: CGSize) -> UIImage? {
+        let widthFactor = targetSize.width / size.width
+        let heightFactor = targetSize.height / size.height
+
+        let scaleFactor = max(widthFactor, heightFactor)
+
+        let scaledWidth = size.width * scaleFactor
+        let scaledHeight = size.height * scaleFactor
+        let scaledSize = CGSize(width: scaledWidth, height: scaledHeight)
+
+        let thumbnailPoint = CGPoint(x: 0, y: 0)
+
+        let thumbnailRect = CGRect(origin: thumbnailPoint, size: scaledSize)
+
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 0.0)
+
+        draw(in: thumbnailRect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return newImage
+    }
 }
