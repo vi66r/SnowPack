@@ -12,7 +12,7 @@ public final class PersistentDataSource<T: NSManagedObject> {
     var fetchedAllAvailableRecords = false
     let manager: PersistenceManager<T>
     
-    private(set) var data: [T] = []
+    public var data: [T] = []
     
     public init(pageSize: Int, manager: PersistenceManager<T>) {
         self.pageSize = pageSize
