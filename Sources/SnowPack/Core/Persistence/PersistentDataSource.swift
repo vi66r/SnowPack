@@ -20,7 +20,7 @@ public final class PersistentDataSource<T: NSManagedObject> {
     }
     
     public func fetch(predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil) async throws -> [T] {
-        guard fetchedAllAvailableRecords else { throw PersistentDataSourceError.allResultsLoaded }
+        guard !fetchedAllAvailableRecords else { throw PersistentDataSourceError.allResultsLoaded }
         let results: [T] = try await manager.fetch(predicate: predicate, sortDescriptors: sortDescriptors, limit: pageSize, offset: offset)
         if results.count < pageSize { fetchedAllAvailableRecords = true }
         offset += results.count
