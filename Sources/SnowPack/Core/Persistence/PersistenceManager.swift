@@ -74,6 +74,44 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
         }
     }
     
+    public func fetch(predicate: NSPredicate? = nil,
+                      sortDescriptors: [NSSortDescriptor]? = nil,
+                      limit: Int = 0,
+                      offset: Int = 0,
+                      completion: @escaping (Result<[T], Error>) -> Void) {
+        
+        guard let primaryContext = primaryContext else {
+            completion(.failure(CoreDataError.noContext))
+            return
+        }
+        let context = backgroundContext
+        
+        context.perform {
+            
+            let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+            fetchRequest.predicate = predicate
+            fetchRequest.sortDescriptors = sortDescriptors
+            fetchRequest.returnsObjectsAsFaults = false
+            if self.paginated {
+                fetchRequest.fetchBatchSize = limit
+                fetchRequest.fetchOffset = offset
+            }
+            
+            do {
+                let results = try context.fetch(fetchRequest)
+                primaryContext.perform {
+                    let mainThreadObjects = results.map { object -> T in
+                        let mainThreadObject = primaryContext.object(with: object.objectID) as! T
+                        return mainThreadObject
+                    }
+                    completion(.success(mainThreadObjects))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+    
     public func new(configured: @escaping ((T) -> T) = { _ in }, saveOnCreation: Bool = true) throws -> T {
         guard let context = primaryContext else { throw CoreDataError.noContext }
         var object = T(context: context)
