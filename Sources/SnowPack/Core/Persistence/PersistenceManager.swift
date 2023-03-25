@@ -10,7 +10,7 @@ public protocol PersistenceManaging {
                limit: Int,
                offset: Int) async throws -> [T]
     
-    func new(configured: @escaping ((T) -> T)) throws -> T
+    func new(configured: @escaping ((T) -> T), saveOnCreation: Bool) throws -> T
     
     func save() async throws
 }
@@ -78,7 +78,7 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
         guard let context = primaryContext else { throw CoreDataError.noContext }
         var object = T(context: context)
         object = configured(object)
-        if saveOnCreation {        
+        if saveOnCreation {
             Task { try? await save() }
         }
         return object
