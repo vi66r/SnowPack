@@ -93,7 +93,7 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
             fetchRequest.sortDescriptors = sortDescriptors
             fetchRequest.returnsObjectsAsFaults = false
             if self.paginated {
-                fetchRequest.fetchBatchSize = limit
+                fetchRequest.fetchLimit = limit
                 fetchRequest.fetchOffset = offset
             }
             
