@@ -9,9 +9,9 @@ public protocol PersistenceManaging {
                sortDescriptors: [NSSortDescriptor]?,
                limit: Int,
                offset: Int) async throws -> [T]
-    
+
     func new(configured: @escaping ((T) -> T), saveOnCreation: Bool) throws -> T
-    
+
     func save() async throws
 }
 
@@ -42,6 +42,32 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
                       sortDescriptors: [NSSortDescriptor]? = nil,
                       limit: Int = 0,
                       offset: Int = 0) async throws -> [T] {
+        guard let primaryContext = primaryContext else { throw CoreDataError.noContext }
+        return try await withCheckedThrowingContinuation({ continuation in
+            primaryContext.perform {
+                let fetchRequest: NSFetchRequest<T> = T.fetchRequest() as! NSFetchRequest<T>
+                fetchRequest.predicate = predicate
+                fetchRequest.sortDescriptors = sortDescriptors
+                fetchRequest.returnsObjectsAsFaults = false
+                if self.paginated {
+                    fetchRequest.fetchBatchSize = limit
+                    fetchRequest.fetchOffset = offset
+                }
+                
+                do {
+                    let results = try primaryContext.fetch(fetchRequest)
+                    continuation.resume(returning: results)
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        })
+    }
+    
+    public func fetchInBackground(predicate: NSPredicate? = nil,
+                                  sortDescriptors: [NSSortDescriptor]? = nil,
+                                  limit: Int = 0,
+                                  offset: Int = 0) async throws -> [T] {
         
         guard let primaryContext = primaryContext else { throw CoreDataError.noContext }
         let context = backgroundContext
@@ -124,20 +150,12 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
     
     public func save() async throws {
         guard let primaryContext = primaryContext else { throw CoreDataError.noContext }
-        let context = backgroundContext
         
         try await withCheckedThrowingContinuation { continuation in
-            context.perform {
+            primaryContext.perform {
                 do {
-                    if context.hasChanges { try context.save() }
-                    primaryContext.perform {
-                        do {
-                            if primaryContext.hasChanges { try primaryContext.save() }
-                            continuation.resume()
-                        } catch {
-                            continuation.resume(throwing: CoreDataError.saveError(error))
-                        }
-                    }
+                    if primaryContext.hasChanges { try primaryContext.save() }
+                    continuation.resume()
                 } catch {
                     continuation.resume(throwing: CoreDataError.saveError(error))
                 }
