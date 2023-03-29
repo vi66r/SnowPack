@@ -257,7 +257,7 @@ open class ViewController: UIViewController, Loading {
     public func observeKeyboard() {
         
         let showPublisher: NotificationCenter.Publisher = NotificationCenter.default
-            .publisher(for: UIResponder.keyboardDidShowNotification)
+            .publisher(for: UIResponder.keyboardWillShowNotification)
         
         showPublisher.receive(on: DispatchQueue.main)
             .sink { [weak self] output in
