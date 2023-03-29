@@ -38,6 +38,7 @@ public extension UIColor {
     ) {
         UIColor._brandDark = brandDark
         UIColor._tintDark = tintDark
+        UIColor._accentDark = accentDark
         UIColor._backgroundDark = backgroundDark
         UIColor._surfaceDark = surfaceDark
         UIColor._errorDark = errorDark
