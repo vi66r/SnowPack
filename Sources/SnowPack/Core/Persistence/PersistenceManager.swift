@@ -162,4 +162,16 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
             }
         }
     }
+    
+    public func delete(object: NSManagedObject) async throws {
+        guard let primaryContext = primaryContext else { throw CoreDataError.noContext }
+        try await withCheckedThrowingContinuation { [weak self] continuation in
+            guard let self = self else { return }
+            primaryContext.perform {
+                primaryContext.delete(object)
+                Task { try await self.save() }
+                continuation.resume()
+            }
+        }
+    }
 }
