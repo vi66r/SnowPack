@@ -1,12 +1,13 @@
 import MessageUI
 import Combine
+import Shuttle
 import UIKit
 
 /// Base class that defines common functionality of all ViewControllers
 open class ViewController: UIViewController, Loading {
     public var cancellables = Set<AnyCancellable>()
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
-    @StreamingEvent(value: false) public var isLoading
+    @EventStream(value: false) public var isLoading
     
     private(set) var navigationBarHidden: Bool = false
     var popRecognizer: InteractivePopRecognizer?
@@ -143,9 +144,9 @@ open class ViewController: UIViewController, Loading {
     open func triggerSystemAlert(title: String,
                                  message: String,
                                  dismissTitle: String = "Okay",
-                                 dismissAction: RemoteAction? = nil,
+                                 dismissAction: Action? = nil,
                                  actionTitle: String? = nil,
-                                 action: RemoteAction? = nil
+                                 action: Action? = nil
     ) {
         let dismiss = UIAlertAction(title: dismissTitle, style: .cancel) { action in
             dismissAction?()

@@ -1,10 +1,11 @@
+import Shuttle
 import UIKit
 
 public protocol Haptic {
     func softImpact()
     func mediumImpact()
     func heavyImpact()
-    func doubleImpact(_ after: RemoteAction?)
+    func doubleImpact(_ after: Action?)
     func errorImpact()
 }
 
@@ -21,7 +22,7 @@ public extension Haptic where Self: AnyObject {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
     }
     
-    func doubleImpact(_ after: RemoteAction? = nil) {
+    func doubleImpact(_ after: Action? = nil) {
         mediumImpact()
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.075, execute: { [weak self] in
             self?.heavyImpact()
@@ -33,7 +34,7 @@ public extension Haptic where Self: AnyObject {
         UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
     
-    func tripleImpact(_ after: RemoteAction? = nil) {
+    func tripleImpact(_ after: Action? = nil) {
         heavyImpact()
         DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.085, execute: { [weak self] in
             self?.mediumImpact()

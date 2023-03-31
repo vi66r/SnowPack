@@ -3,7 +3,7 @@ import UIKit
 
 open class BasicLoadingView: UIView {
     
-    var cleanupLoading: RemoteAction?
+    var cleanupLoading: Action?
     var source: Loading?
     
     public var loadingText = "loading..." {

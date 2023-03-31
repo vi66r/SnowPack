@@ -1,6 +1,6 @@
 import Foundation
 
-public class AsyncDictionary<M: Hashable,N>: Collection {
+public class AtomicDictionary<M: Hashable,N>: Collection {
 
     private var dictionary: [M: N]
     private let concurrentQueue = DispatchQueue(label: "obamna",

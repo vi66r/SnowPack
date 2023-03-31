@@ -70,9 +70,9 @@ open class LinearFlowViewController: UIPageViewController {
     open func triggerSystemAlert(title: String,
                                  message: String,
                                  dismissTitle: String = "Okay",
-                                 dismissAction: RemoteAction? = nil,
+                                 dismissAction: Action? = nil,
                                  actionTitle: String? = nil,
-                                 action: RemoteAction? = nil
+                                 action: Action? = nil
     ) {
         let dismiss = UIAlertAction(title: dismissTitle, style: .cancel) { action in
             dismissAction?()
@@ -119,8 +119,8 @@ open class LinearFlowViewController: UIPageViewController {
     public var showsIndicator: Bool = false
     public var indicatorPosition: IndicatorPosition = .bottom
     
-    public var flowStateUpdateAction: RemoteTypedAction<FlowStage>?
-    public var currentStageUpdateAction: RemoteTypedAction<ViewController>?
+    public var flowStateUpdateAction: TypedAction<FlowStage>?
+    public var currentStageUpdateAction: TypedAction<ViewController>?
     public var flowStage: FlowStage = .starting {
         didSet {
             flowStateUpdateAction?(flowStage)

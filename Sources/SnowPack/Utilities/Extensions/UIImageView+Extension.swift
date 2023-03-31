@@ -6,7 +6,7 @@ public extension UIImageView {
     
     static func loadingImage(from url: URL,
                              placeholder: UIImage? = nil,
-                             then: @escaping RemoteTypedAction<UIImage> = { _ in }) -> UIImageView {
+                             then: @escaping TypedAction<UIImage> = { _ in }) -> UIImageView {
         let imageView = UIImageView()
         imageView.image = placeholder
         var options = ImageLoadingOptions()
@@ -23,7 +23,7 @@ public extension UIImageView {
     
     func loadImage(from url: URL,
                    placeholder: UIImage? = nil,
-                   then: @escaping RemoteTypedAction<UIImage> = { _ in }) {
+                   then: @escaping TypedAction<UIImage> = { _ in }) {
         self.image = placeholder
         var options = ImageLoadingOptions()
         options.pipeline = ImagePipeline.shared
@@ -46,7 +46,7 @@ public extension UIImageView {
     
     func blur(with percentage: CGFloat,
               usingSnapshot: Bool = true,
-              and: @escaping RemoteTypedAction<UIImageView> = { _ in }) {
+              and: @escaping TypedAction<UIImageView> = { _ in }) {
         guard let image = usingSnapshot ? self.snapshot : self.image,
         let ciImage = CIImage(image: image)
         else { return }

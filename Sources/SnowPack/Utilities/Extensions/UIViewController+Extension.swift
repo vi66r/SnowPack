@@ -51,7 +51,7 @@ public extension UIViewController {
         self.present(presentationContainer, animated: false)
     }
     
-    func dismissMediumDetentIfPresent(_ done: RemoteAction? = nil) {
+    func dismissMediumDetentIfPresent(_ done: Action? = nil) {
         guard let presentationContainer = presentedViewController as? DetentedModalContainerController else {
             done?()
             return

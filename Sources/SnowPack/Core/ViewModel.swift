@@ -1,4 +1,5 @@
 import Combine
+import Shuttle
 import UIKit
 
 /// Base class that implements common functionality of all ViewModels
@@ -10,7 +11,7 @@ open class ViewModel {
     @Event public var refreshEvent
     @Event<UIViewController> public var navigationEvent
     
-    @StreamingEvent(value: false) public var loading
+    @EventStream(value: false) public var loading
     
     public init() {}
     

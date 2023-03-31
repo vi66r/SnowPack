@@ -236,7 +236,7 @@ public final class DetentedModalContainerController: UIViewController, Haptic {
         }
     }
     
-    func animateDismissView(_ done: RemoteAction? = nil) {
+    func animateDismissView(_ done: Action? = nil) {
         UIView.animate(
             withDuration: animationTiming,
             animations: ({ [weak self] in

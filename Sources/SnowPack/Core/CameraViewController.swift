@@ -12,7 +12,7 @@ open class CameraViewController: ViewController {
     public var previewMode: PreviewMode
     public var startWithFrontFacingCamera: Bool
     
-    public var cameraCaptured: RemoteTypedAction<UIImage>?
+    public var cameraCaptured: TypedAction<UIImage>?
     
     public var captureSession : AVCaptureSession!
     public var backCamera : AVCaptureDevice!

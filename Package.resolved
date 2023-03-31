@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "shuttle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vi66r/Shuttle",
+      "state" : {
+        "branch" : "main",
+        "revision" : "582a8372016291a1df6d39d3020b7f9c5678f5ed"
+      }
+    },
+    {
       "identity" : "tinyconstraints",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/roberthein/TinyConstraints.git",

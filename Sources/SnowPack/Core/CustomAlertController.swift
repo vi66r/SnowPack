@@ -2,12 +2,12 @@ import Darwin
 import UIKit
 
 public protocol CustomAlerting {
-    var completionAction: RemoteTypedAction<Any>? { get set }
-    var dismissalAction: RemoteTypedAction<Any>? { get set }
-    var additionalActions: [String : RemoteTypedAction<Any>]? { get set }
+    var completionAction: TypedAction<Any>? { get set }
+    var dismissalAction: TypedAction<Any>? { get set }
+    var additionalActions: [String : TypedAction<Any>]? { get set }
     
-    var _dismissalControllerAction: RemoteAction? { get set }
-    var _completionControllerAction: RemoteAction? { get set }
+    var _dismissalControllerAction: Action? { get set }
+    var _completionControllerAction: Action? { get set }
 }
 
 public class CustomAlertController: UIViewController {
@@ -113,7 +113,7 @@ public class CustomAlertController: UIViewController {
         }
     }
     
-    func animateDismissalTransition(then: @escaping RemoteAction) {
+    func animateDismissalTransition(then: @escaping Action) {
         
         switch presentationStyle {
         case .slideInFromBottom:

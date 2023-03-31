@@ -45,26 +45,26 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     
     private var performingAutomaticUpdates = false
     
-    public var approachingEnd: RemoteAction?
+    public var approachingEnd: Action?
     
-    public var refreshRequested: RemoteAction?
+    public var refreshRequested: Action?
     
-    public var cellAtIndexPath: Remote2DTypedAction<T, IndexPath>?
-    public var cellWillAppear: Remote2DTypedAction<T, IndexPath>?
-    public var cellDidDisappear: Remote2DTypedAction<T, IndexPath>?
+    public var cellAtIndexPath: Typed2DAction<T, IndexPath>?
+    public var cellWillAppear: Typed2DAction<T, IndexPath>?
+    public var cellDidDisappear: Typed2DAction<T, IndexPath>?
     
-    public var cellSelected: Remote2DTypedAction<T, IndexPath>?
-    public var cellFocused: Remote2DTypedAction<T, IndexPath>?
-    public var cellDefocused: Remote2DTypedAction<T, IndexPath>?
-    public var cellRepositioned: Remote2DTypedAction<T, IndexPath>?
+    public var cellSelected: Typed2DAction<T, IndexPath>?
+    public var cellFocused: Typed2DAction<T, IndexPath>?
+    public var cellDefocused: Typed2DAction<T, IndexPath>?
+    public var cellRepositioned: Typed2DAction<T, IndexPath>?
     
-    public var scrolled: RemoteAction?
+    public var scrolled: Action?
     
-    public var prefetchAction: RemoteTypedAction<[IndexPath]>? {
+    public var prefetchAction: TypedAction<[IndexPath]>? {
         didSet { prefetchDataSource = self }
     }
     
-    public var prefetchCancellation: RemoteTypedAction<[IndexPath]>?
+    public var prefetchCancellation: TypedAction<[IndexPath]>?
     
     public var elements: [T.ModelType] {
         didSet {

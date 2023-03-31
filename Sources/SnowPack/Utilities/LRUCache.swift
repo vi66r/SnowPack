@@ -7,7 +7,7 @@ public class LRUCache<T: Hashable, U> {
     /// LinkedList will store elements that are most accessed at the head and least accessed at the tail.
     private(set) var linkedList = DoublyLinkedList<CachePayload<T, U>>()
     /// Dictionary that will store the element, T, at the specified key.
-    private(set) var dictionary = AsyncDictionary<T, Node<CachePayload<T, U>>>()
+    private(set) var dictionary = AtomicDictionary<T, Node<CachePayload<T, U>>>()
 
     /// LRUCache requires a capacity which must be greater than 0
     public required init(capacity: UInt) {
