@@ -3,6 +3,7 @@ import UIKit
 
 open class TextView: UITextView {
     @MainThreaded public var pausedTypingAction = {}
+    @MainThreaded public var textChanged = {}
     
     var cancellables = Set<AnyCancellable>()
     public var pauseTime: Int = 1000
@@ -30,6 +31,17 @@ open class TextView: UITextView {
             .sink(receiveValue: { (value) in
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                     self?.pausedTypingAction()
+                }
+            }).store(in: &cancellables)
+    }
+    
+    public func observeTextChange() {
+        let publisher = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification, object: self)
+        publisher
+            .sink(receiveValue: { (value) in
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    self.textChanged()
                 }
             }).store(in: &cancellables)
     }

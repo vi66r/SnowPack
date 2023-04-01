@@ -3,6 +3,7 @@
 @_exported import Nuke
 @_exported import NukeExtensions
 @_exported import PhoneNumberKit
+@_exported import Pulse
 @_exported import Shuttle
 @_exported import TinyConstraints
 @_exported import UIKit
