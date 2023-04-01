@@ -3,9 +3,7 @@ import Shuttle
 import UIKit
 
 /// Base class that implements common functionality of all ViewModels
-open class ViewModel: Subscribing {
-    open var prefersMainThreadExecution: Bool = false
-    
+open class ViewModel {
     public var cancellables = Set<AnyCancellable>()
     
     @Event<TextableMessage> public var sharingViaMessageEvent
@@ -29,5 +27,21 @@ open class ViewModel: Subscribing {
         guard let url = URL(string: urlString) else { return }
         let webViewController = SimpleWebViewController(url)
         navigationEvent.send(webViewController)
+    }
+    
+    public func subscribe<T>(to subject: PassthroughSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        subject.sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribeOnMain<T>(to subject: PassthroughSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        subject.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribe<T>(to stream: CurrentValueSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        stream.sink(receiveValue: performing).store(in: &cancellables)
+    }
+    
+    public func subscribeOnMain<T>(to stream: CurrentValueSubject<T, Never>, performing: @escaping ((T) -> Void)) {
+        stream.receive(on: DispatchQueue.main).sink(receiveValue: performing).store(in: &cancellables)
     }
 }
