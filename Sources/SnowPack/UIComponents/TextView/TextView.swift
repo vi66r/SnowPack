@@ -3,10 +3,12 @@ import UIKit
 
 open class TextView: UITextView {
     @MainThreaded public var pausedTypingAction = {}
+    @MainThreaded public var secondaryPausedTypingAction = {}
     @MainThreaded public var textChanged = {}
     
     var cancellables = Set<AnyCancellable>()
     public var pauseTime: Int = 1000
+    public var secondaryPauseTime: Int = 500
     
     public func automaticallyScrollToCursor() {
         let publisher = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification, object: self)
@@ -31,6 +33,17 @@ open class TextView: UITextView {
             .sink(receiveValue: { (value) in
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                     self?.pausedTypingAction()
+                }
+            }).store(in: &cancellables)
+    }
+    
+    public func observeSecondaryPauseInTyping() {
+        let publisher = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification, object: self)
+        publisher
+            .debounce(for: .milliseconds(secondaryPauseTime), scheduler: RunLoop.main)
+            .sink(receiveValue: { (value) in
+                DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                    self?.secondaryPausedTypingAction()
                 }
             }).store(in: &cancellables)
     }
