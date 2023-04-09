@@ -1,3 +1,5 @@
+import Nuke
+import NukeExtensions
 import UIKit
 
 public class ViewContainerTableViewCell<T: UIView & Hydratable>: UITableViewCell {
@@ -26,5 +28,18 @@ public class ViewContainerTableViewCell<T: UIView & Hydratable>: UITableViewCell
     
     public func hydrate(with model: T.ModelType) {
         mainView.hydrate(with: model)
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        let imageViews = mainView.allSubviews.compactMap { view in
+            if let view = view as? UIImageView {
+                return view
+            }
+            return nil
+        }
+        imageViews.forEach({
+            NukeExtensions.cancelRequest(for: $0)
+        })
     }
 }

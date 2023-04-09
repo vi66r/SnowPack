@@ -1,3 +1,5 @@
+import Nuke
+import NukeExtensions
 import UIKit
 
 public class ViewContainerCollectionReusableView<T: UIView & Hydratable>: UICollectionReusableView {
@@ -30,6 +32,14 @@ public class ViewContainerCollectionReusableView<T: UIView & Hydratable>: UIColl
     
     public override func prepareForReuse() {
         super.prepareForReuse()
-        // do something generic...
+        let imageViews = mainView.allSubviews.compactMap { view in
+            if let view = view as? UIImageView {
+                return view
+            }
+            return nil
+        }
+        imageViews.forEach({
+            NukeExtensions.cancelRequest(for: $0)
+        })
     }
 }

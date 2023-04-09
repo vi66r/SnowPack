@@ -36,6 +36,10 @@ public extension UIImageView {
         }
     }
     
+    func cancelImageLoad() {
+        NukeExtensions.cancelRequest(for: self)
+    }
+    
     func fade(to image: UIImage?) {
         UIView.transition(with: self,
                           duration: 0.45,
