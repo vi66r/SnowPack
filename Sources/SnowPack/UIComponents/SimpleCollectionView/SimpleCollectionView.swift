@@ -379,8 +379,8 @@ public extension SimpleCollectionView {
     
     func updateCenterFocus() {
         guard focusesOnCenterCell else { return }
-        let centerPoint = CGPoint(x: frame.size.width / 2,
-                                  y: frame.size.height / 2)
+        let centerPoint = CGPoint(x: frame.size.width / 2 + contentOffset.x,
+                                  y: frame.size.height / 2 + contentOffset.y)
         
         guard let indexPath = indexPathForItem(at: centerPoint),
               let cell = cellForItem(at: indexPath) as? CollectionViewContainerCell
