@@ -73,8 +73,8 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     
     public var scrolled: Action?
     
-    var focusedCell: (CollectionViewContainerCell, IndexPath)?
-    var defocusedCells: [CollectionViewContainerCell]?
+    public var focusedCell: (CollectionViewContainerCell, IndexPath)?
+    public var defocusedCells: [CollectionViewContainerCell]?
     
     public var prefetchAction: TypedAction<[IndexPath]>? {
         didSet { prefetchDataSource = self }
