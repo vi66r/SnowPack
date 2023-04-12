@@ -15,12 +15,15 @@ open class SnappingCollectionViewLayout: UICollectionViewFlowLayout {
             )
         }
 
-        var offsetAdjustment = CGFloat.greatestFiniteMagnitude
+        var horizontalOffsetAdjustment = CGFloat.greatestFiniteMagnitude
         let horizontalOffset = proposedContentOffset.x + collectionView.contentInset.left
+        
+        var verticalOffsetAdjustment = CGFloat.greatestFiniteMagnitude
+        let verticalOffset = proposedContentOffset.y + collectionView.contentInset.top
 
         let targetRect = CGRect(
             x: proposedContentOffset.x,
-            y: 0,
+            y: proposedContentOffset.y,
             width: collectionView.bounds.size.width,
             height: collectionView.bounds.size.height
         )
@@ -28,13 +31,19 @@ open class SnappingCollectionViewLayout: UICollectionViewFlowLayout {
         let layoutAttributesArray = super.layoutAttributesForElements(in: targetRect)
 
         layoutAttributesArray?.forEach({ (layoutAttributes) in
-            let itemOffset = layoutAttributes.frame.origin.x
-            if fabsf(Float(itemOffset - horizontalOffset)) < fabsf(Float(offsetAdjustment)) {
-                offsetAdjustment = itemOffset - horizontalOffset
+            let horizontalItemOffset = layoutAttributes.frame.origin.x
+            if fabsf(Float(horizontalItemOffset - horizontalOffset)) < fabsf(Float(horizontalOffsetAdjustment)) {
+                horizontalOffsetAdjustment = horizontalItemOffset - horizontalOffset
+            }
+            
+            let verticalItemOffset = layoutAttributes.frame.origin.y
+            if fabsf(Float(verticalItemOffset - verticalOffset)) < fabsf(Float(verticalOffsetAdjustment)) {
+                verticalOffsetAdjustment = verticalItemOffset - verticalOffset
             }
         })
 
-        return CGPoint(x: proposedContentOffset.x + offsetAdjustment, y: proposedContentOffset.y)
+        return CGPoint(x: proposedContentOffset.x + horizontalOffsetAdjustment,
+                       y: proposedContentOffset.y + verticalOffsetAdjustment)
     }
 }
 
