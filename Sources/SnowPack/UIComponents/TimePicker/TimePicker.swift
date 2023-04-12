@@ -128,7 +128,7 @@ public final class TimePicker: UIView {
         super.init(frame: .zero)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach(addSubview)
         hoursCarousel.leadingToSuperview()
-        separatorLabel.leadingToTrailing(of: hoursCarousel)
+        separatorLabel.leadingToTrailing(of: hoursCarousel, offset: 1.0)
         minutesCarousel.leadingToTrailing(of: separatorLabel)
         ampmCarousel.leadingToTrailing(of: minutesCarousel)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach({ $0.centerYToSuperview() })
