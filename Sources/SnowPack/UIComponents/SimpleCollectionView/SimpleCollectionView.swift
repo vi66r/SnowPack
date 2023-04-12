@@ -20,13 +20,19 @@ public protocol SimpleCollectionViewLayoutDelegate {
 /// The interface for cell customization is fulfilled by a series of delcarative remote actions (escaping functions).
 /// They are as follows:
 /// ```
-/// var cellAtIndexPath: Remote2DTypedAction<T, IndexPath>?
-/// var cellWillAppear: Remote2DTypedAction<T, IndexPath>?
-/// var cellDidDisappear: Remote2DTypedAction<T, IndexPath>?
-/// var cellSelected: Remote2DTypedAction<T, IndexPath>?
-/// var cellFocused: Remote2DTypedAction<T, IndexPath>?
-/// var cellDefocused: Remote2DTypedAction<T, IndexPath>?
-/// var cellRepositioned: Remote2DTypedAction<T, IndexPath>?
+/// var approachingEnd: Action?
+/// var refreshRequested: Action?
+/// var cellAtIndexPath: Typed2DAction<T, IndexPath>?
+/// var cellWillAppear: Typed2DAction<T, IndexPath>?
+/// var cellDidDisappear: Typed2DAction<T, IndexPath>?
+/// var cellSelected: Typed2DAction<T, IndexPath>?
+/// var cellFocused: Typed2DAction<CollectionViewContainerCell, IndexPath>?
+/// var cellDefocused: TypedAction<CollectionViewContainerCell>?
+/// var cellRepositioned: Typed2DAction<T, IndexPath>?
+/// var focusedTouchBeganAction: Typed2DAction<CollectionViewContainerCell, IndexPath>?
+/// var focusedTouchEndedAction: Typed2DAction<CollectionViewContainerCell, IndexPath>?
+/// var defocusedTouchBeganAction: TypedAction<[CollectionViewContainerCell]>?
+/// var defocusedTouchEndedAction: TypedAction<[CollectionViewContainerCell]>?
 /// ```
 /// For dynamic cell sizing, implement the delegate `SimpleCollectionViewLayoutDelegate`
 ///
@@ -41,9 +47,11 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
 //    UICollectionViewDragDelegate,
 //    UICollectionViewDropDelegate
 {
-    typealias ContainerCell = ViewContainerCollectionViewCell<T>
+    public typealias CollectionViewContainerCell = ViewContainerCollectionViewCell<T>
     
     private var performingAutomaticUpdates = false
+    
+    public var focusesOnCenterCell = false
     
     public var approachingEnd: Action?
     
@@ -54,11 +62,19 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     public var cellDidDisappear: Typed2DAction<T, IndexPath>?
     
     public var cellSelected: Typed2DAction<T, IndexPath>?
-    public var cellFocused: Typed2DAction<T, IndexPath>?
-    public var cellDefocused: Typed2DAction<T, IndexPath>?
+    public var cellFocused: Typed2DAction<CollectionViewContainerCell, IndexPath>?
+    public var cellDefocused: TypedAction<CollectionViewContainerCell>?
     public var cellRepositioned: Typed2DAction<T, IndexPath>?
     
+    public var focusedTouchBeganAction: Typed2DAction<CollectionViewContainerCell, IndexPath>?
+    public var focusedTouchEndedAction: Typed2DAction<CollectionViewContainerCell, IndexPath>?
+    public var defocusedTouchBeganAction: TypedAction<[CollectionViewContainerCell]>?
+    public var defocusedTouchEndedAction: TypedAction<[CollectionViewContainerCell]>?
+    
     public var scrolled: Action?
+    
+    var focusedCell: (CollectionViewContainerCell, IndexPath)?
+    var defocusedCells: [CollectionViewContainerCell]?
     
     public var prefetchAction: TypedAction<[IndexPath]>? {
         didSet { prefetchDataSource = self }
@@ -113,7 +129,7 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
         self.interitemSpacing = interItemSpacing
         self.lineSpacing = lineSpacing
         super.init(frame: .zero, collectionViewLayout: layout)
-        register(ContainerCell.self, forCellWithReuseIdentifier: ContainerCell.identifier)
+        register(CollectionViewContainerCell.self, forCellWithReuseIdentifier: CollectionViewContainerCell.identifier)
         dataSource = self
         delegate = self
         showsVerticalScrollIndicator = false
@@ -188,13 +204,13 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     }
     
     // MARK: - UICollectionViewDelegate
-
+    
     public func collectionView(
         _ collectionView: UICollectionView,
         willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        guard let cell = cell as? ContainerCell else { return }
+        guard let cell = cell as? CollectionViewContainerCell else { return }
         cellWillAppear?(cell.mainView, indexPath)
     }
     
@@ -203,7 +219,7 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
         didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        guard let cell = cell as? ContainerCell else { return }
+        guard let cell = cell as? CollectionViewContainerCell else { return }
         cellDidDisappear?(cell.mainView, indexPath)
     }
     
@@ -216,7 +232,7 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ContainerCell else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewContainerCell else { return }
         cellSelected?(cell.mainView, indexPath)
     }
     
@@ -248,9 +264,9 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
         
         let target = elements[indexPath.row]
         guard let cell = dequeueReusableCell(
-            withReuseIdentifier: ContainerCell.identifier,
+            withReuseIdentifier: CollectionViewContainerCell.identifier,
             for: indexPath
-        ) as? ContainerCell else { return UICollectionViewCell() }
+        ) as? CollectionViewContainerCell else { return UICollectionViewCell() }
         cell.tag = indexPath.row
         cellAtIndexPath?(cell.mainView, indexPath)
         cell.hydrate(with: target)
@@ -271,19 +287,34 @@ open class SimpleCollectionView<T: Hydratable & UIView>:
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrolled?()
+        updateCenterFocus()
     }
     
-//    // MARK: - UICollectionViewDragDelegate - TBD
-//
-//    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-//        <#code#>
-//    }
-//
-//    // MARK: - UICollectionViewDropDelegate
-//
-//    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-//        <#code#>
-//    }
+    //    // MARK: - UICollectionViewDragDelegate - TBD
+    //
+    //    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+    //        <#code#>
+    //    }
+    //
+    //    // MARK: - UICollectionViewDropDelegate
+    //
+    //    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+    //        <#code#>
+    //    }
+    
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let focusedCell = focusedCell, let defocusedCells = defocusedCells else { return }
+        focusedTouchBeganAction?(focusedCell.0, focusedCell.1)
+        defocusedTouchBeganAction?(defocusedCells)
+    }
+    
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        guard let focusedCell = focusedCell, let defocusedCells = defocusedCells else { return }
+        focusedTouchEndedAction?(focusedCell.0, focusedCell.1)
+        defocusedTouchEndedAction?(defocusedCells)
+    }
 }
 
 public extension SimpleCollectionView {
@@ -294,7 +325,7 @@ public extension SimpleCollectionView {
     }
     
     func spotlightCell(at indexPath: IndexPath, style: SpotlightStyle = .dim) {
-        guard let cell = cellForItem(at: indexPath) as? ContainerCell,
+        guard let cell = cellForItem(at: indexPath) as? CollectionViewContainerCell,
               let containedViewImage = cell.mainView.snapshot,
               let window = SnowPackUI.currentWindow
         else { return }
@@ -338,6 +369,29 @@ public extension SimpleCollectionView {
             cell.removeFromSuperview()
             overlay.removeFromSuperview()
             self?.isScrollEnabled = true
+        })
+    }
+    
+}
+
+
+public extension SimpleCollectionView {
+    
+    func updateCenterFocus() {
+        guard focusesOnCenterCell else { return }
+        let centerPoint = CGPoint(x: frame.size.width / 2 + contentOffset.x,
+                                  y: frame.size.height / 2 + contentOffset.y)
+        
+        guard let indexPath = indexPathForItem(at: centerPoint),
+              let cell = cellForItem(at: indexPath) as? CollectionViewContainerCell
+        else { return }
+        focusedCell = (cell, indexPath)
+        cellFocused?(cell, indexPath)
+        let defocusedCells = visibleCells.filter({ $0 !== cell })
+            .compactMap({ $0 as? CollectionViewContainerCell })
+        self.defocusedCells = defocusedCells
+        defocusedCells.forEach({
+            cellDefocused?($0)
         })
     }
     

@@ -11,7 +11,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
     UITableViewDataSource,
     UITableViewDataSourcePrefetching
 {
-    typealias ContainerCell = ViewContainerTableViewCell<T>
+    typealias TableViewContainerCell = ViewContainerTableViewCell<T>
     
     public var approachingEndOfSection: TypedAction<Int>?
     
@@ -51,7 +51,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
         self.staticCellHeight = staticCellHeight
         self.staticHeaderHeight = staticHeaderHeight
         super.init(frame: .zero, style: .plain)
-        register(ContainerCell.self, forCellReuseIdentifier: ContainerCell.identifier)
+        register(TableViewContainerCell.self, forCellReuseIdentifier: TableViewContainerCell.identifier)
         separatorStyle = .none
         showsVerticalScrollIndicator = showsScrollIndicator
         showsHorizontalScrollIndicator = showsScrollIndicator
@@ -95,8 +95,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
         }
         
         let targetData = data[indexPath.section].elements[indexPath.row]
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ContainerCell.identifier,
-                                                       for: indexPath) as? ContainerCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewContainerCell.identifier,
+                                                       for: indexPath) as? TableViewContainerCell
         else { return UITableViewCell() }
         cell.tag = indexPath.row
         cell.hydrate(with: targetData)
@@ -121,17 +121,17 @@ open class SimpleTableView<T: UIView & Hydratable>:
     // MARK: - UITableViewDelegate
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? ContainerCell else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) as? TableViewContainerCell else { return }
         cellSelected?(cell.mainView, indexPath)
     }
     
     public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? ContainerCell else { return }
+        guard let cell = cell as? TableViewContainerCell else { return }
         cellWillAppear?(cell.mainView, indexPath)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? ContainerCell else { return }
+        guard let cell = cell as? TableViewContainerCell else { return }
         cellDidDisappear?(cell.mainView, indexPath)
     }
     
