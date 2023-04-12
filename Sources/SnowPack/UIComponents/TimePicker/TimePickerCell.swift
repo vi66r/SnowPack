@@ -7,7 +7,7 @@ public final class TimePickerCell: UIView, Hydratable {
     
     public lazy var label: UILabel = {
         let label = UILabel()
-        label.applyBackgroundColor(.surface)
+        label.applyBackgroundColor(.clear)
         label.textColor = TimePickerCell.color
         label.font = TimePickerCell.font
         label.textAlignment = .right
