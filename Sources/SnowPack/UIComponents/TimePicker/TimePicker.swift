@@ -16,11 +16,14 @@ public final class TimePicker: UIView {
     let ampm = ["AM", "PM"]
     
     public var preferredSize: CGSize {
-        return .init(width: hourMinuteSize.width * 2 + ampmSize.width + separatorLabel.intrinsicContentSize.width,
-                     height: hourMinuteSize.width)
+        return .init(width: hourSize.width + minuteSize.width + ampmSize.width + separatorLabel.intrinsicContentSize.width,
+                     height: minuteSize.width)
     }
-    
-    lazy var hourMinuteSize: CGSize = {
+    lazy var hourSize: CGSize = {
+        let intrinsicSize = "12".sizeOfString(usingFont: font)
+        return .init(width: intrinsicSize.width + 2.0, height: intrinsicSize.height)
+    }()
+    lazy var minuteSize: CGSize = {
         let intrinsicSize = "00".sizeOfString(usingFont: font)
         return .init(width: intrinsicSize.width + 2.0, height: intrinsicSize.height)
     }()
@@ -37,7 +40,7 @@ public final class TimePicker: UIView {
                                                                   backgroundColor: .clear,
                                                                   decelerationRate: .fast,
                                                                   contentInset: .zero,
-                                                                  staticCellSize: hourMinuteSize,
+                                                                  staticCellSize: hourSize,
                                                                   interItemSpacing: 2.0,
                                                                   lineSpacing: 2.0)
         collectionView.focusesOnCenterCell = true
@@ -51,8 +54,8 @@ public final class TimePicker: UIView {
             self?.hourIndex = index?.row ?? 0
             self?.assessTime()
         }
-        collectionView.width(hourMinuteSize.width)
-        collectionView.height(hourMinuteSize.height)
+        collectionView.width(hourSize.width)
+        collectionView.height(hourSize.height)
         return collectionView
     }()
     
@@ -64,7 +67,7 @@ public final class TimePicker: UIView {
                                                                   backgroundColor: .clear,
                                                                   decelerationRate: .fast,
                                                                   contentInset: .zero,
-                                                                  staticCellSize: hourMinuteSize,
+                                                                  staticCellSize: minuteSize,
                                                                   interItemSpacing: 2.0,
                                                                   lineSpacing: 2.0)
         collectionView.focusesOnCenterCell = true
@@ -78,8 +81,8 @@ public final class TimePicker: UIView {
             self?.minuteIndex = index?.row ?? 0
             self?.assessTime()
         }
-        collectionView.width(hourMinuteSize.width)
-        collectionView.height(hourMinuteSize.height)
+        collectionView.width(minuteSize.width)
+        collectionView.height(minuteSize.height)
         return collectionView
     }()
     
