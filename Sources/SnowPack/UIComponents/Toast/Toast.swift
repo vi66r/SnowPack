@@ -116,7 +116,7 @@ public final class Toast: UIView {
         switch kind {
         case .persistent:
             [dismissButton, messageLabel].forEach(addSubview(_:))
-            dismissButton.trailingToSuperview(offset: -8.0)
+            dismissButton.trailingToSuperview(offset: -24.0)
             switch position {
             case .top:
                 messageLabel.topToSuperview(offset: 4.0 + verticalOffset)
