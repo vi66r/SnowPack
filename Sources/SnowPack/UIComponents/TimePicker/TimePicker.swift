@@ -162,7 +162,7 @@ public final class TimePicker: UIView {
             view.applyRoundedCorners(preferredSize.height * 0.15)
             return view
         })
-        views.forEach(addSubview(_:))
+        views.forEach({ insertSubview($0, at: 0) })
         views[0].edges(to: hoursCarousel)
         views[1].edges(to: minutesCarousel)
         views[2].edges(to: ampmCarousel)
