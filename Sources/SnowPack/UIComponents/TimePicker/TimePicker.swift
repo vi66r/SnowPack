@@ -127,7 +127,9 @@ public final class TimePicker: UIView {
     public init(font: UIFont = .body3,
                 color: UIColor = .textSurface,
                 alignment: NSTextAlignment = .center,
-                cellBackground: UIColor = .clear
+                cellBackground: UIColor = .clear,
+                time: Date? = nil,
+                timeString: String? = nil
     ) {
         self.font = font
         self.color = color
@@ -141,6 +143,12 @@ public final class TimePicker: UIView {
         minutesCarousel.leadingToTrailing(of: separatorLabel)
         ampmCarousel.leadingToTrailing(of: minutesCarousel, offset: 2.0)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach({ $0.centerYToSuperview() })
+        
+        if let time = time {
+            setTimeWithDate(time)
+        } else if let timeString = timeString {
+            setTimeWithString(timeString)
+        }
     }
     
     func assessTime() {
@@ -152,6 +160,35 @@ public final class TimePicker: UIView {
         dateFormatter.dateFormat = "hh:mm a"
         if let date = dateFormatter.date(from: timeString) {
             timeChangePublisher.send(date)
+        }
+    }
+    
+    func setTimeWithDate(_ date: Date) {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour, .minute], from: date)
+        var usePM = false
+        if let hour = components.hour {
+            let bumped = hour + 1
+            let adjustedHour = bumped > 12 ? bumped - 12 : bumped
+            if bumped > 12 { usePM = true }
+            if let index = hours.firstIndex(of: "\(adjustedHour)") {
+                hoursCarousel.scrollToItem(at: .init(row: index, section: 0), at: .centeredVertically, animated: false)
+            }
+            let ampm = usePM ? 1 : 0
+            ampmCarousel.scrollToItem(at: .init(row: ampm, section: 0), at: .centeredVertically, animated: false)
+        }
+        
+        if let minute = components.minute,
+           let index = minutes.firstIndex(of: "\(minute)") {
+            minutesCarousel.scrollToItem(at: .init(row: index, section: 0), at: .centeredVertically, animated: false)
+        }
+    }
+    
+    func setTimeWithString(_ string: String) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        if let date = dateFormatter.date(from: string) {
+            setTimeWithDate(date)
         }
     }
     
