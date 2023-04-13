@@ -137,7 +137,7 @@ public final class TimePicker: UIView {
         super.init(frame: .zero)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach(addSubview)
         hoursCarousel.leadingToSuperview()
-        separatorLabel.leadingToTrailing(of: hoursCarousel, offset: 1.0)
+        separatorLabel.leadingToTrailing(of: hoursCarousel)
         minutesCarousel.leadingToTrailing(of: separatorLabel)
         ampmCarousel.leadingToTrailing(of: minutesCarousel)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach({ $0.centerYToSuperview() })
@@ -156,15 +156,16 @@ public final class TimePicker: UIView {
     }
     
     public func setupCellBackgrounds() {
-        let frames = [hoursCarousel.frame, minutesCarousel.frame, ampmCarousel.frame]
-        let views = (0...2).map({
+        let views = (0...2).map({ _ in
             let view = UIView()
             view.backgroundColor = cellBackground
-            view.frame = frames[$0]
             view.applyRoundedCorners(preferredSize.height * 0.15)
             return view
         })
         views.forEach(addSubview(_:))
+        views[0].edges(to: hoursCarousel)
+        views[1].edges(to: minutesCarousel)
+        views[2].edges(to: ampmCarousel)
     }
     
     public required init?(coder: NSCoder) {
