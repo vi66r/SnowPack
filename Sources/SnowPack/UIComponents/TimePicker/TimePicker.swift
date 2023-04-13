@@ -1,3 +1,4 @@
+import Shuttle
 import UIKit
 
 public final class TimePicker: UIView {
@@ -144,11 +145,14 @@ public final class TimePicker: UIView {
         ampmCarousel.leadingToTrailing(of: minutesCarousel, offset: 2.0)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach({ $0.centerYToSuperview() })
         
-        if let time = time {
-            setTimeWithDate(time)
-        } else if let timeString = timeString {
-            setTimeWithString(timeString)
+        @Delayed(100) var setTimes = { [weak self] in
+            if let time = time {
+                self?.setTimeWithDate(time)
+            } else if let timeString = timeString {
+                self?.setTimeWithString(timeString)
+            }
         }
+        setTimes()
     }
     
     func assessTime() {
