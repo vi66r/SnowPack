@@ -1,11 +1,11 @@
 import Shuttle
 import UIKit
 
-protocol ToastPresenting {
+public protocol ToastPresenting {
     func presentToast(_ toast: Toast)
 }
 
-extension ToastPresenting where Self: UIViewController {
+public extension ToastPresenting where Self: UIViewController {
     
     func presentToast(_ toast: Toast) {
         
