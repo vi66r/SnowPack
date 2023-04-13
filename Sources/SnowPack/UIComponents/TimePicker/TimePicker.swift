@@ -145,7 +145,7 @@ public final class TimePicker: UIView {
         ampmCarousel.leadingToTrailing(of: minutesCarousel, offset: 2.0)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach({ $0.centerYToSuperview() })
         
-        @Delayed(100) var setTimes = { [weak self] in
+        @Delayed(50) var setTimes = { [weak self] in
             if let time = time {
                 self?.setTimeWithDate(time)
             } else if let timeString = timeString {
