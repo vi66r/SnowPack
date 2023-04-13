@@ -170,7 +170,7 @@ public final class TimePicker: UIView {
         return nil
     }
     
-    func setTimeWithDate(_ date: Date) {
+    public func setTimeWithDate(_ date: Date) {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.hour, .minute], from: date)
         var usePM = false
@@ -191,7 +191,7 @@ public final class TimePicker: UIView {
         }
     }
     
-    func setTimeWithString(_ string: String) {
+    public func setTimeWithString(_ string: String) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm a"
         if let date = dateFormatter.date(from: string) {
