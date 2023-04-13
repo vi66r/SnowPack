@@ -119,7 +119,8 @@ public final class TimePicker: UIView {
         let label = UILabel()
         label.attributedText = NSAttributedString(string: ":",
                                                   attributes: [.baselineOffset : colonBaselineOffset,
-                                                               .foregroundColor : color]
+                                                               .foregroundColor : color,
+                                                               .font : font]
         )
         label.textAlignment = .center
         return label
