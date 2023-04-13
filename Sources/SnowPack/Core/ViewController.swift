@@ -4,7 +4,7 @@ import Shuttle
 import UIKit
 
 /// Base class that defines common functionality of all ViewControllers
-open class ViewController: UIViewController, Loading {
+open class ViewController: UIViewController, Loading, ToastPresenting {
     public var cancellables = Set<AnyCancellable>()
     /// no need to touch this value ever, instead call `showBasicLoader(with: ...)` and `hideBasicLoader()`
     @EventStream(value: false) public var isLoading
