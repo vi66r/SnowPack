@@ -172,7 +172,7 @@ public final class TimePicker: UIView {
         let components = calendar.dateComponents([.hour, .minute], from: date)
         var usePM = false
         if let hour = components.hour {
-            let bumped = hour + 1
+            let bumped = hour == 0 ? 24 : hour
             let adjustedHour = bumped > 12 ? bumped - 12 : bumped
             if bumped > 12 { usePM = true }
             if let index = hours.firstIndex(of: "\(adjustedHour)") {
