@@ -57,6 +57,9 @@ public final class Toast: UIView {
         }
         button.tintColor = color
         button.heightWidth(40.0)
+        button.addAction(UIAction { [weak self] _ in
+            self?.requestDismissalAction?()
+        }, for: .touchUpInside)
         return button
     }()
     
