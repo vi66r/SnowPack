@@ -116,7 +116,7 @@ public final class Toast: UIView {
         switch kind {
         case .persistent:
             [dismissButton, messageLabel].forEach(addSubview(_:))
-            dismissButton.trailingToSuperview(offset: 8.0)
+            dismissButton.trailingToSuperview(offset: 4.0)
             switch position {
             case .top:
                 messageLabel.topToSuperview(offset: 4.0 + verticalOffset)
@@ -124,7 +124,7 @@ public final class Toast: UIView {
                 messageLabel.bottomToSuperview(offset: -4.0 - verticalOffset)
             }
             dismissButton.centerY(to: messageLabel)
-            messageLabel.leadingToSuperview(offset: 8.0)
+            messageLabel.leadingToSuperview(offset: 44.0)
             messageLabel.trailingToLeading(of: dismissButton, offset: -8.0)
         case .ephemeral(let duration):
             addSubview(messageLabel)
