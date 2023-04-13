@@ -57,7 +57,7 @@ public final class TimePicker: UIView {
             self?.assessTime()
         }
         collectionView.width(hourSize.width)
-        collectionView.height(hourSize.height * 1.75)
+        collectionView.height(hourSize.height)
         return collectionView
     }()
     
