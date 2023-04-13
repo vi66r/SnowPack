@@ -180,14 +180,17 @@ public final class TimePicker: UIView {
             if bumped > 12 && bumped < 24 { usePM = true }
             if let index = hours.firstIndex(of: "\(adjustedHour)") {
                 hoursCarousel.scrollToItem(at: .init(row: index, section: 0), at: .centeredVertically, animated: false)
+                hourIndex = index
             }
             let ampm = usePM ? 1 : 0
             ampmCarousel.scrollToItem(at: .init(row: ampm, section: 0), at: .centeredVertically, animated: false)
+            ampmIndex = ampm
         }
         
         if let minute = components.minute,
            let index = minutes.firstIndex(of: "\(minute)") {
             minutesCarousel.scrollToItem(at: .init(row: index, section: 0), at: .centeredVertically, animated: false)
+            minuteIndex = index
         }
     }
     
