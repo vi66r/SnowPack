@@ -51,7 +51,7 @@ public final class Toast: UIView {
         var color: UIColor
         switch variation {
         case .regualar:
-            color = .tint
+            color = .textBrand
         case .error, .translucentDark:
             color = .white
         }
@@ -114,12 +114,13 @@ public final class Toast: UIView {
         case .persistent:
             [dismissButton, messageLabel].forEach(addSubview(_:))
             dismissButton.trailingToSuperview(offset: -8.0)
-            dismissButton.centerYToSuperview()
             switch position {
             case .top:
                 messageLabel.topToSuperview(offset: 4.0 + verticalOffset)
+                dismissButton.topToSuperview(offset: 4.0 + verticalOffset)
             case .bottom:
                 messageLabel.bottomToSuperview(offset: -4.0 - verticalOffset)
+                dismissButton.bottomToSuperview(offset: -4.0 - verticalOffset)
             }
             messageLabel.leadingToSuperview(offset: 8.0)
             messageLabel.trailingToLeading(of: dismissButton, offset: -8.0)
