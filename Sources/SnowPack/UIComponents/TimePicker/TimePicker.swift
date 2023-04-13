@@ -7,6 +7,7 @@ public final class TimePicker: UIView {
     public var font: UIFont
     public var color: UIColor
     public var colonBaselineOffset = 1.0
+    public var cellBackground: UIColor = .clear
     
     var hourIndex = 0
     var minuteIndex = 0
@@ -20,7 +21,7 @@ public final class TimePicker: UIView {
                      height: minuteSize.width)
     }
     lazy var hourSize: CGSize = {
-        let intrinsicSize = "12".sizeOfString(usingFont: font)
+        let intrinsicSize = "00".sizeOfString(usingFont: font)
         return .init(width: intrinsicSize.width + 2.0, height: intrinsicSize.height)
     }()
     lazy var minuteSize: CGSize = {
@@ -123,11 +124,16 @@ public final class TimePicker: UIView {
         return label
     }()
     
-    public init(font: UIFont = .body3, color: UIColor = .textSurface) {
+    public init(font: UIFont = .body3,
+                color: UIColor = .textSurface,
+                alignment: NSTextAlignment = .center,
+                cellBackground: UIColor = .clear
+    ) {
         self.font = font
         self.color = color
         TimePickerCell.font = font
         TimePickerCell.color = color
+        TimePickerCell.alignment = alignment
         super.init(frame: .zero)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach(addSubview)
         hoursCarousel.leadingToSuperview()
@@ -147,6 +153,18 @@ public final class TimePicker: UIView {
         if let date = dateFormatter.date(from: timeString) {
             timeChangePublisher.send(date)
         }
+    }
+    
+    public func setupCellBackgrounds() {
+        let frames = [hoursCarousel.frame, minutesCarousel.frame, ampmCarousel.frame]
+        let views = (0...2).map({
+            let view = UIView()
+            view.backgroundColor = cellBackground
+            view.frame = frames[$0]
+            view.applyRoundedCorners(preferredSize.height * 0.15)
+            return view
+        })
+        views.forEach(addSubview(_:))
     }
     
     public required init?(coder: NSCoder) {

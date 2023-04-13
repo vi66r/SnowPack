@@ -4,13 +4,14 @@ public final class TimePickerCell: UIView, Hydratable {
     
     public static var font: UIFont = .body
     public static var color: UIColor = .textBrand
+    public static var alignment: NSTextAlignment = .right
     
     public lazy var label: UILabel = {
         let label = UILabel()
         label.applyBackgroundColor(.clear)
         label.textColor = TimePickerCell.color
         label.font = TimePickerCell.font
-        label.textAlignment = .right
+        label.textAlignment = TimePickerCell.alignment
         return label
     }()
     
