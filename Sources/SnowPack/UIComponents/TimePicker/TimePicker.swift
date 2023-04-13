@@ -139,7 +139,7 @@ public final class TimePicker: UIView {
         hoursCarousel.leadingToSuperview()
         separatorLabel.leadingToTrailing(of: hoursCarousel)
         minutesCarousel.leadingToTrailing(of: separatorLabel)
-        ampmCarousel.leadingToTrailing(of: minutesCarousel)
+        ampmCarousel.leadingToTrailing(of: minutesCarousel, offset: 2.0)
         [hoursCarousel, separatorLabel, minutesCarousel, ampmCarousel].forEach({ $0.centerYToSuperview() })
     }
     
@@ -159,7 +159,7 @@ public final class TimePicker: UIView {
         let views = (0...2).map({ _ in
             let view = UIView()
             view.backgroundColor = cellBackground
-            view.applyRoundedCorners(preferredSize.height * 0.15)
+            view.applyRoundedCorners(preferredSize.height * 0.2, curve: .continuous)
             return view
         })
         views.forEach({ insertSubview($0, at: 0) })
