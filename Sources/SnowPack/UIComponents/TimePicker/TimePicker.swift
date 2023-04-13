@@ -174,7 +174,7 @@ public final class TimePicker: UIView {
         if let hour = components.hour {
             let bumped = hour == 0 ? 24 : hour
             let adjustedHour = bumped > 12 ? bumped - 12 : bumped
-            if bumped > 12 { usePM = true }
+            if bumped > 12 && bumped < 24 { usePM = true }
             if let index = hours.firstIndex(of: "\(adjustedHour)") {
                 hoursCarousel.scrollToItem(at: .init(row: index, section: 0), at: .centeredVertically, animated: false)
             }
