@@ -4,7 +4,7 @@ import UIKit
 public final class TimePicker: UIView {
     
     @Event<Date> public var timeChangePublisher
-    
+    public var currentSelectedTimeAsDate: Date? { assessTime() }
     public var font: UIFont
     public var color: UIColor
     public var colonBaselineOffset = 1.0
@@ -155,7 +155,8 @@ public final class TimePicker: UIView {
         setTimes()
     }
     
-    func assessTime() {
+    @discardableResult
+    func assessTime() -> Date? {
         let hour = hours[hourIndex]
         let minute = minutes[minuteIndex]
         let ampm = ampm[ampmIndex]
@@ -164,7 +165,9 @@ public final class TimePicker: UIView {
         dateFormatter.dateFormat = "hh:mm a"
         if let date = dateFormatter.date(from: timeString) {
             timeChangePublisher.send(date)
+            return date
         }
+        return nil
     }
     
     func setTimeWithDate(_ date: Date) {
