@@ -35,6 +35,7 @@ public final class Toast: UIView {
     var kind: Kind
     var variation: Variation
     var cornerStyle: CornerStyle
+    var verticalOffset = 0.0
     
     public var requestDismissalAction: Action?
     
@@ -63,6 +64,7 @@ public final class Toast: UIView {
         let label = UILabel()
         label.font = .body
         label.numberOfLines = 0
+        label.textAlignment = .center
         var color: UIColor
         switch variation {
         case .regualar:
@@ -99,17 +101,37 @@ public final class Toast: UIView {
             backgroundColor = .gray80.withAlphaComponent(0.5)
         }
         
+        var safeAreaHeight: CGFloat
+        switch position {
+        case .top:
+            safeAreaHeight = UIDevice.current.safeAreaInsets.top
+        case .bottom:
+            safeAreaHeight = UIDevice.current.safeAreaInsets.bottom
+        }
+        verticalOffset = safeAreaHeight
+        
         switch kind {
         case .persistent:
             [dismissButton, messageLabel].forEach(addSubview(_:))
             dismissButton.trailingToSuperview(offset: -8.0)
             dismissButton.centerYToSuperview()
-            messageLabel.topToSuperview(offset: 4.0)
+            switch position {
+            case .top:
+                messageLabel.topToSuperview(offset: 4.0 + verticalOffset)
+            case .bottom:
+                messageLabel.bottomToSuperview(offset: -4.0 - verticalOffset)
+            }
             messageLabel.leadingToSuperview(offset: 8.0)
             messageLabel.trailingToLeading(of: dismissButton, offset: -8.0)
         case .ephemeral(let duration):
             addSubview(messageLabel)
-            messageLabel.edgesToSuperview(excluding: .bottom, insets: .uniform(4.0))
+            messageLabel.horizontalToSuperview(insets: .horizontal(8.0))
+            switch position {
+            case .top:
+                messageLabel.topToSuperview(offset: 4.0 + verticalOffset)
+            case .bottom:
+                messageLabel.bottomToSuperview(offset: -4.0 - verticalOffset)
+            }
             displayDuration = duration
         }
     }
