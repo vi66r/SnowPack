@@ -117,11 +117,10 @@ public final class Toast: UIView {
             switch position {
             case .top:
                 messageLabel.topToSuperview(offset: 4.0 + verticalOffset)
-                dismissButton.topToSuperview(offset: 4.0 + verticalOffset)
             case .bottom:
                 messageLabel.bottomToSuperview(offset: -4.0 - verticalOffset)
-                dismissButton.bottomToSuperview(offset: -4.0 - verticalOffset)
             }
+            dismissButton.centerY(to: messageLabel)
             messageLabel.leadingToSuperview(offset: 8.0)
             messageLabel.trailingToLeading(of: dismissButton, offset: -8.0)
         case .ephemeral(let duration):
