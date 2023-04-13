@@ -4,9 +4,30 @@ public class LocalNotification {
     
     static let allLocalNotificationsKey = "Snowpack.LocalNotification.All"
     
+    static var hasPermissions: Bool = false
+    
     static func setNotificationIDs(_ ids: [String]) {
         let defaults = UserDefaults.standard
         defaults.set(ids, forKey: allLocalNotificationsKey)
+    }
+    
+    public static func requestNotificationPermission() async throws -> Bool {
+        let notificationCenter = UNUserNotificationCenter.current()
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        return try await notificationCenter.requestAuthorization(options: options)
+    }
+    
+    // Call this function before scheduling notifications to ensure permission is granted
+    public static func checkAndRequestNotificationPermission() async throws {
+        let notificationCenter = UNUserNotificationCenter.current()
+        let settings = await notificationCenter.notificationSettings()
+        
+        switch settings.authorizationStatus {
+        case .notDetermined, .denied:
+            LocalNotification.hasPermissions = try await requestNotificationPermission()
+        default:
+            LocalNotification.hasPermissions = true
+        }
     }
     
     public static func clearAll() {
@@ -23,6 +44,9 @@ public class LocalNotification {
     public static func schedule(notification: UNMutableNotificationContent,
                                 for date: Date,
                                 repeating: Bool = false) async throws {
+        if !hasPermissions {
+            try await checkAndRequestNotificationPermission()
+        }
         let dateComponents = Calendar.current.dateComponents([.hour, .minute],
                                                              from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents,
@@ -40,7 +64,9 @@ public class LocalNotification {
     public static  func schedule(notification: UNMutableNotificationContent,
                                  for dates: [Date],
                                  repeating: Bool = false) async throws {
-        
+        if !hasPermissions {
+            try await checkAndRequestNotificationPermission()
+        }
         let dateComponents = dates.map({
             Calendar.current.dateComponents([.hour, .minute], from: $0)
         })
@@ -67,7 +93,9 @@ public class LocalNotification {
     
     public static func schedule(notification: UNMutableNotificationContent,
                                 for timeFromNow: TimeInterval) async throws {
-        
+        if !hasPermissions {
+            try await checkAndRequestNotificationPermission()
+        }
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeFromNow, repeats: false)
         
         let uuidString = UUID().uuidString
@@ -82,7 +110,9 @@ public class LocalNotification {
     public static func schedule(notification: UNMutableNotificationContent,
                                 every timeInterval: TimeInterval,
                                 repeating: Bool = false) async throws {
-        
+        if !hasPermissions {
+            try await checkAndRequestNotificationPermission()
+        }
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: repeating)
         
         let uuidString = UUID().uuidString
@@ -99,6 +129,9 @@ public class LocalNotification {
                                 between startingHour: Int,
                                 and endingHour: Int,
                                 repeating: Bool = false) async throws {
+        if !hasPermissions {
+            try await checkAndRequestNotificationPermission()
+        }
 //        let calendar = Calendar.current
         let startHour = startingHour
         let endHour = endingHour
@@ -126,6 +159,9 @@ public class LocalNotification {
                                        between startingHour: Int,
                                        and endingHour: Int,
                                        repeating: Bool = false) async throws {
+        if !hasPermissions {
+            try await checkAndRequestNotificationPermission()
+        }
         let calendar = Calendar.current
         let startHour = startingHour
         let endHour = endingHour
