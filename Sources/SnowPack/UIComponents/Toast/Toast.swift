@@ -65,7 +65,7 @@ public final class Toast: UIView {
     
     lazy var messageLabel: UILabel = {
         let label = UILabel()
-        label.font = .body
+        label.font = .body.withSize(18.0)
         label.numberOfLines = 0
         label.textAlignment = .center
         var color: UIColor
