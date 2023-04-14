@@ -9,6 +9,7 @@ open class ViewModel {
     @Event<TextableMessage> public var sharingViaMessageEvent
     @Event public var initialLoadEvent
     @Event public var refreshEvent
+    @Event public var appStoreReviewRequestEvent
     @Event<UIViewController> public var navigationEvent
     @Event<Toast> public var toastEvent
     

@@ -1,6 +1,7 @@
 import MessageUI
 import Combine
 import Shuttle
+import StoreKit
 import UIKit
 
 /// Base class that defines common functionality of all ViewControllers
@@ -244,6 +245,12 @@ open class ViewController: UIViewController, Loading, ToastPresenting {
             navigationController.popViewController(animated: true)
         } else {
             dismiss(animated: true)
+        }
+    }
+    
+    public func requestAppStoreReview() {
+        if let windowScene = view.window?.windowScene {
+            SKStoreReviewController.requestReview(in: windowScene)
         }
     }
     

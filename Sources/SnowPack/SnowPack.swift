@@ -8,6 +8,14 @@
 @_exported import TinyConstraints
 @_exported import UIKit
 
+public struct AppManagement {
+    static var currentVersion: String? {
+        let infoDictionaryKey = kCFBundleVersionKey as String
+        let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
+        return currentVersion
+    }
+}
+
 public struct SnowPack {
     public private(set) var text = "Hello, World!"
 
