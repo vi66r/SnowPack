@@ -9,7 +9,7 @@
 @_exported import UIKit
 
 public struct AppManagement {
-    static var currentVersion: String? {
+    public static var currentVersion: String? {
         let infoDictionaryKey = kCFBundleVersionKey as String
         let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
         return currentVersion
