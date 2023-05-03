@@ -9,7 +9,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
     UITableView,
     UITableViewDelegate,
     UITableViewDataSource,
-    UITableViewDataSourcePrefetching
+    UITableViewDataSourcePrefetching,
+    UITableViewDragDelegate
 {
     typealias TableViewContainerCell = ViewContainerTableViewCell<T>
     
@@ -23,6 +24,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
     public var cellFocused: Typed2DAction<T, IndexPath>?
     public var cellDefocused: Typed2DAction<T, IndexPath>?
     public var cellRepositioned: Typed2DAction<T, IndexPath>?
+    
+    public var cellMoved: Typed2DAction<(to: IndexPath, from: IndexPath), Action>?
     
     public var scrolled: Action?
     
@@ -45,7 +48,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
                 contentInsets: UIEdgeInsets = .zero,
                 backgroundColor: UIColor = .clear,
                 staticCellHeight: CGFloat? = nil,
-                staticHeaderHeight: CGFloat? = nil
+                staticHeaderHeight: CGFloat? = nil,
+                dragDropEnabled: Bool = false
     ) {
         self.data = elements
         self.staticCellHeight = staticCellHeight
@@ -62,6 +66,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
         self.contentInset = contentInsets
         delegate = self
         dataSource = self
+        dragDelegate = self
+        dragInteractionEnabled = dragDropEnabled
         self.backgroundColor = backgroundColor
     }
     
@@ -138,5 +144,24 @@ open class SimpleTableView<T: UIView & Hydratable>:
     // MARK: - ScrollViewDelegate
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrolled?()
+    }
+    
+    // MARK: - DragDelegate
+    
+    public func tableView(_ tableView: UITableView,
+                          itemsForBeginning session: UIDragSession,
+                          at indexPath: IndexPath
+    ) -> [UIDragItem] {
+        let dragItem = UIDragItem(itemProvider: NSItemProvider())
+        dragItem.localObject = data[indexPath.section].elements[indexPath.row]
+        return [dragItem]
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        cellMoved?((sourceIndexPath, destinationIndexPath), { [weak self] in
+            guard let self = self else { return }
+            let mover = self.data[sourceIndexPath.section].elements.remove(at: sourceIndexPath.row)
+            self.data[sourceIndexPath.section].elements.insert(mover, at: destinationIndexPath.row)
+        })
     }
 }
