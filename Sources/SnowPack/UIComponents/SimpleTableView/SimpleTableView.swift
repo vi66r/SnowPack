@@ -16,7 +16,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
     
     public var approachingEndOfSection: TypedAction<Int>?
     
-    public var cellAtIndexPath: Typed2DAction<T, IndexPath>?
+    public var cellAtIndexPath: Typed2DAction<ViewContainerTableViewCell<T>, IndexPath>?
     public var cellWillAppear: Typed2DAction<T, IndexPath>?
     public var cellDidDisappear: Typed2DAction<T, IndexPath>?
     
@@ -106,7 +106,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
         else { return UITableViewCell() }
         cell.tag = indexPath.row
         cell.hydrate(with: targetData)
-        cellAtIndexPath?(cell.mainView, indexPath)
+        cellAtIndexPath?(cell, indexPath)
         return cell
     }
     
