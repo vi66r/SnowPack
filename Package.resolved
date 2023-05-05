@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/marmelroy/PhoneNumberKit",
       "state" : {
-        "revision" : "9b051490589ae4f2fa861287407a43a87be7226c",
-        "version" : "3.5.8"
+        "revision" : "6edd6e38a30aec087cb97f7377edf876c29a427e",
+        "version" : "3.5.9"
       }
     },
     {
@@ -24,7 +24,7 @@
       "location" : "https://github.com/vi66r/Pulse",
       "state" : {
         "branch" : "main",
-        "revision" : "16a077f01e704c4ccf870aba61400afd580e8705"
+        "revision" : "816fab6ab2037e0402f883ded4fecfbd7aed6f5f"
       }
     },
     {

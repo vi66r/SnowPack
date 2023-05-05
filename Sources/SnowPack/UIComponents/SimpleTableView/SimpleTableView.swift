@@ -158,8 +158,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let mover = self.data[sourceIndexPath.section].elements.remove(at: sourceIndexPath.row)
-        self.data[sourceIndexPath.section].elements.insert(mover, at: destinationIndexPath.row)
+        let mover = data[sourceIndexPath.section].elements.remove(at: sourceIndexPath.row)
+        data[destinationIndexPath.section].elements.insert(mover, at: destinationIndexPath.row)
         reloadData()
         cellMoved?((sourceIndexPath, destinationIndexPath))
     }
