@@ -161,6 +161,6 @@ open class SimpleTableView<T: UIView & Hydratable>:
         let mover = data[sourceIndexPath.section].elements.remove(at: sourceIndexPath.row)
         data[destinationIndexPath.section].elements.insert(mover, at: destinationIndexPath.row)
         reloadData()
-        cellMoved?((sourceIndexPath, destinationIndexPath))
+        cellMoved?((destinationIndexPath, sourceIndexPath))
     }
 }
