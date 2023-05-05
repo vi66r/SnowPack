@@ -25,7 +25,7 @@ open class SimpleTableView<T: UIView & Hydratable>:
     public var cellDefocused: Typed2DAction<T, IndexPath>?
     public var cellRepositioned: Typed2DAction<T, IndexPath>?
     
-    public var cellMoved: Typed2DAction<(to: IndexPath, from: IndexPath), Action>?
+    public var cellMoved: TypedAction<(to: IndexPath, from: IndexPath)>?
     
     public var scrolled: Action?
     
@@ -158,10 +158,8 @@ open class SimpleTableView<T: UIView & Hydratable>:
     }
     
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        cellMoved?((sourceIndexPath, destinationIndexPath), { [weak self] in
-            guard let self = self else { return }
-            let mover = self.data[sourceIndexPath.section].elements.remove(at: sourceIndexPath.row)
-            self.data[sourceIndexPath.section].elements.insert(mover, at: destinationIndexPath.row)
-        })
+        let mover = self.data[sourceIndexPath.section].elements.remove(at: sourceIndexPath.row)
+        self.data[sourceIndexPath.section].elements.insert(mover, at: destinationIndexPath.row)
+        cellMoved?((sourceIndexPath, destinationIndexPath))
     }
 }
