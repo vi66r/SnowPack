@@ -3,12 +3,6 @@ import UIKit
 
 public final class DetentedModalContainerController: UIViewController, Haptic {
     
-    public enum Style {
-        case light
-        case dark
-        case black
-    }
-    
     public var preferredDefaultHeight: CGFloat?
     
     public var defaultHeight: CGFloat {
@@ -42,10 +36,7 @@ public final class DetentedModalContainerController: UIViewController, Haptic {
     }
     
     lazy var containerView: UIView = {
-        $0.backgroundColor = style == .dark ? .darkGray : .white
-        if style == .black {
-            $0.backgroundColor = .black.withAlphaComponent(0.8)
-        }
+        $0.backgroundColor = .surface
         $0.applyRoundedCorners(35.0, curve: .continuous)
         $0.clipsToBounds = false
         return $0
@@ -74,18 +65,15 @@ public final class DetentedModalContainerController: UIViewController, Haptic {
     var containerViewBottomConstraint: NSLayoutConstraint?
     
     var mainChildController: UIViewController
-    var style: Style
     
     public init(
         _ viewController: UIViewController,
-        _ style: Style = .light,
         _ preferredDefaultHeight: CGFloat? = nil,
         _ preferredMaximumHeight: CGFloat? = nil,
         _ displayDragIndicator: Bool = true,
         _ springOnDisplay: Bool = false,
         _ useAutomaticContentInsets: Bool = true
     ) {
-        self.style = style
         self.preferredDefaultHeight = preferredDefaultHeight
         self.preferredMaximumHeight = preferredMaximumHeight
         self.displayDragIndicator = displayDragIndicator

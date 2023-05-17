@@ -31,7 +31,6 @@ public extension UIViewController {
     
     func presentAsMediumDetent(
         _ viewController: UIViewController,
-        style: DetentedModalContainerController.Style = .light,
         preferredDefaultHeight: CGFloat? = nil,
         preferredMaximumHeight: CGFloat? = nil,
         displayDragIndicator: Bool = true,
@@ -40,7 +39,6 @@ public extension UIViewController {
     ) {
         let presentationContainer = DetentedModalContainerController(
             viewController,
-            style,
             preferredDefaultHeight,
             preferredMaximumHeight,
             displayDragIndicator,
