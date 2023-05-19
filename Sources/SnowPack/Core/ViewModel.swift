@@ -10,6 +10,7 @@ open class ViewModel {
     @Event public var initialLoadEvent
     @Event public var refreshEvent
     @Event public var appStoreReviewRequestEvent
+    @Event public var finishEvent
     @Event<UIViewController> public var navigationEvent
     @Event<Toast> public var toastEvent
     
