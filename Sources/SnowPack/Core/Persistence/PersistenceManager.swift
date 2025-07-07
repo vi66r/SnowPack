@@ -138,7 +138,7 @@ public class PersistenceManager<T: NSManagedObject>: PersistenceManaging {
         }
     }
     
-    public func new(configured: @escaping ((T) -> T) = { _ in }, saveOnCreation: Bool = true) throws -> T {
+    public func new(configured: @escaping ((T) -> T) = { $0 }, saveOnCreation: Bool = true) throws -> T {
         guard let context = primaryContext else { throw CoreDataError.noContext }
         var object = T(context: context)
         object = configured(object)
